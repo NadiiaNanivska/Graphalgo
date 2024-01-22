@@ -1,0 +1,26 @@
+.footer-container {
+    padding: 20px;
+    background-color: #f5f5f5;
+  }
+  
+  .footer-logo {
+    color: #1890ff;
+  }
+  
+  .footer-nav {
+    color: #333;
+  }
+  
+  .footer-text {
+    color: #888;
+  }
+  
+  .social-icons {
+    font-size: 24px;
+    color: #1890ff;
+  
+    svg {
+      margin-right: 8px;
+    }
+  }
+  

@@ -9,3 +9,8 @@
 .text-center {
     text-align: center;
 }
+
+.faq {
+    background-color: #D6E3FE;
+    padding: 30px;
+}

@@ -1,0 +1,10 @@
+.faq-card {
+    margin: 8px 0;
+    background-color: transparent;
+    border-color: transparent;
+}
+
+.ant-card .ant-card-head-title {
+    padding-bottom: 10px;
+    white-space: initial;
+}

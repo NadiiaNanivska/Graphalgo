@@ -1,0 +1,19 @@
+.header {
+    padding: 10px 25px 0 25px;
+    height: fit-content;
+    position: sticky;
+}
+
+.floating-button {
+    display: none;
+}
+
+@media only screen and (max-width: 768px) {
+    .hide-on-mobile {
+        display: none;
+    }
+
+    .floating-button {
+        display: block;
+    }
+}

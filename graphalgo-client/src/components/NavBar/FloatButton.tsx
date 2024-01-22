@@ -14,7 +14,7 @@ const FloatButtonUser = () => {
             style={{ right: 24 }}
             icon={<PlusOutlined />}
         >
-            <Link to={FRONTEND_ROUTES.LOGIN}><FloatButton icon={<LoginOutlined />} /></Link>
+            <Link style={{padding: 1}} to={FRONTEND_ROUTES.LOGIN}><FloatButton icon={<LoginOutlined />} /></Link>
             <Link to={FRONTEND_ROUTES.REGISTER}><FloatButton icon={<ProfileOutlined />} /></Link>
         </FloatButton.Group>
     );

@@ -8,6 +8,7 @@ import SignUpPage from './pages/SignUpPage/SignUpPage';
 
 function App() {
   return (
+    <div className='app'>
     <ConfigProvider
       theme={{
         token: {
@@ -29,6 +30,7 @@ function App() {
         </Routes>
       </BrowserRouter>
     </ConfigProvider>
+    </div>
   );
 }
 

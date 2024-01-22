@@ -9,3 +9,8 @@
 .margin-right-16 {
   margin-right: 16px;
 }
+
+.app {
+  width: fit-content;
+  overflow-x: hidden;
+}

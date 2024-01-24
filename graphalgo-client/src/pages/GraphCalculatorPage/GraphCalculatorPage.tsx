@@ -1,28 +1,45 @@
+import React, { useEffect, useRef, useState } from 'react';
 import * as d3 from 'd3';
-import { useEffect, useRef } from 'react';
 import { RADIUS, drawNetwork } from './drawNetwork';
 import { Data, Link, Node } from './data';
+import GraphTools from '../../components/GraphTools/GraphTools';
+import { Row, Col } from 'antd';
 
-type NetworkDiagramProps = {
-  width: number;
-  height: number;
+interface NetworkDiagramProps {
   data: Data;
 };
 
+interface winDimensions {
+  width: number;
+  height: number;
+};
+
 export const GraphCalculatorPage = ({
-  width,
-  height,
   data,
 }: NetworkDiagramProps) => {
-  // The force simulation mutates links and nodes, so create a copy first
-  // Node positions are initialized by d3
-  const links: Link[] = data.links.map((d) => ({ ...d }));
-  const nodes: Node[] = data.nodes.map((d) => ({ ...d }));
+  const [nodes, setNodes] = useState<Node[]>(data.nodes.map((d) => ({ ...d })));
+  const [links, setLinks] = useState<Link[]>(data.links.map((d) => ({ ...d })));
 
   const canvasRef = useRef<HTMLCanvasElement>(null);
+  const [windowDimensions, setWindowDimensions] = React.useState<winDimensions>({
+    width: (window.innerWidth / 24) * 17,
+    height: window.innerHeight,
+  });
+
+  React.useEffect(() => {
+    const handleResize = () => {
+      setWindowDimensions({
+        width: (window.innerWidth / 24) * 17,
+        height: window.innerHeight,
+      });
+    };
+    window.addEventListener('resize', handleResize);
+    return () => {
+      window.removeEventListener('resize', handleResize);
+    };
+  }, []);
 
   useEffect(() => {
-    // set dimension of the canvas element
     const canvas = canvasRef.current;
     const context = canvas?.getContext('2d');
 
@@ -30,36 +47,42 @@ export const GraphCalculatorPage = ({
       return;
     }
 
-    // run d3-force to find the position of nodes on the canvas
-    d3.forceSimulation(nodes)
-
-      // list of forces we apply to get node positions
-      .force(
-        'link',
-        d3.forceLink<Node, Link>(links).id((d) => d.id)
-      )
+    const simulation = d3.forceSimulation(nodes)
+      .force('link', d3.forceLink<Node, Link>(links).id((d) => d.id).distance(200))
       .force('collide', d3.forceCollide().radius(RADIUS))
       .force('charge', d3.forceManyBody())
-      .force('center', d3.forceCenter(width / 2, height / 2))
-
-      // at each iteration of the simulation, draw the network diagram with the new node positions
+      .force('center', d3.forceCenter(windowDimensions.width / 2, windowDimensions.height / 2))
       .on('tick', () => {
-        drawNetwork(context, width, height, nodes, links);
+        drawNetwork(context, windowDimensions.width, windowDimensions.height, nodes, links);
       });
-  }, [width, height, nodes, links]);
+
+    return () => {
+      simulation.stop();
+    };
+  }, [windowDimensions.width, windowDimensions.height, nodes, links]);
+
+  const handleAddNode = () => {
+    const newNode: Node = {
+      id: `Node_${nodes.length + 1}`,
+      group: 'team4', // Adjust the group value as needed
+    };
+
+    setNodes((prevNodes) => [...prevNodes, newNode]);
+  };
 
   return (
-    <div>
-      <canvas
-        ref={canvasRef}
-        style={{
-          width,
-          height,
-        }}
-        width={width}
-        height={height}
-      />
-    </div>
+    <Row gutter={16}>
+      <Col span={17}>
+        <canvas
+          ref={canvasRef}
+          width={windowDimensions.width}
+          height={windowDimensions.height}
+        />
+      </Col>
+      <Col span={7}>
+        <GraphTools onAddNode={handleAddNode} />
+      </Col>
+    </Row>
   );
 };
 

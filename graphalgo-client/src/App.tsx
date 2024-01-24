@@ -5,6 +5,8 @@ import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import SignInPage from './pages/SignInPage/SignInPage';
 import { FRONTEND_ROUTES } from './api/utils/constants/Constants';
 import SignUpPage from './pages/SignUpPage/SignUpPage';
+import GraphCalculatorPage from './pages/GraphCalculatorPage/GraphCalculatorPage';
+import { data } from './pages/GraphCalculatorPage/data';
 
 function App() {
   return (
@@ -21,12 +23,12 @@ function App() {
     >
       <BrowserRouter>
         <Routes>
-          <Route path='/' element={<HomePage />}>
+          <Route path='/' element={<HomePage />} />
+          <Route path='/calculator' element={<GraphCalculatorPage width={700} height={400} data={data} />} />
             {/* <Route index path={FRONTEND_ROUTES.HOME} element={<HomePage userName={username} />} />
               <Route index path={FRONTEND_ROUTES.HISTORY} element={<CalculationHistory />} /> */}
-          </Route>
-          <Route path={FRONTEND_ROUTES.LOGIN} element={<SignInPage />}></Route>
-          <Route path={FRONTEND_ROUTES.REGISTER} element={<SignUpPage />} ></Route>
+          <Route path={FRONTEND_ROUTES.LOGIN} element={<SignInPage />} />
+          <Route path={FRONTEND_ROUTES.REGISTER} element={<SignUpPage />} />
         </Routes>
       </BrowserRouter>
     </ConfigProvider>

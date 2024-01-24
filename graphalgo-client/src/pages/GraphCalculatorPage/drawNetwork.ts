@@ -11,13 +11,15 @@ export const drawNetwork = (
 ) => {
   context.clearRect(0, 0, width, height);
 
-//   // Draw the links first
-//   links.forEach((link) => {
-//     context.beginPath();
-//     context.moveTo(link.source.x, link.source.y);
-//     context.lineTo(link.target.x, link.target.y);
-//     context.stroke();
-//   });
+  // Draw the links first
+  links.forEach((link) => {
+    context.beginPath();
+    const source: any = link.source as any;
+    const target: any = link.target as any;
+    context.moveTo(source.x, source.y);
+    context.lineTo(target.x, target.y);
+    context.stroke();
+  });
 
   // Draw the nodes
   nodes.forEach((node) => {

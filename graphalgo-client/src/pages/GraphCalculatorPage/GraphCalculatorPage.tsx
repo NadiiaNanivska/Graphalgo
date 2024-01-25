@@ -11,7 +11,7 @@ interface NetworkDiagramProps {
   data: Data;
 };
 
-interface winDimensions {
+interface windowDimensions {
   width: number;
   height: number;
 };
@@ -23,19 +23,18 @@ export const GraphCalculatorPage = ({
   const [links, setLinks] = useState<Link[]>(data.links.map((d) => ({ ...d })));
 
   const canvasRef = useRef<HTMLCanvasElement>(null);
-  const [windowDimensions, setWindowDimensions] = React.useState<winDimensions>({
-    width: (window.innerWidth / 24) * 17,
-    height: window.innerHeight / 5 * 4 - 100,
-  });
+  const [canvasSize, setCanvasSize] = useState<windowDimensions>({ width: 0, height: 0 });
 
-  React.useEffect(() => {
+  useEffect(() => {
     const handleResize = () => {
-      setWindowDimensions({
-        width: (window.innerWidth / 24) * 17,
-        height: window.innerHeight / 5 * 4 - 100,
-      });
+      const canvasContainer = canvasRef.current?.parentElement;
+      if (canvasContainer) {
+        const { width, height } = canvasContainer.getBoundingClientRect();
+        setCanvasSize({ width, height });
+      }
     };
     window.addEventListener('resize', handleResize);
+    handleResize();
     return () => {
       window.removeEventListener('resize', handleResize);
     };
@@ -53,15 +52,21 @@ export const GraphCalculatorPage = ({
       .force('link', d3.forceLink<Node, Link>(links).id((d) => d.id).distance(200))
       .force('collide', d3.forceCollide().radius(RADIUS))
       .force('charge', d3.forceManyBody())
-      .force('center', d3.forceCenter(windowDimensions.width / 2, windowDimensions.height / 2))
+      .force('center', d3.forceCenter(canvasSize.width / 2, canvasSize.height / 2))
       .on('tick', () => {
-        drawNetwork(context, windowDimensions.width, windowDimensions.height, nodes, links);
+        nodes.forEach(node => {
+          if (node.x !== undefined && node.y !== undefined) {
+            node.x = Math.max(RADIUS, Math.min(canvasSize.width - RADIUS, node.x));
+            node.y = Math.max(RADIUS, Math.min(canvasSize.height - RADIUS, node.y));
+          }
+        });
+        drawNetwork(context, canvasSize.width, canvasSize.height, nodes, links);
       });
 
     return () => {
       simulation.stop();
     };
-  }, [windowDimensions.width, windowDimensions.height, nodes, links]);
+  }, [canvasSize.width, canvasSize.height, nodes, links]);
 
   const handleAddNode = () => {
     const newNode: Node = {
@@ -79,8 +84,8 @@ export const GraphCalculatorPage = ({
           <div className='graph-canvas'>
             <canvas
               ref={canvasRef}
-              width={windowDimensions.width}
-              height={windowDimensions.height}
+              width={canvasSize.width}
+              height={canvasSize.height}
             />
           </div>
         </Col>

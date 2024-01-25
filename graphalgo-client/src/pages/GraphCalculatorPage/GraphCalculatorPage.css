@@ -1,5 +1,6 @@
 .graph-canvas {
     border: 1px solid black;
+    height: calc(var(--full-window-height) - var(--header-height) - var(--footer-height));
 }
 
 .content-container {

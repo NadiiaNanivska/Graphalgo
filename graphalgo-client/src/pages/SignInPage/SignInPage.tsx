@@ -1,8 +1,7 @@
-import React from 'react';
-import { Form, Input, Button, Typography, message, notification, Layout } from 'antd';
-import { Link, useNavigate } from 'react-router-dom';
-import './SignInPage.css';
+import { Button, Form, Input, Layout, Typography } from 'antd';
+import { Link } from 'react-router-dom';
 import { FRONTEND_ROUTES } from '../../api/utils/constants/Constants';
+import './SignInPage.css';
 
 const { Content } = Layout;
 const { Title, Text, Paragraph } = Typography;
@@ -44,7 +43,7 @@ const SignInPage = () => {
                     </Button>
                     <p>
                         Don't have an account?{' '}
-                        <Link to={FRONTEND_ROUTES.REGISTER}>Sign up</Link>
+                        <Link to={FRONTEND_ROUTES.SIGNUP}>Sign up</Link>
                     </p>
                 </Form.Item>
             </Form>

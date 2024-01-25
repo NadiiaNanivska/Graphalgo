@@ -1,11 +1,4 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import { Typography, Button, Row, Col, Space, Divider } from 'antd';
-import {
-    FacebookFilled,
-    TwitterSquareFilled,
-    InstagramFilled,
-} from '@ant-design/icons';
+import { Col, Divider, Row, Typography } from 'antd';
 import './Footer.css';
 
 import './Footer.css';

@@ -1,7 +1,4 @@
-.graph-canvas {
-    border: 1px solid black;
-}
-
-.content-container {
+.menu-container {
     height: calc(var(--full-window-height) - var(--header-height) - var(--footer-height));
+    overflow-y: auto;
 }

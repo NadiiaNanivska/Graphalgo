@@ -1,7 +1,6 @@
 .header {
-    padding: 10px 25px 0 25px;
+    padding: 10px 25px 10px 25px;
     height: fit-content;
-    position: sticky;
 }
 
 .floating-button {

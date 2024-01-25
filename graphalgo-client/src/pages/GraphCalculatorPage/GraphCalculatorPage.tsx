@@ -1,9 +1,11 @@
-import React, { useEffect, useRef, useState } from 'react';
+import { Col, Row } from 'antd';
 import * as d3 from 'd3';
-import { RADIUS, drawNetwork } from './drawNetwork';
-import { Data, Link, Node } from './data';
+import React, { useEffect, useRef, useState } from 'react';
 import GraphTools from '../../components/GraphTools/GraphTools';
-import { Row, Col } from 'antd';
+import { Data, Link, Node } from './data';
+import { RADIUS, drawNetwork } from './drawNetwork';
+
+import './GraphCalculatorPage.css';
 
 interface NetworkDiagramProps {
   data: Data;
@@ -23,14 +25,14 @@ export const GraphCalculatorPage = ({
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const [windowDimensions, setWindowDimensions] = React.useState<winDimensions>({
     width: (window.innerWidth / 24) * 17,
-    height: window.innerHeight,
+    height: window.innerHeight / 5 * 4 - 100,
   });
 
   React.useEffect(() => {
     const handleResize = () => {
       setWindowDimensions({
         width: (window.innerWidth / 24) * 17,
-        height: window.innerHeight,
+        height: window.innerHeight / 5 * 4 - 100,
       });
     };
     window.addEventListener('resize', handleResize);
@@ -71,18 +73,22 @@ export const GraphCalculatorPage = ({
   };
 
   return (
-    <Row gutter={16}>
-      <Col span={17}>
-        <canvas
-          ref={canvasRef}
-          width={windowDimensions.width}
-          height={windowDimensions.height}
-        />
-      </Col>
-      <Col span={7}>
-        <GraphTools onAddNode={handleAddNode} />
-      </Col>
-    </Row>
+    <>
+      <Row className='content-container'>
+        <Col span={17}>
+          <div className='graph-canvas'>
+            <canvas
+              ref={canvasRef}
+              width={windowDimensions.width}
+              height={windowDimensions.height}
+            />
+          </div>
+        </Col>
+        <Col span={7}>
+          <GraphTools onAddNode={handleAddNode} />
+        </Col>
+      </Row>
+    </>
   );
 };
 

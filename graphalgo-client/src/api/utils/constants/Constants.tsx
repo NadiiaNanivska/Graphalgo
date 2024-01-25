@@ -1,5 +1,6 @@
 export const FRONTEND_ROUTES = {
-    HOME: '/',
-    REGISTER: '/signup',
-    LOGIN: '/signin',
+    HOME: '/home',
+    CALCULATOR: '/calculator',
+    SIGNUP: '/signup',
+    SIGNIN: '/signin',
 };

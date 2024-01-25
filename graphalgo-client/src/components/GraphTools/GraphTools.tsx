@@ -1,7 +1,9 @@
-import React from 'react';
-import { PlayCircleOutlined, SettingOutlined, InfoCircleOutlined } from '@ant-design/icons';
+import { InfoCircleOutlined, PlayCircleOutlined, SettingOutlined } from '@ant-design/icons';
 import type { MenuProps } from 'antd';
 import { Menu } from 'antd';
+import React from 'react';
+
+import './GraphTools.css';
 
 type MenuItem = Required<MenuProps>['items'][number];
 
@@ -30,7 +32,10 @@ const items: MenuProps['items'] = [
     getItem('Graph info', 'sub2', <InfoCircleOutlined />, [
         getItem('Adjacency matrix', '5'),
         getItem('Incidence matrix', '6'),
-        getItem('Edges list', '7')
+        getItem('Edges list', '7'),
+        getItem('Adjacency matrix', '5'),
+        getItem('Incidence matrix', '6'),
+        getItem('Edges list', '7'),
     ]),
 
     getItem('Graph algorithms', 'sub4', <PlayCircleOutlined />, [
@@ -51,7 +56,7 @@ const GraphTools = ({ onAddNode }: GraphToolsProps) => {
     };
 
     return (
-        <div style={{ height: 'calc(100vh - 4px)', overflowY: 'auto' }}>
+        <div className='menu-container'>
             <Menu
                 onClick={onClick}
                 defaultSelectedKeys={['1']}

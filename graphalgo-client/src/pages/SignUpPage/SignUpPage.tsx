@@ -1,6 +1,5 @@
-import React from 'react';
-import { Form, Input, Button, Typography, message, notification, Layout } from 'antd';
-import { Link, useNavigate } from 'react-router-dom';
+import { Button, Form, Input, Layout, Typography } from 'antd';
+import { Link } from 'react-router-dom';
 import { FRONTEND_ROUTES } from '../../api/utils/constants/Constants';
 import './SignUpPage.css';
 
@@ -58,7 +57,7 @@ const SignInPage = () => {
                 </Form.Item>
                 <p>
                     Already have an account?{' '}
-                    <Link to={FRONTEND_ROUTES.LOGIN}>Sign in</Link>
+                    <Link to={FRONTEND_ROUTES.SIGNIN}>Sign in</Link>
                 </p>
             </Form>
         </div>

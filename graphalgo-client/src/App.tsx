@@ -25,7 +25,7 @@ function App() {
         <BrowserRouter>
           <Routes>
             <Route path='/' element={<PublicRoute />}>
-              <Route index path={FRONTEND_ROUTES.HOME} element={<HomePage />} />
+              <Route index path='' element={<HomePage />} />
               <Route index path={FRONTEND_ROUTES.CALCULATOR} element={<GraphCalculatorPage data={data} />} />
             </Route>
             <Route path={FRONTEND_ROUTES.SIGNIN} element={<SignInPage />} />

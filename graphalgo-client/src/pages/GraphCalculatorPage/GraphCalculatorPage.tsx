@@ -75,7 +75,7 @@ export const GraphCalculatorPage = ({
   return (
     <>
       <Row className='content-container'>
-        <Col span={17}>
+        <Col span={24} md={17}>
           <div className='graph-canvas'>
             <canvas
               ref={canvasRef}
@@ -84,7 +84,7 @@ export const GraphCalculatorPage = ({
             />
           </div>
         </Col>
-        <Col span={7}>
+        <Col span={24} md={7}>
           <GraphTools onAddNode={handleAddNode} />
         </Col>
       </Row>

@@ -41,10 +41,26 @@ export const drawGraph = (
       .attr('cy', d => (d as any).y)
       .style('fill', '#cb1dd1')
       .raise();
+
+      context.selectAll('text.node-label')
+      .data(nodes)
+      .join('text')
+      .attr('class', 'node-label')
+      .attr('x', d => (d as any).x)
+      .attr('y', d => (d as any).y)
+      .text(d => (d as any).id)
+      .attr('font-family', 'Arial')
+      .attr('font-size', '12px')
+      .attr('fill', 'black')
+      .attr('text-anchor', 'middle')
+      .attr('dy', '0.3em')
+      .style('pointer-events', 'none') // Забороняємо взаємодію з текстовими елементами
+      .raise();
   };
 
   const drawEdges = () => {
     context.selectAll('line').remove();
+    context.selectAll('text').remove();
     context.selectAll('line.link')
       .data(links)
       .join('line')
@@ -71,6 +87,26 @@ export const drawGraph = (
       .attr('marker-end', 'url(#arrow)')
       .attr('stroke', '#cbcbcb')
       .style('fill', 'none');
+
+      context.selectAll('text.edge-label')
+      .data(links)
+      .join('text')
+      .attr('class', 'edge-label')
+      .attr('x', function(d: any) {
+        return (d.source.x + d.target.x) / 2;
+      })
+      .attr('y', function(d: any) {
+        return (d.source.y + d.target.y) / 2;
+      })
+      .text(function(d: any) {
+        return d.weight.toString();
+      })
+      .attr('font-family', 'Arial')
+      .attr('font-size', '12px')
+      .attr('fill', 'black')
+      .attr('text-anchor', 'middle')
+      .style('pointer-events', 'none')
+      .raise();
   };
 
   return { drawNodes, drawEdges };

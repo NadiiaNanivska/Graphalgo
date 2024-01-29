@@ -45,10 +45,10 @@ const items: MenuProps['items'] = [
 
 interface GraphToolsProps {
     onAddNode: () => void;
-    onAddEdge: () => void;
+    enableAddEdge: () => void;
 }
 
-const GraphTools = ({ onAddNode, onAddEdge }: GraphToolsProps) => {
+const GraphTools = ({ onAddNode, enableAddEdge }: GraphToolsProps) => {
 
     const onClick: MenuProps['onClick'] = (e: any) => {
         const key = e.key.toString();
@@ -56,7 +56,7 @@ const GraphTools = ({ onAddNode, onAddEdge }: GraphToolsProps) => {
             onAddNode();
         }
         else if (key === '2') {
-            onAddEdge();
+            enableAddEdge();
         }
     };
 

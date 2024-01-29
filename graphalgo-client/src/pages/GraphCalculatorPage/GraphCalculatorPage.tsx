@@ -2,10 +2,11 @@ import { Col, Row } from 'antd';
 import * as d3 from 'd3';
 import React, { useEffect, useRef, useState } from 'react';
 import GraphTools from '../../components/GraphTools/GraphTools';
-import { Data, Link, Node } from './data';
-import { RADIUS, drawNetwork } from './drawNetwork';
+import { Data, Link, Node } from '../../api/utils/helperFunctions/data';
+import { RADIUS, drawGraph } from './drawGraph';
 
 import './GraphCalculatorPage.css';
+import useHandleAddNode from '../../api/utils/helperFunctions/GraphControl';
 
 interface NetworkDiagramProps {
   data: Data;
@@ -16,9 +17,7 @@ interface windowDimensions {
   height: number;
 };
 
-export const GraphCalculatorPage = ({
-  data,
-}: NetworkDiagramProps) => {
+export const GraphCalculatorPage = ({ data }: NetworkDiagramProps) => {
   const [nodes, setNodes] = useState<Node[]>(data.nodes.map((d) => ({ ...d })));
   const [links, setLinks] = useState<Link[]>(data.links.map((d) => ({ ...d })));
 
@@ -60,7 +59,7 @@ export const GraphCalculatorPage = ({
             node.y = Math.max(RADIUS, Math.min(canvasSize.height - RADIUS, node.y));
           }
         });
-        drawNetwork(context, canvasSize.width, canvasSize.height, nodes, links);
+        drawGraph(context, canvasSize.width, canvasSize.height, nodes, links);
       });
 
     return () => {
@@ -68,14 +67,59 @@ export const GraphCalculatorPage = ({
     };
   }, [canvasSize.width, canvasSize.height, nodes, links]);
 
-  const handleAddNode = () => {
-    const newNode: Node = {
-      id: `Node_${nodes.length + 1}`,
-      group: 'team4', // Adjust the group value as needed
-    };
+  const { addNode, addEdge } = useHandleAddNode(nodes, setNodes, setLinks);
 
-    setNodes((prevNodes) => [...prevNodes, newNode]);
+
+  const [selectedNodeIds, setSelectedNodeIds] = useState<string[]>([]);
+
+  const handleCanvasClick = (e: MouseEvent) => {
+    // const canvas = canvasRef.current;
+    // const rect = canvas.getBoundingClientRect();
+    // const x = e.clientX - rect.left;
+    // const y = e.clientY - rect.top;
+
+    // // Find the clicked node, if any
+    // const clickedNode = nodes.find(node => {
+    //   const dx = node.x - x;
+    //   const dy = node.y - y;
+    //   return Math.sqrt(dx * dx + dy * dy) <= RADIUS;
+    // });
+
+    // // If a node is clicked, add its ID to selectedNodeIds
+    // if (clickedNode) {
+    //   setSelectedNodeIds(prevIds => {
+    //     // Check if the clicked node is already in selectedNodeIds
+    //     if (prevIds.includes(clickedNode.id)) {
+    //       // If yes, deselect it by removing it from selectedNodeIds
+    //       return prevIds.filter(id => id !== clickedNode.id);
+    //     } else {
+    //       // If not, add it to selectedNodeIds
+    //       return [...prevIds, clickedNode.id];
+    //     }
+    //   });
+    // }
   };
+
+  useEffect(() => {
+    const canvas = canvasRef.current;
+    canvas?.addEventListener('click', handleCanvasClick);
+
+    return () => {
+      canvas?.removeEventListener('click', handleCanvasClick);
+    };
+  }, [nodes]);
+
+  const handleAddEdge = () => {
+    // Check if exactly two nodes are selected
+    if (selectedNodeIds.length === 2) {
+      const [sourceId, targetId] = selectedNodeIds;
+      addEdge(sourceId, targetId, 1);
+    } else {
+      // Notify the user to select two nodes
+      console.log("Please select two nodes to add an edge.");
+    }
+  };
+
 
   return (
     <>
@@ -90,7 +134,7 @@ export const GraphCalculatorPage = ({
           </div>
         </Col>
         <Col span={24} md={7}>
-          <GraphTools onAddNode={handleAddNode} />
+          <GraphTools onAddNode={addNode} onAddEdge={handleAddEdge}/>
         </Col>
       </Row>
     </>

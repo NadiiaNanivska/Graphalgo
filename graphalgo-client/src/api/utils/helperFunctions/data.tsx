@@ -1,6 +1,5 @@
 export interface Node extends d3.SimulationNodeDatum {
   id: string;
-  group: string;
 }
 
 export interface Link extends d3.SimulationLinkDatum<Node> {
@@ -14,14 +13,14 @@ export type Data = {
   links: Link[];
 };
 
-export const data:Data = {
+export const data: Data = {
   nodes: [
-    { id: 'Toto', group: 'team4' },
-    { id: 'Tutu', group: 'team4' },
-    { id: 'Titi', group: 'team4' },
-    { id: 'Tata', group: 'team4' },
-    { id: 'Turlututu', group: 'team4' },
-    { id: 'Tita', group: 'team4' },
+    { id: 'Toto' },
+    { id: 'Tutu' },
+    { id: 'Titi' },
+    { id: 'Tata' },
+    { id: 'Turlututu' },
+    { id: 'Tita' },
   ],
   links: [
     { source: 'Tata', target: 'Tutu', value: 1 },

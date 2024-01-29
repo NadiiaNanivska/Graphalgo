@@ -4,7 +4,7 @@ import './App.css';
 import PublicRoute from './PublicRoute';
 import { FRONTEND_ROUTES } from './api/utils/constants/Constants';
 import GraphCalculatorPage from './pages/GraphCalculatorPage/GraphCalculatorPage';
-import { data } from './pages/GraphCalculatorPage/data';
+import { data } from '../src/api/utils/helperFunctions/data';
 import HomePage from './pages/HomePage/HomePage';
 import SignInPage from './pages/SignInPage/SignInPage';
 import SignUpPage from './pages/SignUpPage/SignUpPage';

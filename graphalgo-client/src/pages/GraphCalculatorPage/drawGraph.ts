@@ -1,8 +1,8 @@
-import { Link, Node } from './data';
+import { Link, Node } from '../../api/utils/helperFunctions/data';
 
 export const RADIUS = 20;
 
-export const drawNetwork = (
+export const drawGraph = (
   context: CanvasRenderingContext2D,
   width: number,
   height: number,

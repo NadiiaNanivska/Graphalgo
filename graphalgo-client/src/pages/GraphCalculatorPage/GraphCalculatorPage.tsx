@@ -1,12 +1,12 @@
 import { Col, Row } from 'antd';
 import * as d3 from 'd3';
-import React, { useEffect, useRef, useState } from 'react';
-import GraphTools from '../../components/GraphTools/GraphTools';
+import { useEffect, useRef, useState } from 'react';
 import { Data, Link, Node } from '../../api/utils/helperFunctions/data';
+import GraphTools from '../../components/GraphTools/GraphTools';
 import { RADIUS, drawGraph } from './drawGraph';
 
-import './GraphCalculatorPage.css';
 import useHandleAddNode from '../../api/utils/helperFunctions/GraphControl';
+import './GraphCalculatorPage.css';
 
 interface NetworkDiagramProps {
   data: Data;
@@ -70,41 +70,27 @@ export const GraphCalculatorPage = ({ data }: NetworkDiagramProps) => {
 
   const { addNode, addEdge } = useHandleAddNode(nodes, setNodes, setLinks);
 
-
   const [selectedNodeIds, setSelectedNodeIds] = useState<string[]>([]);
 
   const handleCanvasClick = (e: MouseEvent) => {
-    console.log(canAddEdge)
     if (!canAddEdge) return;
     const canvas = canvasRef.current;
-    if (!canvas) return; // Exit early if canvas is null
+    if (!canvas) return;
 
     const rect = canvas.getBoundingClientRect();
     const x = e.clientX - rect.left;
     const y = e.clientY - rect.top;
-    // Find the clicked node, if any
+
     const clickedNode = nodes.find(node => {
       const dx = node.x! - x;
       const dy = node.y! - y;
       return Math.sqrt(dx * dx + dy * dy) <= RADIUS;
     });
 
-    // If a node is clicked, add its ID to selectedNodeIds
     if (clickedNode) {
-      setSelectedNodeIds(prevIds => {
-        const newIds = [...prevIds, clickedNode.id];
-        console.log(newIds); // Log the updated selectedNodeIds
-        return newIds;
-    });
-      console.log(selectedNodeIds)
-      if (selectedNodeIds.length >= 2) {
-        
-        addEdge(selectedNodeIds[0], clickedNode.id, 1);
-      }
+      setSelectedNodeIds(prevIds => { return [...prevIds, clickedNode.id] });
     }
   };
-
-  console.log(links)
 
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -121,17 +107,15 @@ export const GraphCalculatorPage = ({ data }: NetworkDiagramProps) => {
     };
   }, [canAddEdge]);
 
-  // const handleAddEdge = () => {
-  //   // Check if exactly two nodes are selected
-  //   if (selectedNodeIds.length === 2) {
-  //     const [sourceId, targetId] = selectedNodeIds;
-  //     addEdge(sourceId, targetId, 1);
-  //     console.log(links)
-  //   } else {
-  //     // Notify the user to select two nodes
-  //     console.log("Please select two nodes to add an edge.");
-  //   }
-  // };
+  useEffect(() => {
+    if (selectedNodeIds.length === 2) {
+      const [sourceId, targetId] = selectedNodeIds;
+      addEdge(sourceId, targetId, 1);
+      setSelectedNodeIds([]);
+    } else {
+      console.log("Please select two nodes to add an edge.");
+    }
+  }, [selectedNodeIds]);
 
   return (
     <>
@@ -146,7 +130,7 @@ export const GraphCalculatorPage = ({ data }: NetworkDiagramProps) => {
           </div>
         </Col>
         <Col span={24} md={7}>
-          <GraphTools onAddNode={addNode} enableAddEdge={() => { setCanAddEdge(true); }} />
+          <GraphTools onAddNode={addNode} enableAddEdge={(arg: boolean) => { setCanAddEdge(arg); }} />
         </Col>
       </Row>
     </>

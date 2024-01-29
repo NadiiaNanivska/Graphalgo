@@ -45,18 +45,19 @@ const items: MenuProps['items'] = [
 
 interface GraphToolsProps {
     onAddNode: () => void;
-    enableAddEdge: () => void;
+    enableAddEdge: (arg: boolean) => void;
 }
 
 const GraphTools = ({ onAddNode, enableAddEdge }: GraphToolsProps) => {
 
     const onClick: MenuProps['onClick'] = (e: any) => {
         const key = e.key.toString();
+        enableAddEdge(false);
         if (key === '1') {
             onAddNode();
         }
         else if (key === '2') {
-            enableAddEdge();
+            enableAddEdge(true);
         }
     };
 

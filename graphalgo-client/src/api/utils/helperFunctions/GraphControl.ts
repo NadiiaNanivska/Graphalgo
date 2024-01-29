@@ -19,7 +19,6 @@ const useHandleAddNode = (
       value: edgeValue
     };
     setLinks((prevLinks) => [...prevLinks, newLink]);
-    console.log(newLink)
   };
 
   return { addNode, addEdge };

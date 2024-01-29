@@ -1,59 +1,77 @@
+import { Selection } from 'd3';
 import { Link, Node } from '../../api/utils/helperFunctions/data';
 
 export const RADIUS = 15;
 
 export const drawGraph = (
-  context: CanvasRenderingContext2D,
+  context: Selection<SVGSVGElement | null, unknown, null, undefined>,
   width: number,
   height: number,
   nodes: Node[],
   links: Link[]
 ) => {
-  context.clearRect(0, 0, width, height);
+  context
+    .append("svg:defs")
+    .append("svg:marker")
+    .attr('id', 'arrow')
+    .attr('viewBox', '0 0 10 10')
+    .attr('refX', 9)
+    .attr('refY', 5)
+    .attr('markerWidth', 14)
+    .attr('markerHeight', 8)
+    .attr('orient', 'auto')
+    .append('path')
+    .attr('d', 'M0,0 L10,5 L0,10 L2,5')
+    .style('fill', '#cbcbcb');
 
-  // Draw the links first
-  links.forEach((link) => {
-    context.beginPath();
-    context.strokeStyle = '#cbcbcb';
-    const source: any = link.source as any;
-    const target: any = link.target as any;
-    const dx = target.x - source.x;
-    const dy = target.y - source.y;
-    const angle = Math.atan2(dy, dx);
 
-    const targetX = target.x - RADIUS * Math.cos(angle);
-    const targetY = target.y - RADIUS * Math.sin(angle);
+  const drawNodes = () => {
+    nodes.forEach(node => {
+      if (node.x !== undefined && node.y !== undefined) {
+        node.x = Math.max(RADIUS, Math.min(width - RADIUS, node.x));
+        node.y = Math.max(RADIUS, Math.min(height - RADIUS, node.y));
+      }
+    });
+    context
+      .selectAll('circle')
+      .data(nodes)
+      .join('circle')
+      .attr('r', RADIUS)
+      .attr('cx', d => (d as any).x)
+      .attr('cy', d => (d as any).y)
+      .style('fill', '#cb1dd1')
+      .raise();
+  };
 
-    context.moveTo(source.x, source.y);
-    context.lineTo(targetX, targetY);
-    context.stroke();
+  const drawEdges = () => {
+    context.selectAll('line').remove();
+    context.selectAll('line.link')
+      .data(links)
+      .join('line')
+      .attr('x1', function (d: any) {
+        return d.source.x;
+      })
+      .attr('y1', function (d: any) {
+        return d.source.y;
+      })
+      .attr('x2', function (d: any) {
+        const dx = d.target.x - d.source.x;
+        const dy = d.target.y - d.source.y;
+        const angle = Math.atan2(dy, dx);
+        const x = d.target.x - RADIUS * Math.cos(angle);
+        return x;
+      })
+      .attr('y2', function (d: any) {
+        const dx = d.target.x - d.source.x;
+        const dy = d.target.y - d.source.y;
+        const angle = Math.atan2(dy, dx);
+        const y = d.target.y - RADIUS * Math.sin(angle);
+        return y;
+      })
+      .attr('marker-end', 'url(#arrow)')
+      .attr('stroke', '#cbcbcb')
+      .style('fill', 'none');
+  };
 
-    // Draw the arrowhead
-    context.beginPath();
-    context.moveTo(targetX - 8 * Math.cos(angle - Math.PI / 6), targetY - 8 * Math.sin(angle - Math.PI / 6));
-    context.lineTo(targetX, targetY);
-    context.lineTo(targetX - 8 * Math.cos(angle + Math.PI / 6), targetY - 8 * Math.sin(angle + Math.PI / 6));
-    context.fillStyle = '#cbcbcb';
-    context.fill();
-
-    context.fillStyle = 'black';
-    context.font = '15px Arial';
-    context.fillText(link.weight.toString(), (source.x + target.x) / 2, (source.y + target.y) / 2);
-  });
-
-  // Draw the nodes
-  nodes.forEach((node) => {
-    if (!node.x || !node.y) {
-      return;
-    }
-
-    context.beginPath();
-    context.moveTo(node.x + RADIUS, node.y);
-    context.arc(node.x, node.y, RADIUS, 0, 2 * Math.PI);
-    context.fillStyle = '#cb1dd1';
-    context.fill();
-    context.fillStyle = 'black';
-    context.font = '15px Arial';
-    context.fillText(node.id, node.x!, node.y!);
-  });
+  return { drawNodes, drawEdges };
 };

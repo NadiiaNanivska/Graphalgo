@@ -22,7 +22,7 @@ export const GraphCalculatorPage = ({ data }: NetworkDiagramProps) => {
   const [links, setLinks] = useState<Link[]>(data.links.map((d) => ({ ...d })));
   const [canAddEdge, setCanAddEdge] = useState(false);
 
-  const canvasRef = useRef<HTMLCanvasElement>(null);
+  const canvasRef = useRef<SVGSVGElement>(null);
   const [canvasSize, setCanvasSize] = useState<windowDimensions>({ width: 0, height: 0 });
 
   useEffect(() => {
@@ -41,27 +41,19 @@ export const GraphCalculatorPage = ({ data }: NetworkDiagramProps) => {
   }, []);
 
   useEffect(() => {
-    const canvas = canvasRef.current;
-    const context = canvas?.getContext('2d');
-
-    if (!context) {
-      return;
-    }
+    const svgElement = d3.select(canvasRef.current);
 
     const simulation = d3.forceSimulation(nodes)
-      .force('link', d3.forceLink<Node, Link>(links).id((d) => d.id).distance(200))
+      .force('link', d3.forceLink<Node, Link>(links).id((d) => d.id).distance(75))
       .force('collide', d3.forceCollide().radius(RADIUS))
       .force('charge', d3.forceManyBody())
-      .force('center', d3.forceCenter(canvasSize.width / 2, canvasSize.height / 2))
-      .on('tick', () => {
-        nodes.forEach(node => {
-          if (node.x !== undefined && node.y !== undefined) {
-            node.x = Math.max(RADIUS, Math.min(canvasSize.width - RADIUS, node.x));
-            node.y = Math.max(RADIUS, Math.min(canvasSize.height - RADIUS, node.y));
-          }
-        });
-        drawGraph(context, canvasSize.width, canvasSize.height, nodes, links);
-      });
+      .force('center', d3.forceCenter(canvasSize.width / 2, canvasSize.height / 2));
+
+    const { drawNodes, drawEdges } = drawGraph(svgElement, canvasSize.width, canvasSize.height, nodes, links);
+    simulation.on("tick", () => {
+      drawEdges();
+      drawNodes();
+    });
 
     return () => {
       simulation.stop();
@@ -122,7 +114,7 @@ export const GraphCalculatorPage = ({ data }: NetworkDiagramProps) => {
       <Row className='content-container'>
         <Col span={24} md={17}>
           <div className='graph-canvas'>
-            <canvas
+            <svg
               ref={canvasRef}
               width={canvasSize.width}
               height={canvasSize.height}

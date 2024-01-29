@@ -16,7 +16,7 @@ const useHandleAddNode = (
     const newLink: Link = {
       source: sourceId,
       target: targetId,
-      value: edgeValue
+      weight: edgeValue
     };
     setLinks((prevLinks) => [...prevLinks, newLink]);
   };

@@ -38,7 +38,7 @@ export const drawGraph = (
 
     context.fillStyle = 'black';
     context.font = '15px Arial';
-    context.fillText(link.value.toString(), (source.x + target.x) / 2, (source.y + target.y) / 2);
+    context.fillText(link.weight.toString(), (source.x + target.x) / 2, (source.y + target.y) / 2);
   });
 
   // Draw the nodes

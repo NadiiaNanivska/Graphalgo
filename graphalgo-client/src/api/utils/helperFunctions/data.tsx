@@ -5,7 +5,7 @@ export interface Node extends d3.SimulationNodeDatum {
 export interface Link extends d3.SimulationLinkDatum<Node> {
   source: string;
   target: string;
-  value: number;
+  weight: number;
 }
 
 export type Data = {
@@ -23,12 +23,12 @@ export const data: Data = {
     { id: 'Tita' },
   ],
   links: [
-    { source: 'Tata', target: 'Tutu', value: 1 },
-    { source: 'Tata', target: 'Titi', value: 1 },
-    { source: 'Tata', target: 'Toto', value: 1 },
-    { source: 'Tata', target: 'Tita', value: 85 },
-    { source: 'Tita', target: 'Toto', value: 1 },
-    { source: 'Tita', target: 'Titi', value: 10 },
-    { source: 'Tita', target: 'Turlututu', value: 1 },
+    { source: 'Tata', target: 'Tutu', weight: 1 },
+    { source: 'Tata', target: 'Titi', weight: 1 },
+    { source: 'Tata', target: 'Toto', weight: 1 },
+    { source: 'Tata', target: 'Tita', weight: 85 },
+    { source: 'Tita', target: 'Toto', weight: 1 },
+    { source: 'Tita', target: 'Titi', weight: 10 },
+    { source: 'Tita', target: 'Turlututu', weight: 1 },
   ],
 };

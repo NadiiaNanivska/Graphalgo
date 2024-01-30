@@ -7,7 +7,7 @@ import { RADIUS, drawGraph } from './drawGraph';
 
 import useHandleAddNode from '../../api/utils/helperFunctions/GraphControl';
 import './GraphCalculatorPage.css';
-import { handleAddEdge } from '../../api/utils/helperFunctions/utilFunctions';
+import { handleAddEdge, handleRemoveNode } from '../../api/utils/helperFunctions/utilFunctions';
 
 interface NetworkDiagramProps {
   data: Data;
@@ -30,7 +30,7 @@ export const GraphCalculatorPage = ({ data }: NetworkDiagramProps) => {
   const svgElement = d3.select(canvasRef.current);
   const [canvasSize, setCanvasSize] = useState<windowDimensions>({ width: 0, height: 0 });
 
-  const { addNode, addEdge } = useHandleAddNode(nodes, links, setNodes, setLinks);
+  const { addNode, addEdge, removeNode } = useHandleAddNode(nodes, links, setNodes, setLinks);
   const { drawNodes, drawEdges, ticked } = drawGraph(svgElement, nodes, links);
   drawNodes();
   drawEdges();
@@ -81,7 +81,7 @@ export const GraphCalculatorPage = ({ data }: NetworkDiagramProps) => {
     } else if (canRemoveEdge) {
 
     } else if (canRemoveNode) {
-
+      handleRemoveNode(e, removeNode);
     }
   }
 

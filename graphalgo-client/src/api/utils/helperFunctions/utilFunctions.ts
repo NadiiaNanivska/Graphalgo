@@ -12,3 +12,12 @@ export const handleAddEdge = (
         }
     }
 };
+
+export const handleRemoveNode = (
+    e: React.MouseEvent<SVGSVGElement, MouseEvent>,
+    removeNode: (nodeIdToRemove: string) => void) => {
+    const clickedNodeId = (e.target as SVGElement).getAttribute('data-node-id');
+    if (clickedNodeId) {
+        removeNode(clickedNodeId);
+    }
+};

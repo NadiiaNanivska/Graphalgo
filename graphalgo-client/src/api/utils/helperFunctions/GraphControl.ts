@@ -13,6 +13,13 @@ const useHandleAddNode = (
     setNodes((prevNodes) => [...prevNodes, newNode]);
   };
 
+  const removeNode = (nodeIdToRemove: string) => {
+    const filteredNodes = nodes.filter(node => node.id !== nodeIdToRemove);
+    const filteredLinks = links.filter((link: any) => link.source.id !== nodeIdToRemove && link.target.id !== nodeIdToRemove);
+    setNodes(filteredNodes);
+    setLinks(filteredLinks);
+  };
+
   const addEdge = (sourceId: string, targetId: string, edgeValue: number) => {
     const isEdgeExists = links.some((link: any) => link.source.id === sourceId && link.target.id === targetId);
     if (isEdgeExists) {
@@ -27,7 +34,7 @@ const useHandleAddNode = (
     setLinks((prevLinks) => [...prevLinks, newLink]);
   };
 
-  return { addNode, addEdge };
+  return { addNode, addEdge, removeNode };
 };
 
 export default useHandleAddNode;

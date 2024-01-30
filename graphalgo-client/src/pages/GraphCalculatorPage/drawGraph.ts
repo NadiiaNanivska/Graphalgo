@@ -1,4 +1,4 @@
-import  { BaseType, Selection, select } from 'd3';
+import { BaseType, Selection, select } from 'd3';
 import { Link, Node } from '../../api/utils/helperFunctions/data';
 
 export const RADIUS = 15;
@@ -80,6 +80,9 @@ export const drawGraph = (
       .attr('text-anchor', 'middle')
       .style('pointer-events', 'none')
       .raise();
+
+    lines.exit().remove();
+    edgeLabels.exit().remove();
   };
 
   function ticked() {

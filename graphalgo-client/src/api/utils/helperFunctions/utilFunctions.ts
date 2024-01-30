@@ -1,14 +1,13 @@
 export const handleAddEdge = (
     e: React.MouseEvent<SVGSVGElement, MouseEvent>,
-    selectedNodeIds: string,
-    setSelectedNodeIds: React.Dispatch<React.SetStateAction<string>>,
+    selectedNodeIds: React.MutableRefObject<string>,
     addEdge: (sourceId: string, targetId: string, edgeValue: number) => void) => {
     const clickedNodeId = (e.target as SVGElement).getAttribute('data-node-id');
     if (clickedNodeId) {
-        if (selectedNodeIds === '') setSelectedNodeIds(clickedNodeId);
+        if (selectedNodeIds.current === '') selectedNodeIds.current = clickedNodeId;
         else {
-            addEdge(selectedNodeIds, clickedNodeId, 1);
-            setSelectedNodeIds('');
+            addEdge(selectedNodeIds.current, clickedNodeId, 1);
+            selectedNodeIds.current = '';
         }
     }
 };

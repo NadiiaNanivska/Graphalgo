@@ -24,7 +24,7 @@ export const GraphCalculatorPage = ({ data }: NetworkDiagramProps) => {
   const [canAddEdge, setCanAddEdge] = useState(false);
   const [canRemoveEdge, setCanRemoveEdge] = useState(false);
   const [canRemoveNode, setCanRemoveNode] = useState(false);
-  const [selectedNodeIds, setSelectedNodeIds] = useState<string>('');
+  const selectedNodeId = useRef<string>('');
 
   const canvasRef = useRef<SVGSVGElement>(null);
   const svgElement = d3.select(canvasRef.current);
@@ -77,7 +77,7 @@ export const GraphCalculatorPage = ({ data }: NetworkDiagramProps) => {
 
   const handleCanvasClick = (e: React.MouseEvent<SVGSVGElement, MouseEvent>) => {
     if (canAddEdge) {
-      handleAddEdge(e, selectedNodeIds, setSelectedNodeIds, addEdge);
+      handleAddEdge(e, selectedNodeId, addEdge);
     } else if (canRemoveEdge) {
 
     } else if (canRemoveNode) {

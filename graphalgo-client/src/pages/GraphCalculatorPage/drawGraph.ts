@@ -34,10 +34,9 @@ export const drawGraph = (
       .attr('r', RADIUS)
       .attr('data-node-id', d => d.id)
       .style('fill', '#FD744F')
-      // TODO: через багаторазовий ререндер після кліку на ноду це не працює так як має
-      // .on('click', function (event, d) {
-      //   select(this).style('fill', 'green');
-      // })
+      .on('click', function (event, d) {
+        select(this).style('fill', 'green');
+      })
       .raise();
 
     nodeLabels = context.selectAll('text.node-label')

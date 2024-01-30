@@ -10,20 +10,28 @@ import './GraphCalculatorPage.css';
 
 interface NetworkDiagramProps {
   data: Data;
-};
+}
 
 interface windowDimensions {
   width: number;
   height: number;
-};
+}
 
 export const GraphCalculatorPage = ({ data }: NetworkDiagramProps) => {
   const [nodes, setNodes] = useState<Node[]>(data.nodes.map((d) => ({ ...d })));
   const [links, setLinks] = useState<Link[]>(data.links.map((d) => ({ ...d })));
   const [canAddEdge, setCanAddEdge] = useState(false);
+  const [selectedNodeIds, setSelectedNodeIds] = useState<string[]>([]);
 
   const canvasRef = useRef<SVGSVGElement>(null);
+  const svgElement = d3.select(canvasRef.current);
   const [canvasSize, setCanvasSize] = useState<windowDimensions>({ width: 0, height: 0 });
+
+  const { drawNodes, drawEdges, ticked } = drawGraph(svgElement, canvasSize.width, canvasSize.height, nodes, links);
+  drawNodes();
+  drawEdges();
+
+  console.log("Rendered")
 
   useEffect(() => {
     const handleResize = () => {
@@ -40,20 +48,23 @@ export const GraphCalculatorPage = ({ data }: NetworkDiagramProps) => {
     };
   }, []);
 
-  useEffect(() => {
-    const svgElement = d3.select(canvasRef.current);
+  const keepInBounds = () => {
+    nodes.forEach(node => {
+      if (node.x !== undefined && node.y !== undefined) {
+        node.x = Math.max(RADIUS, Math.min(canvasSize.width - RADIUS, node.x));
+        node.y = Math.max(RADIUS, Math.min(canvasSize.height - RADIUS, node.y));
+      }
+    });
+  }
 
+  useEffect(() => {
     const simulation = d3.forceSimulation(nodes)
-      .force('link', d3.forceLink<Node, Link>(links).id((d) => d.id).distance(75))
+      .force('link', d3.forceLink<Node, Link>(links).id((d) => d.id).distance(150))
       .force('collide', d3.forceCollide().radius(RADIUS))
       .force('charge', d3.forceManyBody())
-      .force('center', d3.forceCenter(canvasSize.width / 2, canvasSize.height / 2));
-
-    const { drawNodes, drawEdges } = drawGraph(svgElement, canvasSize.width, canvasSize.height, nodes, links);
-    simulation.on("tick", () => {
-      drawEdges();
-      drawNodes();
-    });
+      .force('center', d3.forceCenter(canvasSize.width / 2, canvasSize.height / 2))
+      .force("bounds", keepInBounds)
+      .on("tick", ticked);
 
     return () => {
       simulation.stop();
@@ -62,50 +73,18 @@ export const GraphCalculatorPage = ({ data }: NetworkDiagramProps) => {
 
   const { addNode, addEdge } = useHandleAddNode(nodes, setNodes, setLinks);
 
-  const [selectedNodeIds, setSelectedNodeIds] = useState<string[]>([]);
-
-  const handleCanvasClick = (e: MouseEvent) => {
-    if (!canAddEdge) return;
-    const canvas = canvasRef.current;
-    if (!canvas) return;
-
-    const rect = canvas.getBoundingClientRect();
-    const x = e.clientX - rect.left;
-    const y = e.clientY - rect.top;
-
-    const clickedNode = nodes.find(node => {
-      const dx = node.x! - x;
-      const dy = node.y! - y;
-      return Math.sqrt(dx * dx + dy * dy) <= RADIUS;
-    });
-
-    if (clickedNode) {
-      setSelectedNodeIds(prevIds => { return [...prevIds, clickedNode.id] });
+  const handleCanvasClick = (e: React.MouseEvent<SVGSVGElement, MouseEvent>) => {
+    const clickedNodeId = (e.target as SVGElement).getAttribute('data-node-id');
+    if (clickedNodeId) {
+      setSelectedNodeIds((prevIds) => [...prevIds, clickedNodeId]);
     }
-  };
-
-  useEffect(() => {
-    const canvas = canvasRef.current;
-    if (!canvas) return;
-
-    if (canAddEdge) {
-      canvas.addEventListener('click', handleCanvasClick);
-    } else {
-      canvas.removeEventListener('click', handleCanvasClick);
-    }
-
-    return () => {
-      canvas.removeEventListener('click', handleCanvasClick);
-    };
-  }, [canAddEdge]);
+  }
 
   useEffect(() => {
     if (selectedNodeIds.length === 2) {
       const [sourceId, targetId] = selectedNodeIds;
       addEdge(sourceId, targetId, 1);
       setSelectedNodeIds([]);
-    } else {
-      console.log("Please select two nodes to add an edge.");
     }
   }, [selectedNodeIds]);
 
@@ -118,7 +97,9 @@ export const GraphCalculatorPage = ({ data }: NetworkDiagramProps) => {
               ref={canvasRef}
               width={canvasSize.width}
               height={canvasSize.height}
-            />
+              onClick={canAddEdge ? handleCanvasClick : undefined}
+            >
+            </svg>
           </div>
         </Col>
         <Col span={24} md={7}>

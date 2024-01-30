@@ -46,18 +46,29 @@ const items: MenuProps['items'] = [
 interface GraphToolsProps {
     onAddNode: () => void;
     enableAddEdge: (arg: boolean) => void;
+    enableRemoveEdge: (arg: boolean) => void;
+    
+    enableRemoveNode: (arg: boolean) => void;
 }
 
-const GraphTools = ({ onAddNode, enableAddEdge }: GraphToolsProps) => {
+const GraphTools = ({ onAddNode, enableAddEdge, enableRemoveEdge, enableRemoveNode }: GraphToolsProps) => {
 
     const onClick: MenuProps['onClick'] = (e: any) => {
         const key = e.key.toString();
         enableAddEdge(false);
+        enableRemoveEdge(false);
+        enableRemoveNode(false);
         if (key === '1') {
             onAddNode();
         }
         else if (key === '2') {
             enableAddEdge(true);
+        }
+        else if (key === '3') {
+            enableRemoveNode(true);
+        }
+        else if (key === '4') {
+            enableRemoveEdge(true);
         }
     };
 

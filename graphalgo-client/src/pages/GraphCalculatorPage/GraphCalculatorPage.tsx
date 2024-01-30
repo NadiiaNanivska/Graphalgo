@@ -7,6 +7,7 @@ import { RADIUS, drawGraph } from './drawGraph';
 
 import useHandleAddNode from '../../api/utils/helperFunctions/GraphControl';
 import './GraphCalculatorPage.css';
+import { handleAddEdge } from '../../api/utils/helperFunctions/utilFunctions';
 
 interface NetworkDiagramProps {
   data: Data;
@@ -21,13 +22,16 @@ export const GraphCalculatorPage = ({ data }: NetworkDiagramProps) => {
   const [nodes, setNodes] = useState<Node[]>(data.nodes.map((d) => ({ ...d })));
   const [links, setLinks] = useState<Link[]>(data.links.map((d) => ({ ...d })));
   const [canAddEdge, setCanAddEdge] = useState(false);
-  const [selectedNodeIds, setSelectedNodeIds] = useState<string[]>([]);
+  const [canRemoveEdge, setCanRemoveEdge] = useState(false);
+  const [canRemoveNode, setCanRemoveNode] = useState(false);
+  const [selectedNodeIds, setSelectedNodeIds] = useState<string>('');
 
   const canvasRef = useRef<SVGSVGElement>(null);
   const svgElement = d3.select(canvasRef.current);
   const [canvasSize, setCanvasSize] = useState<windowDimensions>({ width: 0, height: 0 });
 
-  const { drawNodes, drawEdges, ticked } = drawGraph(svgElement, canvasSize.width, canvasSize.height, nodes, links);
+  const { addNode, addEdge } = useHandleAddNode(nodes, setNodes, setLinks);
+  const { drawNodes, drawEdges, ticked } = drawGraph(svgElement, nodes, links);
   drawNodes();
   drawEdges();
 
@@ -71,22 +75,15 @@ export const GraphCalculatorPage = ({ data }: NetworkDiagramProps) => {
     };
   }, [canvasSize.width, canvasSize.height, nodes, links]);
 
-  const { addNode, addEdge } = useHandleAddNode(nodes, setNodes, setLinks);
-
   const handleCanvasClick = (e: React.MouseEvent<SVGSVGElement, MouseEvent>) => {
-    const clickedNodeId = (e.target as SVGElement).getAttribute('data-node-id');
-    if (clickedNodeId) {
-      setSelectedNodeIds((prevIds) => [...prevIds, clickedNodeId]);
+    if (canAddEdge) {
+      handleAddEdge(e, selectedNodeIds, setSelectedNodeIds, addEdge);
+    } else if (canRemoveEdge) {
+
+    } else if (canRemoveNode) {
+
     }
   }
-
-  useEffect(() => {
-    if (selectedNodeIds.length === 2) {
-      const [sourceId, targetId] = selectedNodeIds;
-      addEdge(sourceId, targetId, 1);
-      setSelectedNodeIds([]);
-    }
-  }, [selectedNodeIds]);
 
   return (
     <>
@@ -97,13 +94,17 @@ export const GraphCalculatorPage = ({ data }: NetworkDiagramProps) => {
               ref={canvasRef}
               width={canvasSize.width}
               height={canvasSize.height}
-              onClick={canAddEdge ? handleCanvasClick : undefined}
+              onClick={handleCanvasClick}
             >
             </svg>
           </div>
         </Col>
         <Col span={24} md={7}>
-          <GraphTools onAddNode={addNode} enableAddEdge={(arg: boolean) => { setCanAddEdge(arg); }} />
+          <GraphTools
+            onAddNode={addNode}
+            enableAddEdge={(arg: boolean) => { setCanAddEdge(arg); }}
+            enableRemoveEdge={(arg: boolean) => { setCanRemoveEdge(arg); }}
+            enableRemoveNode={(arg: boolean) => { setCanRemoveNode(arg); }} />
         </Col>
       </Row>
     </>

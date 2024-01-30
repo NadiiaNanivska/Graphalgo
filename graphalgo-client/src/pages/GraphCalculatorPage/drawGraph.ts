@@ -1,12 +1,10 @@
-import { BaseType, Selection } from 'd3';
+import  { BaseType, Selection, select } from 'd3';
 import { Link, Node } from '../../api/utils/helperFunctions/data';
 
 export const RADIUS = 15;
 
 export const drawGraph = (
   context: Selection<SVGSVGElement | null, unknown, null, undefined>,
-  width: number,
-  height: number,
   nodes: Node[],
   links: Link[]
 ) => {
@@ -35,7 +33,11 @@ export const drawGraph = (
       .join('circle')
       .attr('r', RADIUS)
       .attr('data-node-id', d => d.id)
-      .style('fill', '#cb1dd1')
+      .style('fill', '#FD744F')
+      // TODO: через багаторазовий ререндер після кліку на ноду це не працює так як має
+      // .on('click', function (event, d) {
+      //   select(this).style('fill', 'green');
+      // })
       .raise();
 
     nodeLabels = context.selectAll('text.node-label')

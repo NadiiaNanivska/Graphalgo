@@ -30,7 +30,7 @@ export const GraphCalculatorPage = ({ data }: NetworkDiagramProps) => {
   const svgElement = d3.select(canvasRef.current);
   const [canvasSize, setCanvasSize] = useState<windowDimensions>({ width: 0, height: 0 });
 
-  const { addNode, addEdge } = useHandleAddNode(nodes, setNodes, setLinks);
+  const { addNode, addEdge } = useHandleAddNode(nodes, links, setNodes, setLinks);
   const { drawNodes, drawEdges, ticked } = drawGraph(svgElement, nodes, links);
   drawNodes();
   drawEdges();

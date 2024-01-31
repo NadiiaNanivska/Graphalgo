@@ -63,7 +63,7 @@ export const GraphCalculatorPage = ({ data }: NetworkDiagramProps) => {
   }
 
   useEffect(() => {
-    const distance = Math.min(canvasSize.width, canvasSize.height) / nodes.length;
+    const distance = Math.min(Math.min(canvasSize.width, canvasSize.height) / nodes.length, 100);
 
     simulation
       .force('link', d3.forceLink<Node, Link>(links).id((d) => d.id).distance(distance).strength(1))

@@ -1,4 +1,5 @@
 import { Node, Link } from "./data";
+import { message } from 'antd';
 
 const useHandleAddNode = (
   nodes: Node[],
@@ -23,7 +24,7 @@ const useHandleAddNode = (
   const addEdge = (sourceId: string, targetId: string, edgeValue: number) => {
     const isEdgeExists = links.some((link: any) => link.source.id === sourceId && link.target.id === targetId);
     if (isEdgeExists) {
-      alert('Ребро між вузлами вже існує!');
+      message.error('Ребро між вузлами вже існує!');
       return;
     }
     const newLink: Link = {

@@ -1,7 +1,7 @@
-import { BaseType, Selection, select } from 'd3';
+import { BaseType, Selection, drag, select } from 'd3';
 import { Link, Node } from '../../api/utils/helperFunctions/data';
 
-export const RADIUS = 15;
+export const RADIUS = 20;
 
 export const drawGraph = (
   context: Selection<SVGSVGElement | null, unknown, null, undefined>,
@@ -26,7 +26,29 @@ export const drawGraph = (
     .attr('d', 'M0,0 L10,5 L0,10 L2,5')
     .style('fill', '#cbcbcb');
 
-  const drawNodes = () => {
+  const drawNodes = (simulation: d3.Simulation<Node, undefined>) => {
+    const dragstarted = (event: any) => {
+      if (!event.active) simulation.alphaTarget(0.3).restart();
+      event.subject.fx = event.x;
+      event.subject.fy = event.y;
+    };
+
+    const dragged = (event: any) => {
+      event.subject.fx = event.x;
+      event.subject.fy = event.y;
+    };
+
+    const dragended = (event: any) => {
+      if (!event.active) simulation.alphaTarget(0);
+      event.subject.fx = null;
+      event.subject.fy = null;
+    };
+
+    const drag1: any = drag()
+      .on("start", dragstarted)
+      .on("drag", dragged)
+      .on("end", dragended);
+
     node = context
       .selectAll('circle')
       .data(nodes)
@@ -37,6 +59,7 @@ export const drawGraph = (
       .on('click', function (event, d) {
         select(this).style('fill', 'green');
       })
+      .call(drag1)
       .raise();
 
     nodeLabels = context.selectAll('text.node-label')
@@ -60,9 +83,11 @@ export const drawGraph = (
     lines.enter()
       .append('line')
       .attr('class', 'link')
+      .attr('link-index', (d) => d.index!)
       .merge(lines as Selection<SVGLineElement, Link, SVGSVGElement | null, unknown>)
       .attr('marker-end', 'url(#arrow)')
       .attr('stroke', '#cbcbcb')
+      .attr('stroke-width', 2)
       .style('fill', 'none');
 
     edgeLabels = context.selectAll<SVGTextElement, Link>('text.edge-label')

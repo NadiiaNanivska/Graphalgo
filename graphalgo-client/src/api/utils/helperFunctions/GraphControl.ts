@@ -34,7 +34,12 @@ const useHandleAddNode = (
     setLinks((prevLinks) => [...prevLinks, newLink]);
   };
 
-  return { addNode, addEdge, removeNode };
+  const removeEdge = (linkId: number) => {
+    const updatedLinks = links.filter(link => link.index! != linkId);
+    setLinks(updatedLinks);
+  };
+
+  return { addNode, addEdge, removeNode,  removeEdge};
 };
 
 export default useHandleAddNode;

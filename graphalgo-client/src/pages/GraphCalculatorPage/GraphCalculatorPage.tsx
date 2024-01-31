@@ -7,7 +7,7 @@ import { RADIUS, drawGraph } from './drawGraph';
 
 import useHandleAddNode from '../../api/utils/helperFunctions/GraphControl';
 import './GraphCalculatorPage.css';
-import { handleAddEdge, handleRemoveNode } from '../../api/utils/helperFunctions/utilFunctions';
+import { handleAddEdge, handleRemoveEdge, handleRemoveNode } from '../../api/utils/helperFunctions/utilFunctions';
 
 interface NetworkDiagramProps {
   data: Data;
@@ -28,11 +28,12 @@ export const GraphCalculatorPage = ({ data }: NetworkDiagramProps) => {
 
   const canvasRef = useRef<SVGSVGElement>(null);
   const svgElement = d3.select(canvasRef.current);
+  const simulation = d3.forceSimulation(nodes);
   const [canvasSize, setCanvasSize] = useState<windowDimensions>({ width: 0, height: 0 });
 
-  const { addNode, addEdge, removeNode } = useHandleAddNode(nodes, links, setNodes, setLinks);
+  const { addNode, addEdge, removeNode, removeEdge } = useHandleAddNode(nodes, links, setNodes, setLinks);
   const { drawNodes, drawEdges, ticked } = drawGraph(svgElement, nodes, links);
-  drawNodes();
+  drawNodes(simulation);
   drawEdges();
 
   console.log("Rendered")
@@ -62,9 +63,11 @@ export const GraphCalculatorPage = ({ data }: NetworkDiagramProps) => {
   }
 
   useEffect(() => {
-    const simulation = d3.forceSimulation(nodes)
-      .force('link', d3.forceLink<Node, Link>(links).id((d) => d.id).distance(150))
-      .force('collide', d3.forceCollide().radius(RADIUS))
+    const distance = Math.min(canvasSize.width, canvasSize.height) / nodes.length;
+
+    simulation
+      .force('link', d3.forceLink<Node, Link>(links).id((d) => d.id).distance(distance).strength(1))
+      .force('collide', d3.forceCollide(distance))
       .force('charge', d3.forceManyBody())
       .force('center', d3.forceCenter(canvasSize.width / 2, canvasSize.height / 2))
       .force("bounds", keepInBounds)
@@ -79,7 +82,7 @@ export const GraphCalculatorPage = ({ data }: NetworkDiagramProps) => {
     if (canAddEdge) {
       handleAddEdge(e, selectedNodeId, addEdge);
     } else if (canRemoveEdge) {
-
+      handleRemoveEdge(e, removeEdge);
     } else if (canRemoveNode) {
       handleRemoveNode(e, removeNode);
     }

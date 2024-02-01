@@ -1,7 +1,8 @@
 import { Node, Link } from "./data";
 import { message } from 'antd';
 
-const useHandleAddNode = (
+const useHandleChangeGraph
+ = (
   nodes: Node[],
   links: Link[],
   setNodes: React.Dispatch<React.SetStateAction<Node[]>>,
@@ -43,4 +44,4 @@ const useHandleAddNode = (
   return { addNode, addEdge, removeNode,  removeEdge};
 };
 
-export default useHandleAddNode;
+export default useHandleChangeGraph;

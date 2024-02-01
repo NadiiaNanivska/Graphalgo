@@ -76,7 +76,7 @@ export const drawGraph = (
       .raise();
   };
 
-  const drawEdges = () => {
+  const drawEdges = (openModal: (link: Link) => void) => {
     lines = context.selectAll<SVGLineElement, Link>('line.link')
       .data(links);
 
@@ -102,7 +102,7 @@ export const drawGraph = (
       .attr('font-size', '12px')
       .attr('fill', 'black')
       .attr('text-anchor', 'middle')
-      .style('pointer-events', 'none')
+      .on('click', (event, d) => { openModal(d); })
       .raise();
 
     lines.exit().remove();

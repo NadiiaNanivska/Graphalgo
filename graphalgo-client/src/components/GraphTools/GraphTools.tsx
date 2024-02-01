@@ -4,6 +4,7 @@ import { Menu } from 'antd';
 import React from 'react';
 
 import './GraphTools.css';
+import { useGraphOptions } from '../../contexts/GraphOptionsContext';
 
 type MenuItem = Required<MenuProps>['items'][number];
 
@@ -43,32 +44,26 @@ const items: MenuProps['items'] = [
     ]),
 ];
 
-interface GraphToolsProps {
-    onAddNode: () => void;
-    enableAddEdge: (arg: boolean) => void;
-    enableRemoveEdge: (arg: boolean) => void;
-    
-    enableRemoveNode: (arg: boolean) => void;
-}
-
-const GraphTools = ({ onAddNode, enableAddEdge, enableRemoveEdge, enableRemoveNode }: GraphToolsProps) => {
+const GraphTools = () => {
+    const { setCanAddNode, setCanAddEdge, setCanRemoveEdge, setCanRemoveNode } = useGraphOptions();
 
     const onClick: MenuProps['onClick'] = (e: any) => {
         const key = e.key.toString();
-        enableAddEdge(false);
-        enableRemoveEdge(false);
-        enableRemoveNode(false);
+        setCanAddNode(false);
+        setCanAddEdge(false);
+        setCanRemoveEdge(false);
+        setCanRemoveNode(false);
         if (key === '1') {
-            onAddNode();
+            setCanAddNode(true);
         }
         else if (key === '2') {
-            enableAddEdge(true);
+            setCanAddEdge(true);
         }
         else if (key === '3') {
-            enableRemoveNode(true);
+            setCanRemoveNode(true);
         }
         else if (key === '4') {
-            enableRemoveEdge(true);
+            setCanRemoveEdge(true);
         }
     };
 

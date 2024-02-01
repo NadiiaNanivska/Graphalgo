@@ -33,10 +33,7 @@ const items: MenuProps['items'] = [
     getItem('Graph info', 'sub2', <InfoCircleOutlined />, [
         getItem('Adjacency matrix', '5'),
         getItem('Incidence matrix', '6'),
-        getItem('Edges list', '7'),
-        getItem('Adjacency matrix', '5'),
-        getItem('Incidence matrix', '6'),
-        getItem('Edges list', '7'),
+        getItem('Edges list', '7')
     ]),
 
     getItem('Graph algorithms', 'sub4', <PlayCircleOutlined />, [

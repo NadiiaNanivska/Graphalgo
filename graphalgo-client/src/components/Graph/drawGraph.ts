@@ -140,12 +140,16 @@ export const drawGraph = (
         return d.y!;
       });
 
-    edgeLabels
+      edgeLabels
       .attr("x", function (d: any) {
-        return (d.source.x + d.target.x) / 2;
+        const midX = (d.source.x + d.target.x) / 2;
+        const directionX = d.target.x - d.source.x;
+        return midX + directionX * 0.2;
       })
       .attr("y", function (d: any) {
-        return (d.source.y + d.target.y) / 2;
+        const midY = (d.source.y + d.target.y) / 2;
+        const directionY = d.target.y - d.source.y;
+        return midY + directionY * 0.2;
       });
 
     nodeLabels

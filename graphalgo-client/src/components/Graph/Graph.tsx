@@ -47,8 +47,7 @@ const Graph = (_props: { data: Data }) => {
             onOk: () => {
                 const updatedLinks = links.map(l => l === link ? { ...l, weight: newWeight.current! } : l);
                 setLinks(updatedLinks);
-            },
-            onCancel() { }
+            }
         });
     };
 

@@ -21,14 +21,10 @@ export const GraphCalculatorPage = ({ data }: NetworkDiagramProps) => {
     <GraphOptionsProvider>
       <Row className='content-container'>
         <Col span={24} md={17}>
-          <Graph
-            data={graphData}
-          />
+          <Graph data={graphData} />
         </Col>
         <Col span={24} md={7}>
-          <GraphTools
-            graphData={graphData}
-          />
+          <GraphTools graphData={graphData} />
         </Col>
       </Row>
     </GraphOptionsProvider>

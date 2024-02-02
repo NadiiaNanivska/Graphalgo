@@ -15,20 +15,20 @@ export type Data = {
 
 export const data: Data = {
   nodes: [
-    { id: 'Toto' },
-    { id: 'Tutu' },
-    { id: 'Titi' },
-    { id: 'Tata' },
-    { id: 'Turlututu' },
-    { id: 'Tita' },
+    { id: '0' },
+    { id: '1' },
+    { id: '2' },
+    { id: '3' },
+    { id: '4' },
+    { id: '5' },
   ],
   links: [
-    { source: 'Tata', target: 'Tutu', weight: 1 },
-    { source: 'Tata', target: 'Titi', weight: 1 },
-    { source: 'Tata', target: 'Toto', weight: 1 },
-    { source: 'Tata', target: 'Tita', weight: 85 },
-    { source: 'Tita', target: 'Toto', weight: 1 },
-    { source: 'Tita', target: 'Titi', weight: 10 },
-    { source: 'Tita', target: 'Turlututu', weight: 1 },
+    { source: '3', target: '1', weight: 1 },
+    { source: '3', target: '2', weight: 1 },
+    { source: '3', target: '0', weight: 1 },
+    { source: '3', target: '5', weight: 85 },
+    { source: '5', target: '0', weight: 1 },
+    { source: '5', target: '2', weight: 10 },
+    { source: '5', target: '4', weight: 1 },
   ],
 };

@@ -13,6 +13,7 @@ interface windowDimensions {
 }
 
 const Graph = (_props: { data: React.MutableRefObject<Data> }) => {
+    console.log(_props.data.current)
     const { canAddNode, canAddEdge, canRemoveEdge, canRemoveNode } = useGraphOptions();
     const [nodes, setNodes] = useState<Node[]>(_props.data.current.nodes.map((d) => ({ ...d })));
     const [links, setLinks] = useState<Link[]>(_props.data.current.links.map((d) => ({ ...d })));

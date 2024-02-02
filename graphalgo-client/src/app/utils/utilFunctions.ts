@@ -33,8 +33,9 @@ export const handleRemoveEdge = (
 };
 
 export const generateAdjacencyMatrix = (nodes: Node[], links: Link[]): number[][] => {
-    const matrix: number[][] = Array.from({ length: nodes.length }, () => Array(nodes.length).fill(0));
-    const nodeIndexMap = new Map(nodes.map((node, index) => [node.id, index]));
+    const matrix: number[][] = Array.from({ length: parseInt(nodes[nodes.length - 1].id) + 1 }, () => Array(parseInt(nodes[nodes.length - 1].id) + 1).fill(0));
+    const nodeIndexMap = new Map(nodes.map((node, index) => [node.id, parseInt(node.id)]));
+    console.log(matrix.length, links.length)
 
     links.forEach((link: any) => {
         const sourceIndex = nodeIndexMap.get(link.source.id);

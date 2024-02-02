@@ -1,3 +1,5 @@
+import { Node, Link } from "./data";
+
 export const handleAddEdge = (
     e: React.MouseEvent<SVGSVGElement, MouseEvent>,
     selectedNodeIds: React.MutableRefObject<string>,
@@ -28,4 +30,19 @@ export const handleRemoveEdge = (
     if (clickedEdgeId) {
         removeEdge(clickedEdgeId);
     }
+};
+
+export const generateAdjacencyMatrix = (nodes: Node[], links: Link[]): number[][] => {
+    const matrix: number[][] = Array.from({ length: nodes.length }, () => Array(nodes.length).fill(0));
+    const nodeIndexMap = new Map(nodes.map((node, index) => [node.id, index]));
+
+    links.forEach((link: any) => {
+        const sourceIndex = nodeIndexMap.get(link.source.id);
+        const targetIndex = nodeIndexMap.get(link.target.id);
+        if (sourceIndex !== undefined && targetIndex !== undefined) {
+            matrix[sourceIndex][targetIndex] = 1;
+        }
+    });
+  
+    return matrix;
 };

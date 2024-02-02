@@ -12,10 +12,10 @@ interface windowDimensions {
     height: number;
 }
 
-const Graph = (_props: { data: Data }) => {
+const Graph = (_props: { data: React.MutableRefObject<Data> }) => {
     const { canAddNode, canAddEdge, canRemoveEdge, canRemoveNode } = useGraphOptions();
-    const [nodes, setNodes] = useState<Node[]>(_props.data.nodes.map((d) => ({ ...d })));
-    const [links, setLinks] = useState<Link[]>(_props.data.links.map((d) => ({ ...d })));
+    const [nodes, setNodes] = useState<Node[]>(_props.data.current.nodes.map((d) => ({ ...d })));
+    const [links, setLinks] = useState<Link[]>(_props.data.current.links.map((d) => ({ ...d })));
     const newWeight = useRef<number | null>(null);
     console.log("rendered graph")
     const selectedNodeId = useRef<string>('');
@@ -91,6 +91,8 @@ const Graph = (_props: { data: Data }) => {
             .force("bounds", keepInBounds)
             .on("tick", ticked);
 
+            _props.data.current = {nodes: nodes, links: links};
+
         return () => {
             simulation.stop();
         };
@@ -105,9 +107,8 @@ const Graph = (_props: { data: Data }) => {
             handleRemoveEdge(e, removeEdge);
         } else if (canRemoveNode) {
             handleRemoveNode(e, removeNode);
-        }
+        }        
     }
-
     return (
         <div className='graph-canvas'>
             <svg

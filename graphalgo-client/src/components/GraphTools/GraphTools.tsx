@@ -5,6 +5,8 @@ import React from 'react';
 
 import './GraphTools.css';
 import { useGraphOptions } from '../../contexts/GraphOptionsContext';
+import { Data } from '../../app/utils/data';
+import { generateAdjacencyMatrix } from '../../app/utils/utilFunctions';
 
 type MenuItem = Required<MenuProps>['items'][number];
 
@@ -41,7 +43,8 @@ const items: MenuProps['items'] = [
     ]),
 ];
 
-const GraphTools = () => {
+const GraphTools = (_props: { graphData: React.MutableRefObject<Data> }) => {
+    console.log("rendered menu")
     const { setCanAddNode, setCanAddEdge, setCanRemoveEdge, setCanRemoveNode } = useGraphOptions();
 
     const onClick: MenuProps['onClick'] = (e: any) => {
@@ -61,6 +64,8 @@ const GraphTools = () => {
         }
         else if (key === '4') {
             setCanRemoveEdge(true);
+        } else if (key === '5') {
+            console.log(generateAdjacencyMatrix(_props.graphData.current.nodes, _props.graphData.current.links));
         }
     };
 

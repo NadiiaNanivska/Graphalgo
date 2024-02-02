@@ -2,7 +2,7 @@ import { Col, Row } from 'antd';
 import { Data } from '../../app/utils/data';
 import GraphTools from '../../components/GraphTools/GraphTools';
 
-import { GraphOptionsProvider } from '../../contexts/GraphOptionsContext';
+import { DataProvider, GraphOptionsProvider } from '../../contexts/GraphOptionsContext';
 import Graph from '../../components/Graph/Graph';
 import './GraphCalculatorPage.css';
 import { useRef } from 'react';
@@ -12,22 +12,22 @@ interface NetworkDiagramProps {
 }
 
 
-export const GraphCalculatorPage = ({ data }: NetworkDiagramProps) => {
+export const GraphCalculatorPage = () => {
   console.log("Rendered GraphCalculatorPage")
 
-  const graphData = useRef<Data>(data);
-
   return (
+    <DataProvider>
     <GraphOptionsProvider>
       <Row className='content-container'>
         <Col span={24} md={17}>
-          <Graph data={graphData} />
+          <Graph  />
         </Col>
         <Col span={24} md={7}>
-          <GraphTools graphData={graphData} />
+          <GraphTools  />
         </Col>
       </Row>
     </GraphOptionsProvider>
+    </DataProvider>
   );
 };
 

@@ -26,7 +26,7 @@ function App() {
           <Routes>
             <Route path='/' element={<PublicRoute />}>
               <Route index path='' element={<HomePage />} />
-              <Route index path={FRONTEND_ROUTES.CALCULATOR} element={<GraphCalculatorPage data={data} />} />
+              <Route index path={FRONTEND_ROUTES.CALCULATOR} element={<GraphCalculatorPage  />} />
             </Route>
             <Route path={FRONTEND_ROUTES.SIGNIN} element={<SignInPage />} />
             <Route path={FRONTEND_ROUTES.SIGNUP} element={<SignUpPage />} />

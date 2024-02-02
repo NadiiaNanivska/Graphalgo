@@ -4,7 +4,7 @@ import { Menu, Modal } from 'antd';
 import React from 'react';
 
 import './GraphTools.css';
-import { useGraphOptions } from '../../contexts/GraphOptionsContext';
+import { useData, useGraphOptions } from '../../contexts/GraphOptionsContext';
 import { Data, Link } from '../../app/utils/data';
 import { generateAdjacencyMatrix } from '../../app/utils/utilFunctions';
 
@@ -45,9 +45,10 @@ const items: MenuProps['items'] = [
     ]),
 ];
 
-const GraphTools = (_props: { graphData: React.MutableRefObject<Data> }) => {
+const GraphTools = () => {
     console.log("rendered menu")
     const { setCanAddNode, setCanAddEdge, setCanRemoveEdge, setCanRemoveNode } = useGraphOptions();
+    const { nodes, links, setNodes, setLinks } = useData();
 
     const handleFileChange = (event: any) => {
         const file = event.target.files[0];
@@ -65,8 +66,8 @@ const GraphTools = (_props: { graphData: React.MutableRefObject<Data> }) => {
                     return null;
                 })
             ).filter(link => link !== null) as Link[];
-
-            _props.graphData.current = {nodes: nodes, links: links}
+            setNodes(nodes);
+            setLinks(links);
         };
 
         reader.readAsText(file);
@@ -97,7 +98,7 @@ const GraphTools = (_props: { graphData: React.MutableRefObject<Data> }) => {
                 ),
             });
         } else if (key === '8') {
-            console.log(generateAdjacencyMatrix(_props.graphData.current.nodes, _props.graphData.current.links));
+            console.log(generateAdjacencyMatrix(nodes, links));
         }
     };
 

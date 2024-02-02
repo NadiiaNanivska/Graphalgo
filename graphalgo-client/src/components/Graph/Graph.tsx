@@ -1,10 +1,10 @@
-import { useEffect, useRef, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import { Data, Node, Link } from "../../app/utils/data";
 import * as d3 from "d3";
 import useHandleChangeGraph from "../../app/utils/GraphControl";
 import { RADIUS, drawGraph } from "./drawGraph";
 import { handleAddEdge, handleRemoveEdge, handleRemoveNode } from "../../app/utils/utilFunctions";
-import { useGraphOptions } from "../../contexts/GraphOptionsContext";
+import { DataContext, useData, useGraphOptions } from "../../contexts/GraphOptionsContext";
 import { Input, Modal } from "antd";
 
 interface windowDimensions {
@@ -12,11 +12,10 @@ interface windowDimensions {
     height: number;
 }
 
-const Graph = (_props: { data: React.MutableRefObject<Data> }) => {
-    console.log(_props.data.current)
+const Graph = () => {
+    const { nodes, links, setNodes, setLinks } = useData();
     const { canAddNode, canAddEdge, canRemoveEdge, canRemoveNode } = useGraphOptions();
-    const [nodes, setNodes] = useState<Node[]>(_props.data.current.nodes.map((d) => ({ ...d })));
-    const [links, setLinks] = useState<Link[]>(_props.data.current.links.map((d) => ({ ...d })));
+
     const newWeight = useRef<number | null>(null);
     console.log("rendered graph")
     const selectedNodeId = useRef<string>('');
@@ -92,8 +91,6 @@ const Graph = (_props: { data: React.MutableRefObject<Data> }) => {
             .force("bounds", keepInBounds)
             .on("tick", ticked);
 
-            _props.data.current = {nodes: nodes, links: links};
-
         return () => {
             simulation.stop();
         };
@@ -108,7 +105,7 @@ const Graph = (_props: { data: React.MutableRefObject<Data> }) => {
             handleRemoveEdge(e, removeEdge);
         } else if (canRemoveNode) {
             handleRemoveNode(e, removeNode);
-        }        
+        }
     }
     return (
         <div className='graph-canvas'>

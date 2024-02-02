@@ -10,7 +10,7 @@ const useHandleChangeGraph
 ) => {
   const addNode = () => {
     const newNode: Node = {
-      id: `Node_${nodes.length + 1}`
+      id: `${nodes.length}`
     };
     setNodes((prevNodes) => [...prevNodes, newNode]);
   };

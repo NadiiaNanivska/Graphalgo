@@ -1,5 +1,5 @@
 import { BaseType, Selection, drag, select } from 'd3';
-import { Link, Node } from '../../api/utils/helperFunctions/data';
+import { Link, Node } from '../../app/utils/data';
 
 export const RADIUS = 20;
 

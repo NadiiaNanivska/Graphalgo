@@ -1,9 +1,9 @@
 import { useEffect, useRef, useState } from "react";
-import { Data, Link, Node } from "../../api/utils/helperFunctions/data";
+import { Data, Node, Link } from "../../app/utils/data";
 import * as d3 from "d3";
-import useHandleChangeGraph from "../../api/utils/helperFunctions/GraphControl";
+import useHandleChangeGraph from "../../app/utils/GraphControl";
 import { RADIUS, drawGraph } from "./drawGraph";
-import { handleAddEdge, handleRemoveEdge, handleRemoveNode } from "../../api/utils/helperFunctions/utilFunctions";
+import { handleAddEdge, handleRemoveEdge, handleRemoveNode } from "../../app/utils/utilFunctions";
 import { useGraphOptions } from "../../contexts/GraphOptionsContext";
 import { Input, Modal } from "antd";
 

@@ -2,7 +2,7 @@ import { Button, Col, Row } from "antd";
 import { Header } from "antd/es/layout/layout";
 import Title from "antd/es/typography/Title";
 
-import { FRONTEND_ROUTES } from '../../api/utils/constants/Constants';
+import { FRONTEND_ROUTES } from '../../app/constants/Constants';
 import './Navbar.css';
 
 const Navbar = () => {

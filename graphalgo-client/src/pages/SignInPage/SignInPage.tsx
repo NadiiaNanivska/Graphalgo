@@ -1,10 +1,10 @@
 import { Button, Form, Input, Layout, Typography } from 'antd';
 import { Link } from 'react-router-dom';
-import { FRONTEND_ROUTES } from '../../api/utils/constants/Constants';
+import { FRONTEND_ROUTES } from '../../app/constants/Constants';
 import './SignInPage.css';
 
 const { Content } = Layout;
-const { Title, Text, Paragraph } = Typography;
+const { Title, Text } = Typography;
 
 const SignInPage = () => {
     return (

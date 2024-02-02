@@ -1,5 +1,5 @@
 import { Col, Row } from 'antd';
-import { Data } from '../../api/utils/helperFunctions/data';
+import { Data } from '../../app/utils/data';
 import GraphTools from '../../components/GraphTools/GraphTools';
 
 import { GraphOptionsProvider } from '../../contexts/GraphOptionsContext';

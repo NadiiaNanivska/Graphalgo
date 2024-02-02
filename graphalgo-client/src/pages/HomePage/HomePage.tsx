@@ -4,7 +4,7 @@ import FAQQuestion from '../../components/FAQQuestion/FAQQuestion';
 import './HomePage.css';
 
 import { Link } from 'react-router-dom';
-import { FRONTEND_ROUTES } from '../../api/utils/constants/Constants';
+import { FRONTEND_ROUTES } from '../../app/constants/Constants';
 
 const { Content } = Layout;
 const { Title, Text, Paragraph } = Typography;

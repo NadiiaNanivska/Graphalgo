@@ -1,7 +1,7 @@
 import { LoginOutlined, PlusOutlined, ProfileOutlined } from '@ant-design/icons';
 import { FloatButton } from "antd";
 
-import { FRONTEND_ROUTES } from '../../api/utils/constants/Constants';
+import { FRONTEND_ROUTES } from '../../app/constants/Constants';
 import './Navbar.css';
 
 const FloatButtonUser = () => {

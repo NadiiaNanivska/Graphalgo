@@ -64,12 +64,15 @@ const GraphTools = () => {
             setCanRemoveNode(true);
         } else if (key === '4') {
             setCanRemoveEdge(true);
+        } else if (key === '5') {
+            setNodes([]);
+            setLinks([]);
         } else if (key === '6') {
-            Modal.confirm({
+            Modal.info({
                 title: "Завантажити файл",
                 content: (
                     <div>
-                        <input type="file" onChange={(e) => handleFileChange(e, setNodes, setLinks)} />
+                        <input type="file" accept="text/plain" onChange={(e) => handleFileChange(e, setNodes, setLinks)} />
                     </div>
                 ),
             });

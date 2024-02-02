@@ -6,7 +6,7 @@ import React from 'react';
 import './GraphTools.css';
 import { useData, useGraphOptions } from '../../contexts/GraphOptionsContext';
 import { Data, Link } from '../../app/utils/data';
-import { generateAdjacencyMatrix } from '../../app/utils/utilFunctions';
+import { generateAdjacencyMatrix, handleFileChange } from '../../app/utils/utilFunctions';
 
 type MenuItem = Required<MenuProps>['items'][number];
 
@@ -50,30 +50,6 @@ const GraphTools = () => {
     const { setCanAddNode, setCanAddEdge, setCanRemoveEdge, setCanRemoveNode } = useGraphOptions();
     const { nodes, links, setNodes, setLinks } = useData();
 
-    const handleFileChange = (event: any) => {
-        const file = event.target.files[0];
-        const reader = new FileReader();
-        reader.onload = (e) => {
-            console.log(e.target)
-            const content: string = e.target!.result as string;
-            const lines = content.trim().split(/\r\n|\n/);
-            const nodes = lines.map((line, index) => ({ id: index.toString() }));
-            const links = lines.flatMap((line, sourceIndex) =>
-                line.split(' ').map((value, targetIndex) => {
-                    if (value === '1') {
-                        return { source: sourceIndex.toString(), target: targetIndex.toString(), weight: 1 };
-                    }
-                    return null;
-                })
-            ).filter(link => link !== null) as Link[];
-            setNodes(nodes);
-            setLinks(links);
-        };
-
-        reader.readAsText(file);
-    };
-
-
     const onClick: MenuProps['onClick'] = (e: any) => {
         const key = e.key.toString();
         setCanAddNode(false);
@@ -93,7 +69,7 @@ const GraphTools = () => {
                 title: "Завантажити файл",
                 content: (
                     <div>
-                        <input type="file" onChange={(handleFileChange)} />
+                        <input type="file" onChange={(e) => handleFileChange(e, setNodes, setLinks)} />
                     </div>
                 ),
             });

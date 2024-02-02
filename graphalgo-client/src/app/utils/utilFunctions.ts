@@ -47,3 +47,26 @@ export const generateAdjacencyMatrix = (nodes: Node[], links: Link[]): number[][
   
     return matrix;
 };
+
+export const handleFileChange = (event: any, setNodes: React.Dispatch<React.SetStateAction<Node[]>>, setLinks: React.Dispatch<React.SetStateAction<Link[]>>) => {
+    const file = event.target.files[0];
+    const reader = new FileReader();
+    reader.onload = (e) => {
+        console.log(e.target)
+        const content: string = e.target!.result as string;
+        const lines = content.trim().split(/\r\n|\n/);
+        const nodes = lines.map((line, index) => ({ id: index.toString() }));
+        const links = lines.flatMap((line, sourceIndex) =>
+            line.split(' ').map((value, targetIndex) => {
+                if (value === '1') {
+                    return { source: sourceIndex.toString(), target: targetIndex.toString(), weight: 1 };
+                }
+                return null;
+            })
+        ).filter(link => link !== null) as Link[];
+        setNodes(nodes);
+        setLinks(links);
+    };
+
+    reader.readAsText(file);
+};

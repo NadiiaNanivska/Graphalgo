@@ -44,7 +44,7 @@ export const generateAdjacencyMatrix = (nodes: Node[], links: Link[]): number[][
             matrix[sourceIndex][targetIndex] = 1;
         }
     });
-  
+
     return matrix;
 };
 
@@ -70,3 +70,18 @@ export const handleFileChange = (event: any, setNodes: React.Dispatch<React.SetS
 
     reader.readAsText(file);
 };
+
+export const downloadAdjacencyMatrix = (content: string) => {
+    const fileName = 'graphalgo-adjacency-matrix.txt';
+    const fileType = 'text/plain';
+
+    const blob = new Blob([content], { type: fileType });
+    const url = URL.createObjectURL(blob);
+
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = fileName;
+    document.body.appendChild(a);
+    a.click();
+    window.URL.revokeObjectURL(url);
+}

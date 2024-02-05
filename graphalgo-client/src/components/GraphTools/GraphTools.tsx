@@ -6,7 +6,7 @@ import React from 'react';
 import './GraphTools.css';
 import { useData, useGraphOptions } from '../../contexts/GraphOptionsContext';
 import { Data, Link } from '../../app/utils/data';
-import { generateAdjacencyMatrix, handleFileChange } from '../../app/utils/utilFunctions';
+import { downloadAdjacencyMatrix, generateAdjacencyMatrix, handleFileChange } from '../../app/utils/utilFunctions';
 
 type MenuItem = Required<MenuProps>['items'][number];
 
@@ -77,7 +77,8 @@ const GraphTools = () => {
                 ),
             });
         } else if (key === '8') {
-            console.log(generateAdjacencyMatrix(nodes, links));
+            const content = generateAdjacencyMatrix(nodes, links).map(row => row.join(' ')).join('\n');
+            downloadAdjacencyMatrix(content);
         }
     };
 

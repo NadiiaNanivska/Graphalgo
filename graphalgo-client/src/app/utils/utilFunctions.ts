@@ -1,4 +1,4 @@
-import { Node, Link } from "./data";
+import { Link, Node } from "./data";
 
 export const handleAddEdge = (
     e: React.MouseEvent<SVGSVGElement, MouseEvent>,
@@ -35,31 +35,81 @@ export const handleRemoveEdge = (
 export const generateAdjacencyMatrix = (nodes: Node[], links: Link[]): number[][] => {
     const matrix: number[][] = Array.from({ length: parseInt(nodes[nodes.length - 1].id) + 1 }, () => Array(parseInt(nodes[nodes.length - 1].id) + 1).fill(0));
     const nodeIndexMap = new Map(nodes.map((node, index) => [node.id, parseInt(node.id)]));
-    console.log(matrix.length, links.length)
 
     links.forEach((link: any) => {
         const sourceIndex = nodeIndexMap.get(link.source.id);
         const targetIndex = nodeIndexMap.get(link.target.id);
         if (sourceIndex !== undefined && targetIndex !== undefined) {
-            matrix[sourceIndex][targetIndex] = 1;
+            matrix[sourceIndex][targetIndex] = link.weight;
         }
     });
 
     return matrix;
 };
 
-export const handleFileChange = (event: any, setNodes: React.Dispatch<React.SetStateAction<Node[]>>, setLinks: React.Dispatch<React.SetStateAction<Link[]>>) => {
+export const generateIncidenceMatrix = (nodes: Node[], links: Link[]): number[][] => {
+    const incidenceMatrix: number[][] = Array.from({ length: parseInt(nodes[nodes.length - 1].id) + 1 }, () => Array(links.length).fill(0));
+    const nodeIndexMap = new Map(nodes.map((node, index) => [node.id, parseInt(node.id)]));
+
+    links.forEach((link: any, linkIndex) => {
+        const sourceIndex = nodeIndexMap.get(link.source.id);
+        const targetIndex = nodeIndexMap.get(link.target.id);
+
+        if (sourceIndex !== undefined && targetIndex !== undefined) {
+            incidenceMatrix[sourceIndex][linkIndex] = link.weight;
+            incidenceMatrix[targetIndex][linkIndex] = -link.weight;
+        }
+    });
+
+    return incidenceMatrix;
+};
+
+export const handleIncidenceMatrixFromFile = (event: any, setNodes: React.Dispatch<React.SetStateAction<Node[]>>, setLinks: React.Dispatch<React.SetStateAction<Link[]>>) => {
     const file = event.target.files[0];
     const reader = new FileReader();
     reader.onload = (e) => {
-        console.log(e.target)
+        const content: string = e.target!.result as string;
+        const lines = content.trim().split(/\r\n|\n/);
+        const nodes = lines.map((line, index) => ({ id: index.toString() }));
+        setNodes(nodes);
+        const incidenceMatrix = lines.map((line) => line.split(' ').map(Number));
+        const edges: Link[] = [];
+        const nodesCount = incidenceMatrix.length;
+        const edgesCount = incidenceMatrix[0].length;
+
+        for (let j = 0; j < edgesCount; j++) {
+            let source = -1;
+            let target = -1;
+            let weight = 0;
+            for (let i = 0; i < nodesCount; i++) {
+                if (incidenceMatrix[i][j] > 0) {
+                    source = i;
+                    weight = incidenceMatrix[i][j]
+                } else if (incidenceMatrix[i][j] < 0) {
+                    target = i;
+                }
+            }
+            if (source !== -1 && target !== -1) {
+                edges.push({ source: source.toString(), target: target.toString(), weight: weight });
+            }
+        }
+        setLinks(edges);
+    };
+    reader.readAsText(file);
+}
+
+
+export const handleAdjacencyMatrixFromFile = (event: any, setNodes: React.Dispatch<React.SetStateAction<Node[]>>, setLinks: React.Dispatch<React.SetStateAction<Link[]>>) => {
+    const file = event.target.files[0];
+    const reader = new FileReader();
+    reader.onload = (e) => {
         const content: string = e.target!.result as string;
         const lines = content.trim().split(/\r\n|\n/);
         const nodes = lines.map((line, index) => ({ id: index.toString() }));
         const links = lines.flatMap((line, sourceIndex) =>
             line.split(' ').map((value, targetIndex) => {
-                if (value === '1') {
-                    return { source: sourceIndex.toString(), target: targetIndex.toString(), weight: 1 };
+                if (value !== '0') {
+                    return { source: sourceIndex.toString(), target: targetIndex.toString(), weight: parseInt(value) };
                 }
                 return null;
             })
@@ -71,8 +121,7 @@ export const handleFileChange = (event: any, setNodes: React.Dispatch<React.SetS
     reader.readAsText(file);
 };
 
-export const downloadAdjacencyMatrix = (content: string) => {
-    const fileName = 'graphalgo-adjacency-matrix.txt';
+export const downloadTxtFile = (fileName: string, content: string) => {
     const fileType = 'text/plain';
 
     const blob = new Blob([content], { type: fileType });

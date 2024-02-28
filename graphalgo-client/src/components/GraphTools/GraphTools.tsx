@@ -6,7 +6,7 @@ import React from 'react';
 import './GraphTools.css';
 import { useData, useGraphOptions } from '../../contexts/GraphOptionsContext';
 import { Data, Link } from '../../app/utils/data';
-import { downloadAdjacencyMatrix, generateAdjacencyMatrix, handleFileChange } from '../../app/utils/utilFunctions';
+import { downloadTxtFile, generateAdjacencyMatrix, generateIncidenceMatrix, handleAdjacencyMatrixFromFile, handleIncidenceMatrixFromFile } from '../../app/utils/utilFunctions';
 
 type MenuItem = Required<MenuProps>['items'][number];
 
@@ -72,13 +72,25 @@ const GraphTools = () => {
                 title: "Завантажити файл",
                 content: (
                     <div>
-                        <input type="file" accept="text/plain" onChange={(e) => handleFileChange(e, setNodes, setLinks)} />
+                        <input type="file" accept="text/plain" onChange={(e) => handleAdjacencyMatrixFromFile(e, setNodes, setLinks)} />
+                    </div>
+                ),
+            });
+        } else if (key === '7') {
+            Modal.info({
+                title: "Завантажити файл",
+                content: (
+                    <div>
+                        <input type="file" accept="text/plain" onChange={(e) => handleIncidenceMatrixFromFile(e, setNodes, setLinks)} />
                     </div>
                 ),
             });
         } else if (key === '8') {
             const content = generateAdjacencyMatrix(nodes, links).map(row => row.join(' ')).join('\n');
-            downloadAdjacencyMatrix(content);
+            downloadTxtFile('graphalgo-adjacency-matrix.txt', content);
+        } else if (key === '9') {
+            const content = generateIncidenceMatrix(nodes, links).map(row => row.join(' ')).join('\n');
+            downloadTxtFile('graphalgo-incidence-matrix.txt', content);
         }
     };
 

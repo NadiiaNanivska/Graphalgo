@@ -31,7 +31,8 @@ const useHandleChangeGraph
     const newLink: Link = {
       source: sourceId,
       target: targetId,
-      weight: edgeValue
+      weight: edgeValue,
+      index: links.length !== 0 ? links[links.length - 1].index! + 1 : 0
     };
     setLinks((prevLinks) => [...prevLinks, newLink]);
   };

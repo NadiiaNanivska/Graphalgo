@@ -74,6 +74,8 @@ const GraphTools = () => {
                         <input type="file" accept="text/plain" onChange={(e) => handleAdjacencyMatrixFromFile(e, setNodes, setLinks)} />
                     </div>
                 ),
+                okButtonProps: { style: { backgroundColor: '#FD744F', borderColor: '#fcbdac' }},
+                cancelButtonProps: { style: { backgroundColor: 'white', borderColor: '#fcbdac', color: 'black' } },
             });
         } else if (key === '7') {
             Modal.info({
@@ -83,6 +85,8 @@ const GraphTools = () => {
                         <input type="file" accept="text/plain" onChange={(e) => handleIncidenceMatrixFromFile(e, setNodes, setLinks)} />
                     </div>
                 ),
+                okButtonProps: { style: { backgroundColor: '#FD744F', borderColor: '#fcbdac' }},
+                cancelButtonProps: { style: { backgroundColor: 'white', borderColor: '#fcbdac', color: 'black' } },
             });
         } else if (key === '8') {
             const content = generateAdjacencyMatrix(nodes, links).map(row => row.join(' ')).join('\n');

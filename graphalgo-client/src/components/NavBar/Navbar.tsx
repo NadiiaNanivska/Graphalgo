@@ -4,12 +4,13 @@ import Title from "antd/es/typography/Title";
 import { UserOutlined } from '@ant-design/icons';
 import { FRONTEND_ROUTES } from '../../app/constants/Constants';
 import './Navbar.css';
+import { LogoutOutlined } from '@ant-design/icons';
 
 const { Text } = Typography;
 
 const content = (
     <div>
-        <Text type="danger">Log out</Text>
+        <Text type="danger"><LogoutOutlined />  Log out</Text>
     </div>
 );
 

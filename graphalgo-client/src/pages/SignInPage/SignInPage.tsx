@@ -37,15 +37,15 @@ const SignInPage = () => {
                 >
                     <Input.Password placeholder="Password" />
                 </Form.Item>
-                <Form.Item>
+                <Form.Item className="signin-center">
                     <Button type="primary" className="signin-button" htmlType="submit">
                         Sign in
                     </Button>
-                    <p>
+                    </Form.Item>
+                    <p className="signin-center">
                         Don't have an account?{' '}
                         <Link to={FRONTEND_ROUTES.SIGNUP}>Sign up</Link>
                     </p>
-                </Form.Item>
             </Form>
         </div>
     );

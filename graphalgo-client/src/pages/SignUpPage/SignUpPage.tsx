@@ -50,12 +50,12 @@ const SignInPage = () => {
                 >
                     <Input.Password placeholder="Confirm password" />
                 </Form.Item>
-                <Form.Item>
+                <Form.Item className="signup-center">
                     <Button type="primary" htmlType="submit">
                         Sign up
                     </Button>
                 </Form.Item>
-                <p>
+                <p className="signup-center">
                     Already have an account?{' '}
                     <Link to={FRONTEND_ROUTES.SIGNIN}>Sign in</Link>
                 </p>

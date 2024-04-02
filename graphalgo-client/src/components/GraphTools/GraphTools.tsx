@@ -36,12 +36,11 @@ const items: MenuProps['items'] = [
 
     getItem('Graph info', 'sub2', <InfoCircleOutlined />, [
         getItem('Adjacency matrix', '8'),
-        getItem('Incidence matrix', '9'),
-        getItem('Edges list', '10')
+        getItem('Incidence matrix', '9')
     ]),
 
     getItem('Graph algorithms', 'sub4', <PlayCircleOutlined />, [
-        getItem('Shortest path algorithms', 'g1', null, [getItem('Dijkstra\'s algorithm', '11'), getItem('Floyd\'s algorithm', '12')], 'group'),
+        getItem('Shortest path algorithms', 'g1', null, [getItem('Dijkstra\'s algorithm', '10'), getItem('Floyd\'s algorithm', '11')], 'group'),
     ]),
 ];
 

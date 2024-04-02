@@ -6,6 +6,8 @@
   }
   
   .signin-title {
+    display: flex;
+    justify-content: center;
     margin: 30px;
   }
   
@@ -13,7 +15,9 @@
     width: 20rem;
   }
   
-  .signin-button {
+  .signin-center {
+    display: flex;
+    justify-content: center;
     margin: 10px;
   }
   

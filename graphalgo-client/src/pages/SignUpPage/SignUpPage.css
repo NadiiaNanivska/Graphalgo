@@ -6,6 +6,8 @@
   }
   
   .signup-title {
+    display: flex;
+    justify-content: center;
     margin: 30px;
   }
   
@@ -13,7 +15,9 @@
     width: 20rem;
   }
   
-  .signup-button {
+  .signup-center {
+    display: flex;
+    justify-content: center;
     margin: 10px;
   }
   

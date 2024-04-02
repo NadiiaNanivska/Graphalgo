@@ -144,12 +144,12 @@ export const drawGraph = (
       .attr("x", function (d: any) {
         const midX = (d.source.x + d.target.x) / 2;
         const directionX = d.target.x - d.source.x;
-        return midX + directionX * 0.2;
+        return midX + directionX * 0.15;
       })
       .attr("y", function (d: any) {
         const midY = (d.source.y + d.target.y) / 2;
         const directionY = d.target.y - d.source.y;
-        return midY + directionY * 0.2;
+        return midY + directionY * 0.15;
       });
 
     nodeLabels

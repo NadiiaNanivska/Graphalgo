@@ -5,7 +5,7 @@ import useHandleChangeGraph from "../../app/utils/GraphControl";
 import { RADIUS, drawGraph } from "./drawGraph";
 import { handleAddEdge, handleRemoveEdge, handleRemoveNode } from "../../app/utils/utilFunctions";
 import { DataContext, useData, useGraphOptions } from "../../contexts/GraphOptionsContext";
-import { Input, Modal } from "antd";
+import { Input, Modal, message } from "antd";
 
 interface windowDimensions {
     width: number;
@@ -36,11 +36,16 @@ const Graph = () => {
                     placeholder="Нова вага"
                     defaultValue={link.weight.toString()}
                     onChange={(e) => {
-                        newWeight.current = parseFloat(e.target.value);
+                        let value = parseFloat(e.target.value);
+                        if (!Number.isNaN(value) && value > 0) {
+                            newWeight.current = parseFloat(e.target.value);
+                        } else {
+                            message.error("Invalid edge weight, try again!");
+                        }
                     }}
                 />
             ),
-            okButtonProps: { style: { backgroundColor: '#FD744F', borderColor: '#fcbdac' } },
+            okButtonProps: { style: { backgroundColor: '#FD744F', borderColor: '#fcbdac' }},
             cancelButtonProps: { style: { backgroundColor: 'white', borderColor: '#fcbdac', color: 'black' } },
             okText: 'Зберегти',
             cancelText: 'Скасувати',

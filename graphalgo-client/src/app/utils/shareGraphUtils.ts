@@ -19,7 +19,7 @@ export const sendGraph = (user: string, currentUser: string, data: Data) => {
     }, 30000);
 }
 
-export const receiveGraph = async (currentUser: string, connectionEstablished: boolean, setConnectionEstablished: React.Dispatch<React.SetStateAction<boolean>>): Promise<Data | null> => {
+export const receiveGraph = async (currentUser: string, setConnectionEstablished: React.Dispatch<React.SetStateAction<boolean>>): Promise<Data | null> => {
     const socket = new SockJS('http://localhost:8080/ws');
     const stompClient = Stomp.over(socket);
     const connectPromise = new Promise<void>((resolve, reject) => {
@@ -31,26 +31,25 @@ export const receiveGraph = async (currentUser: string, connectionEstablished: b
     });
     await connectPromise;
     return new Promise<Data | null>((resolve, reject) => {
-        if (!connectionEstablished) {
-            setConnectionEstablished(true);
-            stompClient.subscribe('/topic/public/' + currentUser, function (msg) {
-                const chatroomId: Data = JSON.parse(msg.body);
-                const nodes = chatroomId.nodes.map(node => {
-                    return { id: node.id };
-                });
-                const links = chatroomId.links.map(link => {
-                    const { source, target, weight } = link;
-                    return { source: (source as any).id, target: (target as any).id, weight };
-                });
-                const sanitizedData = {
-                    nodes: nodes,
-                    links: links
-                };
-                resolve(sanitizedData);
+        setConnectionEstablished(true);
+        stompClient.subscribe('/topic/public/' + currentUser, function (msg) {
+            const chatroomId: Data = JSON.parse(msg.body);
+            const nodes = chatroomId.nodes.map(node => {
+                return { id: node.id };
             });
-            setTimeout(() => {
-                stompClient.disconnect(() => { setConnectionEstablished(false); message.warning("Waiting time is over. Click on receive button again!") });
-            }, 30000);
-        }
+            const links = chatroomId.links.map(link => {
+                const { source, target, weight } = link;
+                return { source: (source as any).id, target: (target as any).id, weight };
+            });
+            const sanitizedData = {
+                nodes: nodes,
+                links: links
+            };
+            stompClient.disconnect(() => { setConnectionEstablished(false);});
+            resolve(sanitizedData);
+        });
+        setTimeout(() => {
+            stompClient.disconnect(() => { setConnectionEstablished(false); message.warning("Waiting time is over. Click on receive button again!") });
+        }, 30000);
     });
 }

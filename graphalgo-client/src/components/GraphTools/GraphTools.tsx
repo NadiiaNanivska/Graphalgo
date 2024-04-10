@@ -55,8 +55,9 @@ const GraphTools = () => {
     const { nodes, links, setNodes, setLinks } = useData();
 
     const fetchData = async () => {
-        receiveGraph(window.location.href, connectionEstablished, setConnectionEstablished)
+        receiveGraph(window.location.href, setConnectionEstablished)
             .then(data => {
+                console.log(data)
                 if (data !== null) {
                     setNodes(data.nodes);
                     setLinks(data.links);
@@ -113,9 +114,11 @@ const GraphTools = () => {
             const content = generateIncidenceMatrix(nodes, links).map(row => row.join(' ')).join('\n');
             downloadTxtFile('graphalgo-incidence-matrix.txt', content);
         } else if (key === '12') {
-            sendGraph("http://localhost:3001/calculator", window.location.href, {nodes, links});
+            sendGraph("http://localhost:3001/calculator", window.location.href, { nodes, links });
         } else if (key === '13') {
-            fetchData();
+            if (!connectionEstablished) {
+                fetchData();
+            }
         }
     };
 

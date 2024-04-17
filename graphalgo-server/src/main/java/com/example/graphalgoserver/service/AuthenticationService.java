@@ -85,4 +85,10 @@ public class AuthenticationService {
                 .accessToken(jwtService.generateToken(user))
                 .build();
     }
+
+    public User getUser(String email) {
+        User user = repository.findByEmail(email)
+                .orElseThrow(() -> new AuthenticationException(UserValidationConstants.INVALID_CREDENTIALS));
+        return User.builder().id(user.getId()).email(user.getEmail()).build();
+    }
 }

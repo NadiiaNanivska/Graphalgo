@@ -23,9 +23,11 @@ public class User implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
+
     @Column(nullable = false, unique = true)
     @Email(message = "Invalid email format")
     private String email;
+
     @Column(nullable = false)
     private String password;
 

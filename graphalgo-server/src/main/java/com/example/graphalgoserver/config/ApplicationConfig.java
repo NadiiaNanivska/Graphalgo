@@ -2,8 +2,6 @@ package com.example.graphalgoserver.config;
 
 import com.example.graphalgoserver.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
-import org.modelmapper.AbstractConverter;
-import org.modelmapper.Converter;
 import org.modelmapper.ModelMapper;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -15,9 +13,6 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 
 @Configuration
 @RequiredArgsConstructor
@@ -51,16 +46,6 @@ public class ApplicationConfig {
 
     @Bean
     public ModelMapper modelMapper() {
-        ModelMapper modelMapper = new ModelMapper();
-        Converter<LocalDateTime, String> dateTimeConverter = new AbstractConverter<>() {
-            @Override
-            protected String convert(LocalDateTime source) {
-                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-                return source.format(formatter);
-            }
-        };
-        modelMapper.addConverter(dateTimeConverter);
-
-        return modelMapper;
+        return new ModelMapper();
     }
 }

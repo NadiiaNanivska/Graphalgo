@@ -5,12 +5,18 @@ import { UserOutlined } from '@ant-design/icons';
 import { FRONTEND_ROUTES } from '../../app/constants/Constants';
 import './Navbar.css';
 import { LogoutOutlined } from '@ant-design/icons';
+import { logout } from "../../app/api/userService";
 
 const { Text } = Typography;
 
+const onLogout = () => {
+    logout();
+    window.location.href = FRONTEND_ROUTES.SIGNIN;
+}
+
 const content = (
     <div>
-        <Text type="danger"><LogoutOutlined />  Log out</Text>
+        <Text type="danger" onClick={onLogout}><LogoutOutlined />  Log out</Text>
     </div>
 );
 
@@ -24,9 +30,11 @@ const Navbar = (_props: { user: string | null }) => {
                 <Col>
                     {
                         _props.user ?
-                            <Popover content={content}>
-                                <Button type="text" shape="circle" icon={<UserOutlined />} size={'large'} />
-                            </Popover>
+                            <><a>{_props.user}</a>
+                                <Popover content={content}>
+                                    <Button type="text" shape="circle" icon={<UserOutlined />} size={'large'} />
+                                </Popover>
+                            </>
                             : <>
                                 <a href={FRONTEND_ROUTES.SIGNIN}><Button className="hide-on-mobile margin-right-16">Sign in</Button></a>
                                 <a href={FRONTEND_ROUTES.SIGNUP}><Button type="primary" className="hide-on-mobile">Sign up</Button></a>

@@ -21,19 +21,19 @@ public class AuthenticationController {
     @PostMapping("/signup")
     public ResponseEntity<?> register(
             @Valid @RequestBody RegisterRequest request
-    ) throws AuthenticationException {
+    ) {
         return ResponseEntity.ok(service.register(request));
     }
 
     @PostMapping("/signin")
     public ResponseEntity<?> authenticate(
             @Valid @RequestBody AuthenticationRequest request
-    ) throws AuthenticationException {
+    ) {
         return ResponseEntity.ok(service.authenticate(request));
     }
 
     @PostMapping("/refresh")
-    public ResponseEntity<?> refresh(@Valid @RequestBody RefreshRequest request) throws AuthenticationException {
+    public ResponseEntity<?> refresh(@Valid @RequestBody RefreshRequest request) {
         return ResponseEntity.ok(service.refreshToken(request));
     }
 }

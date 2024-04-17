@@ -6,7 +6,6 @@ import com.example.graphalgoserver.dto.authentication.AuthenticationRequest;
 import com.example.graphalgoserver.service.AuthenticationService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.apache.tomcat.websocket.AuthenticationException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 

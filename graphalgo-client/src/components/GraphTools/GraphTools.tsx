@@ -60,7 +60,7 @@ const GraphTools = () => {
                 console.log(data)
                 if (data !== null) {
                     setNodes(data.nodes);
-                    setLinks(data.links);
+                    setLinks(data.edges);
                 }
             })
             .catch(error => {
@@ -114,7 +114,7 @@ const GraphTools = () => {
             const content = generateIncidenceMatrix(nodes, links).map(row => row.join(' ')).join('\n');
             downloadTxtFile('graphalgo-incidence-matrix.txt', content);
         } else if (key === '12') {
-            sendGraph("oksana@gmail.com", "nadia6@gmail.com", { nodes, links });
+            sendGraph("oksana@gmail.com", "nadia6@gmail.com", { nodes, edges:links });
         } else if (key === '13') {
             if (!connectionEstablished) {
                 fetchData();

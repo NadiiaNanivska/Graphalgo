@@ -37,13 +37,13 @@ export const receiveGraph = async (currentUser: string, setConnectionEstablished
             const nodes = chatroomId.nodes.map(node => {
                 return { id: node.id };
             });
-            const links = chatroomId.links.map(link => {
+            const links = chatroomId.edges.map(link => {
                 const { source, target, weight } = link;
                 return { source: (source as any).id, target: (target as any).id, weight };
             });
             const sanitizedData = {
                 nodes: nodes,
-                links: links
+                edges: links
             };
             stompClient.disconnect(() => { setConnectionEstablished(false);});
             resolve(sanitizedData);

@@ -10,7 +10,7 @@ export interface Link extends d3.SimulationLinkDatum<Node> {
 
 export type Data = {
   nodes: Node[];
-  links: Link[];
+  edges: Link[];
 };
 
 export const data: Data = {
@@ -22,7 +22,7 @@ export const data: Data = {
     { id: '4' },
     { id: '5' },
   ],
-  links: [
+  edges: [
     { source: '3', target: '1', weight: 1 },
     { source: '3', target: '2', weight: 1 },
     { source: '3', target: '0', weight: 1 },

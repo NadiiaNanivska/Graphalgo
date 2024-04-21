@@ -1,3 +1,13 @@
+POST http://localhost:8080/auth/signup
+Content-Type: application/json
+
+{
+  "email": "nadia6@gmail.com",
+  "password": "Nadia123",
+  "confirmPassword": "Nadia123"
+}
+
+###
 POST http://localhost:8080/auth/signin
 Content-Type: application/json
 
@@ -7,7 +17,7 @@ Content-Type: application/json
 }
 
 ###
-POST http://localhost:8080/graph/bfs/2
+POST http://localhost:8080/graph/bfs/6
 Content-Type: application/json
 
 {
@@ -38,5 +48,99 @@ Content-Type: application/json
     {"source": "6", "target": "5", "weight": 1},
     {"source": "7", "target": "5", "weight": 1},
     {"source": "7", "target": "8", "weight": 85}
+  ]
+}
+
+###
+POST http://localhost:8080/graph/dfs/0
+Content-Type: application/json
+
+{
+  "nodes": [
+    {"id": "0"},
+    {"id": "1"},
+    {"id": "2"},
+    {"id": "3"},
+    {"id": "4"},
+    {"id": "5"},
+    {"id": "6"},
+    {"id": "7"},
+    {"id": "8"},
+    {"id": "9"},
+    {"id": "10"}
+  ],
+  "edges": [
+    {"source": "0", "target": "1", "weight": 1},
+    {"source": "0", "target": "2", "weight": 1},
+    {"source": "0", "target": "3", "weight": 1},
+    {"source": "1", "target": "3", "weight": 85},
+    {"source": "2", "target": "4", "weight": 1},
+    {"source": "3", "target": "5", "weight": 1},
+    {"source": "3", "target": "6", "weight": 1},
+    {"source": "4", "target": "7", "weight": 1},
+    {"source": "4", "target": "5", "weight": 85},
+    {"source": "5", "target": "2", "weight": 1},
+    {"source": "6", "target": "5", "weight": 1},
+    {"source": "7", "target": "5", "weight": 1},
+    {"source": "7", "target": "8", "weight": 85}
+  ]
+}
+
+###
+POST http://localhost:8080/graph/dijkstra/3/5
+Content-Type: application/json
+
+{
+  "nodes": [
+    {"id": "0"},
+    {"id": "1"},
+    {"id": "2"},
+    {"id": "3"},
+    {"id": "4"},
+    {"id": "5"},
+    {"id": "6"},
+    {"id": "7"},
+    {"id": "8"},
+    {"id": "9"}
+  ],
+  "edges": [
+    {"source": "3", "target": "0", "weight": 4},
+    {"source": "3", "target": "4", "weight": 2},
+    {"source": "0", "target": "2", "weight": 3},
+    {"source": "0", "target": "4", "weight": 4},
+    {"source": "4", "target": "2", "weight": 4},
+    {"source": "4", "target": "6", "weight": 5},
+    {"source": "2", "target": "5", "weight": 5},
+    {"source": "2", "target": "1", "weight": 2},
+    {"source": "1", "target": "5", "weight": 2},
+    {"source": "6", "target": "5", "weight": 5},
+    {"source": "6", "target": "8", "weight": 4},
+    {"source": "6", "target": "7", "weight": 5},
+    {"source": "8", "target": "9", "weight": 2}
+  ]
+}
+
+###
+POST http://localhost:8080/graph/floyd/3/0
+Content-Type: application/json
+
+{
+  "nodes": [
+    {"id": "0"},
+    {"id": "1"},
+    {"id": "2"},
+    {"id": "3"},
+    {"id": "4"}
+  ],
+  "edges": [
+    {"source": "3", "target": "0", "weight": 4},
+    {"source": "3", "target": "2", "weight": 7},
+    {"source": "3", "target": "4", "weight": 3},
+    {"source": "0", "target": "2", "weight": 4},
+    {"source": "2", "target": "0", "weight": -3},
+    {"source": "0", "target": "4", "weight": 5},
+    {"source": "4", "target": "2", "weight": 3},
+    {"source": "1", "target": "2", "weight": -4},
+    {"source": "4", "target": "1", "weight": 2}
   ]
 }

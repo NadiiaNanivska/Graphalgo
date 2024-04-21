@@ -1,6 +1,6 @@
 package com.example.graphalgoserver.service;
 
-import com.example.graphalgoserver.config.JwtService;
+import com.example.graphalgoserver.security.JwtService;
 import com.example.graphalgoserver.dto.authentication.*;
 import com.example.graphalgoserver.model.User;
 import com.example.graphalgoserver.repository.UserRepository;

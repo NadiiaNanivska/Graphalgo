@@ -1,4 +1,4 @@
-package com.example.graphalgoserver.config;
+package com.example.graphalgoserver.security;
 
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.FilterChain;

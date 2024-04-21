@@ -1,4 +1,4 @@
-package com.example.graphalgoserver.config;
+package com.example.graphalgoserver.dto.shareGraph;
 
 
 public class Message {

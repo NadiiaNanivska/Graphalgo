@@ -1,6 +1,6 @@
 package com.example.graphalgoserver.controller;
 
-import com.example.graphalgoserver.config.Message;
+import com.example.graphalgoserver.dto.shareGraph.Message;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.event.EventListener;
 import org.springframework.messaging.handler.annotation.MessageMapping;

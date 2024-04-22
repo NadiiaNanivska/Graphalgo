@@ -43,11 +43,12 @@ const items: MenuProps['items'] = [
     getItem('Graph algorithms', 'sub3', <PlayCircleOutlined />, [
         getItem('Traversal algorithms', 'g1', null, [getItem('BFS', '10'), getItem('DFS', '11')], 'group'),
         getItem('Shortest path algorithms', 'g2', null, [getItem('Dijkstra\'s algorithm', '12'), getItem('Floyd\'s algorithm', '13')], 'group'),
+        getItem('Minimum spanning tree algorithms', 'g3', null, [getItem('Prim\'s algorithm', '14'), getItem('Kruskal\'s algorithm', '15')], 'group')
     ]),
 
     getItem('Share graph', 'sub4', <InfoCircleOutlined />, [
-        getItem('Send', '14'),
-        getItem('Receive', '15')
+        getItem('Send', '16'),
+        getItem('Receive', '17')
     ]),
 ];
 
@@ -138,9 +139,9 @@ const GraphTools = () => {
             openInputNodeModal(startNode, fetchBFSData, nodes[nodes.length - 1].id)
         } else if (key === '11') {
             openInputNodeModal(startNode, fetchDFSData, nodes[nodes.length - 1].id)
-        } else if (key === '14') {
+        } else if (key === '16') {
             sendGraph("oksana@gmail.com", "nadia6@gmail.com", { nodes, edges: links });
-        } else if (key === '15') {
+        } else if (key === '17') {
             if (!connectionEstablished) {
                 fetchData();
             }

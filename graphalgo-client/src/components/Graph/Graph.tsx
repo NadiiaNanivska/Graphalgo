@@ -1,11 +1,11 @@
-import { useContext, useEffect, useRef, useState } from "react";
-import { Data, Node, Link } from "../../app/utils/data";
-import * as d3 from "d3";
-import useHandleChangeGraph from "../../app/utils/GraphControl";
-import { RADIUS, drawGraph } from "./drawGraph";
-import { handleAddEdge, handleRemoveEdge, handleRemoveNode } from "../../app/utils/utilFunctions";
-import { DataContext, useData, useGraphOptions } from "../../contexts/GraphOptionsContext";
 import { Input, Modal, message } from "antd";
+import * as d3 from "d3";
+import { useEffect, useRef, useState } from "react";
+import useHandleChangeGraph from "../../app/utils/GraphControl";
+import { Link, Node } from "../../app/utils/data";
+import { handleAddEdge, handleRemoveEdge, handleRemoveNode } from "../../app/utils/utilFunctions";
+import { useData, useGraphOptions } from "../../contexts/GraphOptionsContext";
+import { RADIUS, drawGraph } from "./drawGraph";
 
 interface windowDimensions {
     width: number;

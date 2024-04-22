@@ -1,3 +1,4 @@
+import { InputNumber, Modal } from "antd";
 import { Link, Node } from "./data";
 
 export const handleAddEdge = (
@@ -133,4 +134,41 @@ export const downloadTxtFile = (fileName: string, content: string) => {
     document.body.appendChild(a);
     a.click();
     window.URL.revokeObjectURL(url);
+}
+
+export const openInputNodeModal = (startNode: React.MutableRefObject<string>, fetchDFSData: (startNode: string) => Promise<void>, maxValue: string) => {
+    Modal.confirm({
+        title: 'Початкова вершина',
+        content: (
+            <InputNumber
+                style={{ borderColor: '#fcbdac' }}
+                defaultValue={0}
+                min={0} max={parseInt(maxValue)} onChange={(value) => {
+                    if (value !== null) {
+                        startNode.current = value!.toString();
+                    }
+                }}
+            />
+        ),
+        okButtonProps: { style: { backgroundColor: '#FD744F', borderColor: '#fcbdac' } },
+        cancelButtonProps: { style: { backgroundColor: 'white', borderColor: '#fcbdac', color: 'black' } },
+        okText: 'Зберегти',
+        cancelText: 'Скасувати',
+        onOk: () => {
+            fetchDFSData(startNode.current!);
+        }
+    });
+}
+
+export const openFileModal = (setNodes: React.Dispatch<React.SetStateAction<Node[]>>, setLinks: React.Dispatch<React.SetStateAction<Link[]>>, handleFunction: (event: any, setNodes: React.Dispatch<React.SetStateAction<Node[]>>, setLinks: React.Dispatch<React.SetStateAction<Link[]>>) => void) => {
+    Modal.info({
+        title: "Завантажити файл",
+        content: (
+            <div>
+                <input type="file" accept="text/plain" onChange={(e) => handleFunction(e, setNodes, setLinks)} />
+            </div>
+        ),
+        okButtonProps: { style: { backgroundColor: '#FD744F', borderColor: '#fcbdac' } },
+        cancelButtonProps: { style: { backgroundColor: 'white', borderColor: '#fcbdac', color: 'black' } },
+    });
 }

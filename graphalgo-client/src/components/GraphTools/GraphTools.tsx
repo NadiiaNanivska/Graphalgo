@@ -1,9 +1,9 @@
 import { InfoCircleOutlined, PlayCircleOutlined, SettingOutlined } from '@ant-design/icons';
 import type { MenuProps } from 'antd';
-import { InputNumber, Menu, Modal } from 'antd';
+import { Menu } from 'antd';
 import React, { useRef, useState } from 'react';
 import { receiveGraph, sendGraph } from '../../app/utils/shareGraphUtils';
-import { downloadTxtFile, generateAdjacencyMatrix, generateIncidenceMatrix, handleAdjacencyMatrixFromFile, handleIncidenceMatrixFromFile } from '../../app/utils/utilFunctions';
+import { downloadTxtFile, generateAdjacencyMatrix, generateIncidenceMatrix, handleAdjacencyMatrixFromFile, handleIncidenceMatrixFromFile, openFileModal, openInputNodeModal } from '../../app/utils/utilFunctions';
 import { useData, useGraphOptions } from '../../contexts/GraphOptionsContext';
 import './GraphTools.css';
 import { BFS, DFS } from '../../app/api/graphService';
@@ -125,27 +125,9 @@ const GraphTools = () => {
             setNodes([]);
             setLinks([]);
         } else if (key === '6') {
-            Modal.info({
-                title: "Завантажити файл",
-                content: (
-                    <div>
-                        <input type="file" accept="text/plain" onChange={(e) => handleAdjacencyMatrixFromFile(e, setNodes, setLinks)} />
-                    </div>
-                ),
-                okButtonProps: { style: { backgroundColor: '#FD744F', borderColor: '#fcbdac' } },
-                cancelButtonProps: { style: { backgroundColor: 'white', borderColor: '#fcbdac', color: 'black' } },
-            });
+           openFileModal(setNodes, setLinks, handleAdjacencyMatrixFromFile);
         } else if (key === '7') {
-            Modal.info({
-                title: "Завантажити файл",
-                content: (
-                    <div>
-                        <input type="file" accept="text/plain" onChange={(e) => handleIncidenceMatrixFromFile(e, setNodes, setLinks)} />
-                    </div>
-                ),
-                okButtonProps: { style: { backgroundColor: '#FD744F', borderColor: '#fcbdac' } },
-                cancelButtonProps: { style: { backgroundColor: 'white', borderColor: '#fcbdac', color: 'black' } },
-            });
+            openFileModal(setNodes, setLinks, handleIncidenceMatrixFromFile);
         } else if (key === '8') {
             const content = generateAdjacencyMatrix(nodes, links).map(row => row.join(' ')).join('\n');
             downloadTxtFile('graphalgo-adjacency-matrix.txt', content);
@@ -153,49 +135,9 @@ const GraphTools = () => {
             const content = generateIncidenceMatrix(nodes, links).map(row => row.join(' ')).join('\n');
             downloadTxtFile('graphalgo-incidence-matrix.txt', content);
         } else if (key === '10') {
-            Modal.confirm({
-                title: 'Початкова вершина',
-                content: (
-                    <InputNumber
-                        style={{ borderColor: '#fcbdac' }}
-                        defaultValue={0}
-                        min={0} max={parseInt(nodes[nodes.length - 1].id)} onChange={(value) => {
-                            if (value !== null) {
-                                startNode.current = value!.toString();
-                            }
-                        }}
-                    />
-                ),
-                okButtonProps: { style: { backgroundColor: '#FD744F', borderColor: '#fcbdac' } },
-                cancelButtonProps: { style: { backgroundColor: 'white', borderColor: '#fcbdac', color: 'black' } },
-                okText: 'Зберегти',
-                cancelText: 'Скасувати',
-                onOk: () => {
-                    fetchBFSData(startNode.current!);
-                }
-            });
+            openInputNodeModal(startNode, fetchBFSData, nodes[nodes.length - 1].id)
         } else if (key === '11') {
-            Modal.confirm({
-                title: 'Початкова вершина',
-                content: (
-                    <InputNumber
-                        style={{ borderColor: '#fcbdac' }}
-                        defaultValue={0}
-                        min={0} max={parseInt(nodes[nodes.length - 1].id)} onChange={(value) => {
-                            if (value !== null) {
-                                startNode.current = value!.toString();
-                            }
-                        }}
-                    />
-                ),
-                okButtonProps: { style: { backgroundColor: '#FD744F', borderColor: '#fcbdac' } },
-                cancelButtonProps: { style: { backgroundColor: 'white', borderColor: '#fcbdac', color: 'black' } },
-                okText: 'Зберегти',
-                cancelText: 'Скасувати',
-                onOk: () => {
-                    fetchDFSData(startNode.current!);
-                }
-            });
+            openInputNodeModal(startNode, fetchDFSData, nodes[nodes.length - 1].id)
         } else if (key === '14') {
             sendGraph("oksana@gmail.com", "nadia6@gmail.com", { nodes, edges: links });
         } else if (key === '15') {

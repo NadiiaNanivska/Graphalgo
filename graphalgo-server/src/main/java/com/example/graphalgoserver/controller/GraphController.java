@@ -16,7 +16,6 @@ public class GraphController {
 
     @PostMapping("/bfs/{start}")
     public ResponseEntity<?> GraphBFS(@RequestBody GraphDTO input, @PathVariable String start) {
-        System.out.println("start" + start);
         return ResponseEntity.ok(graphService.BFS(input, start));
     }
 

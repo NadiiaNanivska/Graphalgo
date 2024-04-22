@@ -6,7 +6,7 @@ import { receiveGraph, sendGraph } from '../../app/utils/shareGraphUtils';
 import { downloadTxtFile, generateAdjacencyMatrix, generateIncidenceMatrix, handleAdjacencyMatrixFromFile, handleIncidenceMatrixFromFile } from '../../app/utils/utilFunctions';
 import { useData, useGraphOptions } from '../../contexts/GraphOptionsContext';
 import './GraphTools.css';
-import { BFS } from '../../app/api/graphService';
+import { BFS, DFS } from '../../app/api/graphService';
 import AlgorithmResult from './AlgorithmResult';
 
 type MenuItem = Required<MenuProps>['items'][number];
@@ -94,6 +94,19 @@ const GraphTools = () => {
             });
     };
 
+    const fetchDFSData = async (startNode: string) => {
+        DFS({ nodes, edges: links }, startNode)
+            .then(data => {
+                if (data !== null) {
+                    setResult(data.nodes.join(" "));
+                    showDrawer();
+                }
+            })
+            .catch(error => {
+                console.error('Error receiving graph:', error);
+            });
+    };
+
     const onClick: MenuProps['onClick'] = (e: any) => {
         const key = e.key.toString();
         setCanAddNode(false);
@@ -161,7 +174,28 @@ const GraphTools = () => {
                     fetchBFSData(startNode.current!);
                 }
             });
-
+        } else if (key === '11') {
+            Modal.confirm({
+                title: 'Початкова вершина',
+                content: (
+                    <InputNumber
+                        style={{ borderColor: '#fcbdac' }}
+                        defaultValue={0}
+                        min={0} max={parseInt(nodes[nodes.length - 1].id)} onChange={(value) => {
+                            if (value !== null) {
+                                startNode.current = value!.toString();
+                            }
+                        }}
+                    />
+                ),
+                okButtonProps: { style: { backgroundColor: '#FD744F', borderColor: '#fcbdac' } },
+                cancelButtonProps: { style: { backgroundColor: 'white', borderColor: '#fcbdac', color: 'black' } },
+                okText: 'Зберегти',
+                cancelText: 'Скасувати',
+                onOk: () => {
+                    fetchDFSData(startNode.current!);
+                }
+            });
         } else if (key === '14') {
             sendGraph("oksana@gmail.com", "nadia6@gmail.com", { nodes, edges: links });
         } else if (key === '15') {

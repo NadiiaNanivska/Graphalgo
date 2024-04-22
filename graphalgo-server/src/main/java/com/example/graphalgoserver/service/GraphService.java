@@ -32,27 +32,23 @@ public class GraphService {
     private final ModelMapper modelMapper;
 
     public TraversalResponse BFS(GraphDTO input, String start) {
-        System.out.println(input);
-        Graph<String, DefaultWeightedEdge> directedGraph =buildGraph(input);
+        Graph<String, DefaultWeightedEdge> directedGraph = buildGraph(input);
         Iterator<String> iterator = new BreadthFirstIterator<>(directedGraph, start);
-        System.out.println("it" + iterator);
         List<String> bfsResult = new ArrayList<>();
         while (iterator.hasNext()) {
             bfsResult.add(iterator.next());
         }
-        System.out.println(bfsResult.get(0));
-
         return new TraversalResponse(bfsResult);
     }
 
-    public String DFS(GraphDTO input, String start) {
-        Graph<String, DefaultWeightedEdge> directedGraph =buildGraph(input);
+    public TraversalResponse DFS(GraphDTO input, String start) {
+        Graph<String, DefaultWeightedEdge> directedGraph = buildGraph(input);
         Iterator<String> iterator = new DepthFirstIterator<>(directedGraph, start);
-        StringBuilder dfsResult = new StringBuilder();
+        List<String> dfsResult = new ArrayList<>();
         while (iterator.hasNext()) {
-            dfsResult.append(iterator.next()).append(" ");
+            dfsResult.add(iterator.next());
         }
-        return dfsResult.toString();
+        return new TraversalResponse(dfsResult);
     }
 
     public ShortestPathResponse Dijkstra(GraphDTO input, String start, String end) {

@@ -19,3 +19,20 @@ export const BFS = async (graphDto: Data, startNode: string): Promise<TraversalR
         throw new Error('Failed to BFS');
     }
 };
+
+export const DFS = async (graphDto: Data, startNode: string): Promise<TraversalResponse> => {
+    const simplifiedGraphData = {
+        nodes: graphDto.nodes.map(node => ({ id: node.id })),
+        edges: graphDto.edges.map(edge => ({
+          source: (edge.source as any).id,
+          target: (edge.target as any).id,
+          weight: edge.weight
+        }))
+      };
+    try {
+        const response = await axiosModule.post(GRAPH_ENDPOINTS.DFS + startNode, simplifiedGraphData);
+        return response.data;
+    } catch (error) {
+        throw new Error('Failed to DFS');
+    }
+};

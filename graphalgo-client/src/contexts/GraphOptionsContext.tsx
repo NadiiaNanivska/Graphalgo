@@ -60,7 +60,7 @@ export const DataContext = createContext<DataContextType | null>(null);
 
 export const DataProvider = (_props: { children: React.ReactNode }) => {
     const [nodes, setNodes] = useState<Node[]>(data.nodes.map((d) => ({ ...d })));
-    const [links, setLinks] = useState<Link[]>(data.links.map((d) => ({ ...d })));
+    const [links, setLinks] = useState<Link[]>(data.edges.map((d) => ({ ...d })));
 
     const contextValue = {
         nodes, setNodes, links, setLinks

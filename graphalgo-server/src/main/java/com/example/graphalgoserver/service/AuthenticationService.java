@@ -7,8 +7,6 @@ import com.example.graphalgoserver.repository.UserRepository;
 import com.example.graphalgoserver.utils.UserValidationConstants;
 import lombok.RequiredArgsConstructor;
 import com.example.graphalgoserver.exceptions.AuthenticationException;
-import org.modelmapper.AbstractConverter;
-import org.modelmapper.Converter;
 import org.modelmapper.ModelMapper;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -34,7 +32,7 @@ public class AuthenticationService {
         if (repository.findByEmail(request.getEmail()).isPresent()) {
             throw new AuthenticationException(UserValidationConstants.USER_ALREADY_EXIST);
         }
-        User user = convertToUser(request);
+        User user = modelMapper.map(request, User.class);
         repository.save(user);
         String jwtToken = jwtService.generateToken(user);
         String jwtRefreshToken = jwtService.generateRefreshToken(user);
@@ -42,19 +40,6 @@ public class AuthenticationService {
                 .accessToken(jwtToken)
                 .refreshToken(jwtRefreshToken)
                 .build();
-    }
-
-    private User convertToUser(RegisterRequest request) {
-        Converter<RegisterRequest, User> toUpperCase = new AbstractConverter<>() {
-            protected User convert(RegisterRequest source) {
-                return source == null ? null : User.builder()
-                        .email(source.getEmail())
-                        .password(passwordEncoder.encode(source.getPassword())).build();
-            }
-        };
-        modelMapper.addConverter(toUpperCase);
-        User user = modelMapper.map(request, User.class);
-        return user;
     }
 
     public AuthenticationResponse authenticate(AuthenticationRequest request) throws AuthenticationException {

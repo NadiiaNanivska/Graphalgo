@@ -13,3 +13,7 @@ export const AUTH_ENDPOINTS = {
     REFRESH_TOKEN: 'auth/refresh',
     LOGOUT: 'auth/logout',
 };
+
+export const GRAPH_ENDPOINTS = {
+    BFS: 'graph/bfs/'
+}

@@ -2,7 +2,7 @@ POST http://localhost:8080/auth/signup
 Content-Type: application/json
 
 {
-  "email": "nadia6@gmail.com",
+  "email": "nadia8@gmail.com",
   "password": "Nadia123",
   "confirmPassword": "Nadia123"
 }
@@ -12,7 +12,7 @@ POST http://localhost:8080/auth/signin
 Content-Type: application/json
 
 {
-  "email": "nadia6@gmail.com",
+  "email": "nadia8@gmail.com",
   "password": "Nadia123"
 }
 
@@ -141,6 +141,31 @@ Content-Type: application/json
     {"source": "0", "target": "4", "weight": 5},
     {"source": "4", "target": "2", "weight": 3},
     {"source": "1", "target": "2", "weight": -4},
+    {"source": "4", "target": "1", "weight": 2}
+  ]
+}
+
+###
+POST http://localhost:8080/graph/kruskal
+Content-Type: application/json
+
+{
+  "nodes": [
+    {"id": "0"},
+    {"id": "1"},
+    {"id": "2"},
+    {"id": "3"},
+    {"id": "4"}
+  ],
+  "edges": [
+    {"source": "3", "target": "0", "weight": 4},
+    {"source": "3", "target": "2", "weight": 7},
+    {"source": "3", "target": "4", "weight": 3},
+    {"source": "0", "target": "2", "weight": 4},
+    {"source": "2", "target": "0", "weight": 3},
+    {"source": "0", "target": "4", "weight": 5},
+    {"source": "4", "target": "2", "weight": 3},
+    {"source": "1", "target": "2", "weight": 4},
     {"source": "4", "target": "1", "weight": 2}
   ]
 }

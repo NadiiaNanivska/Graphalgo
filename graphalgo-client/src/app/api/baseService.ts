@@ -23,9 +23,6 @@ axiosModule.interceptors.response.use(
                 errorMessage = ReasonPhrases.UNAUTHORIZED;
                 window.location.href = FRONTEND_ROUTES.SIGNIN;
                 break;
-            case StatusCodes.BAD_REQUEST:
-                errorMessage = "Invalid input";
-                break;
             default:
                 break;
         }

@@ -1,4 +1,4 @@
-import { GRAPH_ENDPOINTS } from "../constants/Constants";
+import { GRAPH_ENDPOINTS, INVALID_INPUT_MESSAGE } from "../constants/Constants";
 import { ShortestPathResponse, TraversalResponse } from "../dto/graphDTO";
 import { Data } from "../utils/data";
 import axiosModule from "./baseService";
@@ -16,7 +16,7 @@ export const BFS = async (graphDto: Data, startNode: string): Promise<TraversalR
         const response = await axiosModule.post(GRAPH_ENDPOINTS.BFS + startNode, simplifiedGraphData);
         return response.data;
     } catch (error) {
-        throw new Error('Failed to BFS');
+        throw new Error(INVALID_INPUT_MESSAGE);
     }
 };
 
@@ -33,7 +33,7 @@ export const DFS = async (graphDto: Data, startNode: string): Promise<TraversalR
         const response = await axiosModule.post(GRAPH_ENDPOINTS.DFS + startNode, simplifiedGraphData);
         return response.data;
     } catch (error) {
-        throw new Error('Failed to DFS');
+        throw new Error(INVALID_INPUT_MESSAGE);
     }
 };
 
@@ -50,6 +50,6 @@ export const Dijkstra = async (graphDto: Data, startNode: string, endNode: strin
       const response = await axiosModule.post(GRAPH_ENDPOINTS.DIJKSTRA + startNode + '/' + endNode, simplifiedGraphData);
       return response.data;
   } catch (error) {
-      throw new Error('Failed to Dijkstra');
+      throw new Error(INVALID_INPUT_MESSAGE);
   }
 };

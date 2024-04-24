@@ -100,7 +100,7 @@ const GraphTools = (_props: { setTraversalResult: React.Dispatch<React.SetStateA
                 }
             })
             .catch(error => {
-                console.error('Error receiving graph:', error);
+                message.error((error as Error).message);
             });
     };
 
@@ -112,7 +112,7 @@ const GraphTools = (_props: { setTraversalResult: React.Dispatch<React.SetStateA
                 }
             })
             .catch(error => {
-                console.error('Error receiving graph:', error);
+                message.error((error as Error).message);
             });
     };
 
@@ -125,7 +125,7 @@ const GraphTools = (_props: { setTraversalResult: React.Dispatch<React.SetStateA
                 }
             })
             .catch(error => {
-                console.error('Error receiving graph:', error);
+                message.error((error as Error).message);
             });
     };
 
@@ -138,7 +138,7 @@ const GraphTools = (_props: { setTraversalResult: React.Dispatch<React.SetStateA
                 }
             })
             .catch(error => {
-                console.error('Error receiving graph:', error);
+                message.error((error as Error).message);
             });
     };
 

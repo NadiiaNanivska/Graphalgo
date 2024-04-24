@@ -19,3 +19,5 @@ export const GRAPH_ENDPOINTS = {
     DFS: 'graph/dfs/',
     DIJKSTRA: 'graph/dijkstra/'
 }
+
+export const INVALID_INPUT_MESSAGE = "Invalid input";

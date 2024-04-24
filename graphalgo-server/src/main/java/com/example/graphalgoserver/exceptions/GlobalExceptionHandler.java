@@ -27,14 +27,20 @@ public class GlobalExceptionHandler {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errors);
     }
 
-    @ExceptionHandler({HttpMessageNotReadableException.class})
-    public ResponseEntity<InformationResponse> handleHttpMessageNotReadable(HttpMessageNotReadableException ex, WebRequest request) {
+    @ExceptionHandler({HttpMessageNotReadableException.class, NullPointerException.class})
+    public ResponseEntity<InformationResponse> handleHttpMessageNotReadable() {
         InformationResponse errorObject = new InformationResponse("Invalid data");
         return new ResponseEntity<>(errorObject, HttpStatus.BAD_REQUEST);
     }
 
-    @ExceptionHandler({AuthenticationException.class, IllegalArgumentException.class})
+    @ExceptionHandler(AuthenticationException.class)
     public ResponseEntity<InformationResponse> handleNotFoundException(AuthenticationException ex) {
+        InformationResponse errorObject = new InformationResponse(ex.getMessage());
+        return new ResponseEntity<>(errorObject, HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(IllegalArgumentException.class)
+    public ResponseEntity<InformationResponse> handleIllegalArgumentException(IllegalArgumentException ex) {
         InformationResponse errorObject = new InformationResponse(ex.getMessage());
         return new ResponseEntity<>(errorObject, HttpStatus.BAD_REQUEST);
     }

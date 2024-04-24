@@ -16,5 +16,6 @@ export const AUTH_ENDPOINTS = {
 
 export const GRAPH_ENDPOINTS = {
     BFS: 'graph/bfs/',
-    DFS: 'graph/dfs/'
+    DFS: 'graph/dfs/',
+    DIJKSTRA: 'graph/dijkstra/'
 }

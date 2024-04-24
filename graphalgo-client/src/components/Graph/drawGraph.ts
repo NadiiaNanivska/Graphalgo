@@ -1,12 +1,14 @@
 import { BaseType, Selection, drag, select } from 'd3';
 import { Link, Node } from '../../app/utils/data';
+import { ShortestPathResponse, TraversalResponse } from '../../app/dto/TraversalDTO';
 
 export const RADIUS = 20;
 
 export const drawGraph = (
   context: Selection<SVGSVGElement | null, unknown, null, undefined>,
   nodes: Node[],
-  links: Link[]
+  links: Link[],
+  traversalResult: TraversalResponse | ShortestPathResponse | undefined
 ) => {
   let lines: Selection<SVGLineElement, Link, SVGSVGElement | null, unknown>;
   let edgeLabels: Selection<SVGTextElement, Link, SVGSVGElement | null, unknown>;
@@ -25,6 +27,11 @@ export const drawGraph = (
     .append('path')
     .attr('d', 'M0,0 L10,5 L0,10 L2,5')
     .style('fill', '#cbcbcb');
+
+    const getColorNode = (d: Node): string => {
+      if (traversalResult === undefined) return '#FD744F';
+      return traversalResult!.nodes.includes(d.id) ? 'red' : '#FD744F';
+    }
 
   const drawNodes = (simulation: d3.Simulation<Node, undefined>) => {
     const dragstarted = (event: any) => {
@@ -55,7 +62,7 @@ export const drawGraph = (
       .join('circle')
       .attr('r', RADIUS)
       .attr('data-node-id', d => d.id)
-      .style('fill', '#FD744F')
+      .style('fill', d => getColorNode(d))
       .on('click', function (event, d) {
         select(this).style('fill', 'green');
       })
@@ -76,6 +83,14 @@ export const drawGraph = (
       .raise();
   };
 
+  const getColorEdge = (d: Link): string => {
+    const shortestPathResult = traversalResult as ShortestPathResponse;
+    if (shortestPathResult && shortestPathResult.edges !== undefined) {
+      return shortestPathResult.nodes.includes((d.source as any).id) && shortestPathResult.nodes.includes((d.target as any).id) && shortestPathResult.edges.includes(d.weight) ? 'red' : '#cbcbcb';
+    } 
+    return '#cbcbcb';
+  };
+
   const drawEdges = (openModal: (link: Link) => void) => {
     lines = context.selectAll<SVGLineElement, Link>('line.link')
       .data(links);
@@ -86,7 +101,7 @@ export const drawGraph = (
       .attr('link-index', (d) => d.index!)
       .merge(lines as Selection<SVGLineElement, Link, SVGSVGElement | null, unknown>)
       .attr('marker-end', 'url(#arrow)')
-      .attr('stroke', '#cbcbcb')
+      .attr('stroke', d => getColorEdge(d))
       .attr('stroke-width', 2)
       .style('fill', 'none');
 
@@ -140,7 +155,7 @@ export const drawGraph = (
         return d.y!;
       });
 
-      edgeLabels
+    edgeLabels
       .attr("x", function (d: any) {
         const midX = (d.source.x + d.target.x) / 2;
         const directionX = d.target.x - d.source.x;

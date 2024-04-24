@@ -6,13 +6,14 @@ import { Link, Node } from "../../app/utils/data";
 import { handleAddEdge, handleRemoveEdge, handleRemoveNode } from "../../app/utils/utilFunctions";
 import { useData, useGraphOptions } from "../../contexts/GraphOptionsContext";
 import { RADIUS, drawGraph } from "./drawGraph";
+import { ShortestPathResponse, TraversalResponse } from "../../app/dto/TraversalDTO";
 
 interface windowDimensions {
     width: number;
     height: number;
 }
 
-const Graph = () => {
+const Graph = (_props: {traversalResult: TraversalResponse | ShortestPathResponse | undefined}) => {
     const { nodes, links, setNodes, setLinks } = useData();
     const { canAddNode, canAddEdge, canRemoveEdge, canRemoveNode } = useGraphOptions();
 
@@ -57,7 +58,7 @@ const Graph = () => {
     };
 
     const { addNode, addEdge, removeNode, removeEdge } = useHandleChangeGraph(nodes, links, setNodes, setLinks);
-    const { drawNodes, drawEdges, ticked } = drawGraph(svgElement, nodes, links);
+    const { drawNodes, drawEdges, ticked } = drawGraph(svgElement, nodes, links, _props.traversalResult);
     drawNodes(simulation);
     drawEdges(openModal);
 

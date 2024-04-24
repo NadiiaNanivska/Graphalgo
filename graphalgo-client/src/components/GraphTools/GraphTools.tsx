@@ -1,13 +1,14 @@
 import { InfoCircleOutlined, PlayCircleOutlined, SettingOutlined } from '@ant-design/icons';
 import type { MenuProps } from 'antd';
-import { Menu } from 'antd';
+import { Menu, notification } from 'antd';
 import React, { useRef, useState } from 'react';
 import { receiveGraph, sendGraph } from '../../app/utils/shareGraphUtils';
 import { downloadTxtFile, generateAdjacencyMatrix, generateIncidenceMatrix, handleAdjacencyMatrixFromFile, handleIncidenceMatrixFromFile, openFileModal, openInputNodeModal } from '../../app/utils/utilFunctions';
 import { useData, useGraphOptions } from '../../contexts/GraphOptionsContext';
 import './GraphTools.css';
-import { BFS, DFS } from '../../app/api/graphService';
+import { BFS, DFS, Dijkstra } from '../../app/api/graphService';
 import AlgorithmResult from './AlgorithmResult';
+import { ShortestPathResponse, TraversalResponse } from '../../app/dto/TraversalDTO';
 
 type MenuItem = Required<MenuProps>['items'][number];
 
@@ -52,13 +53,14 @@ const items: MenuProps['items'] = [
     ]),
 ];
 
-const GraphTools = () => {
+const GraphTools = (_props: { setTraversalResult: React.Dispatch<React.SetStateAction<TraversalResponse | ShortestPathResponse | undefined>> }) => {
     console.log("rendered menu")
     const [connectionEstablished, setConnectionEstablished] = useState<boolean>(false);
     const { setCanAddNode, setCanAddEdge, setCanRemoveEdge, setCanRemoveNode } = useGraphOptions();
     const { nodes, links, setNodes, setLinks } = useData();
     const startNode = useRef<string>("0");
-    const [result, setResult] = useState<string>("");
+    const endNode = useRef<string>(nodes[nodes.length - 1].id);
+    const [api, contextHolder] = notification.useNotification();
 
     const [open, setOpen] = useState(false);
     const showDrawer = () => {
@@ -86,8 +88,7 @@ const GraphTools = () => {
         BFS({ nodes, edges: links }, startNode)
             .then(data => {
                 if (data !== null) {
-                    setResult(data.nodes.join(" "));
-                    showDrawer();
+                    _props.setTraversalResult(data);
                 }
             })
             .catch(error => {
@@ -99,8 +100,29 @@ const GraphTools = () => {
         DFS({ nodes, edges: links }, startNode)
             .then(data => {
                 if (data !== null) {
-                    setResult(data.nodes.join(" "));
-                    showDrawer();
+                    _props.setTraversalResult(data);
+                }
+            })
+            .catch(error => {
+                console.error('Error receiving graph:', error);
+            });
+    };
+
+    const openNotification = (content: number) => {
+        api.open({
+            type: 'success',
+            message: 'Path cost',
+            description: content,
+            duration: 0,
+        });
+    };
+
+    const fetchDijkstraData = async (startNode: string, endNode: string) => {
+        Dijkstra({ nodes, edges: links }, startNode, endNode)
+            .then(data => {
+                if (data !== null) {
+                    _props.setTraversalResult(data);
+                    openNotification(data.cost)
                 }
             })
             .catch(error => {
@@ -126,7 +148,7 @@ const GraphTools = () => {
             setNodes([]);
             setLinks([]);
         } else if (key === '6') {
-           openFileModal(setNodes, setLinks, handleAdjacencyMatrixFromFile);
+            openFileModal(setNodes, setLinks, handleAdjacencyMatrixFromFile);
         } else if (key === '7') {
             openFileModal(setNodes, setLinks, handleIncidenceMatrixFromFile);
         } else if (key === '8') {
@@ -139,6 +161,8 @@ const GraphTools = () => {
             openInputNodeModal(startNode, fetchBFSData, nodes[nodes.length - 1].id)
         } else if (key === '11') {
             openInputNodeModal(startNode, fetchDFSData, nodes[nodes.length - 1].id)
+        } else if (key === '12') {
+            showDrawer();
         } else if (key === '16') {
             sendGraph("oksana@gmail.com", "nadia6@gmail.com", { nodes, edges: links });
         } else if (key === '17') {
@@ -150,7 +174,8 @@ const GraphTools = () => {
 
     return (
         <div className='menu-container'>
-           <AlgorithmResult onclose={onClose} open={open} content={result}/>
+            {contextHolder}
+            <AlgorithmResult onclose={onClose} open={open} fetchDFSData={fetchDijkstraData} startNode={startNode} endNode={endNode} />
             <Menu
                 onClick={onClick}
                 defaultSelectedKeys={['1']}

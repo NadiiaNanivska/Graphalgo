@@ -57,7 +57,7 @@ public class GraphService {
                 new DijkstraShortestPath<>(directedGraph);
         ShortestPathAlgorithm.SingleSourcePaths<String, DefaultWeightedEdge> iPaths = dijkstraAlg.getPaths(start);
         GraphPath<String, DefaultWeightedEdge> path = iPaths.getPath(end);
-        return new ShortestPathResponse(path.getVertexList(), path.getWeight());
+        return new ShortestPathResponse(path.getVertexList(), path.getEdgeList().stream().map(src -> directedGraph.getEdgeWeight(src)).toList(), path.getWeight());
     }
 
     public ShortestPathResponse Floyd(GraphDTO input, String start, String end) {
@@ -66,7 +66,7 @@ public class GraphService {
                 new FloydWarshallShortestPaths<>(directedGraph);
         ShortestPathAlgorithm.SingleSourcePaths<String, DefaultWeightedEdge> iPaths = floydWarshallAlg.getPaths(start);
         GraphPath<String, DefaultWeightedEdge> path = iPaths.getPath(end);
-        return new ShortestPathResponse(path.getVertexList(), path.getWeight());
+        return new ShortestPathResponse(path.getVertexList(), path.getEdgeList().stream().map(src -> directedGraph.getEdgeWeight(src)).toList(), path.getWeight());
     }
 
     public MSTResponse Prim(GraphDTO input) {

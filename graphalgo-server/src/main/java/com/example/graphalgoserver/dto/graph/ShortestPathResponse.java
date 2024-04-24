@@ -10,6 +10,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 public class ShortestPathResponse {
-    List<String> path;
+    List<String> nodes;
+    List<Double> edges;
     Double cost;
 }

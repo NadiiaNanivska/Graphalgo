@@ -32,11 +32,10 @@ export const receiveGraph = async (currentUser: string, setConnectionEstablished
     await connectPromise;
     return new Promise<Data | null>((resolve, reject) => {
         setConnectionEstablished(true);
+        console.log(currentUser)
         stompClient.subscribe('/topic/public/' + currentUser, function (msg) {
             const chatroomId: Data = JSON.parse(msg.body);
-            const nodes = chatroomId.nodes.map(node => {
-                return { id: node.id };
-            });
+            const nodes = chatroomId.nodes.map(node => { return { id: node.id } });
             const links = chatroomId.edges.map(link => {
                 const { source, target, weight } = link;
                 return { source: (source as any).id, target: (target as any).id, weight };
@@ -45,7 +44,7 @@ export const receiveGraph = async (currentUser: string, setConnectionEstablished
                 nodes: nodes,
                 edges: links
             };
-            stompClient.disconnect(() => { setConnectionEstablished(false);});
+            stompClient.disconnect(() => { setConnectionEstablished(false); });
             resolve(sanitizedData);
         });
         setTimeout(() => {

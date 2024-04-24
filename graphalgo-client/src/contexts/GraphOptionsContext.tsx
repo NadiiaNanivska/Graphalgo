@@ -1,5 +1,6 @@
 import React, { createContext, useContext, useState } from 'react';
 import { Link, Node, data } from '../app/utils/data';
+import { User } from '../app/dto/authDTOs';
 
 interface CurrentUserContextType {
     canAddNode: boolean,
@@ -77,7 +78,39 @@ export const useData = () => {
     const context = useContext(DataContext);
 
     if (!context) {
-        throw new Error('useGraphOptions must be used within a GraphOptionsProvider');
+        throw new Error('useData must be used within a DataProvider');
+    }
+
+    return context;
+};
+
+
+interface UserContextType {
+    user: User | null,
+    setUser: React.Dispatch<React.SetStateAction<User | null>>
+}
+
+export const UserContext = createContext<UserContextType | null>(null);
+
+export const UserProvider = (_props: { children: React.ReactNode }) => {
+    const [user, setUser] = useState<User | null>(null);
+
+    const contextValue = {
+        user, setUser
+    };
+
+    return (
+        < UserContext.Provider value={contextValue}>
+            {_props.children}
+        </UserContext.Provider>
+    );
+};
+
+export const useUser = () => {
+    const context = useContext(UserContext);
+
+    if (!context) {
+        throw new Error('useUser must be used within a UserProvider');
     }
 
     return context;

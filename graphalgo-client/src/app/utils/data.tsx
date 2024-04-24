@@ -13,6 +13,11 @@ export type Data = {
   edges: Link[];
 };
 
+export interface windowDimensions {
+  width: number;
+  height: number;
+}
+
 export const data: Data = {
   nodes: [
     { id: '0' },

@@ -1,5 +1,5 @@
 import { GRAPH_ENDPOINTS } from "../constants/Constants";
-import { ShortestPathResponse, TraversalResponse } from "../dto/TraversalDTO";
+import { ShortestPathResponse, TraversalResponse } from "../dto/graphDTO";
 import { Data } from "../utils/data";
 import axiosModule from "./baseService";
 

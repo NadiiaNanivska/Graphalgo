@@ -1,6 +1,6 @@
 import { BaseType, Selection, drag, select } from 'd3';
 import { Link, Node } from '../../app/utils/data';
-import { ShortestPathResponse, TraversalResponse } from '../../app/dto/TraversalDTO';
+import { ShortestPathResponse, TraversalResponse } from '../../app/dto/graphDTO';
 
 export const RADIUS = 20;
 
@@ -28,10 +28,10 @@ export const drawGraph = (
     .attr('d', 'M0,0 L10,5 L0,10 L2,5')
     .style('fill', '#cbcbcb');
 
-    const getColorNode = (d: Node): string => {
-      if (traversalResult === undefined) return '#FD744F';
-      return traversalResult!.nodes.includes(d.id) ? 'red' : '#FD744F';
-    }
+  const getColorNode = (d: Node): string => {
+    if (traversalResult === undefined) return '#FD744F';
+    return traversalResult!.nodes.includes(d.id) ? 'red' : '#FD744F';
+  }
 
   const drawNodes = (simulation: d3.Simulation<Node, undefined>) => {
     const dragstarted = (event: any) => {
@@ -87,7 +87,7 @@ export const drawGraph = (
     const shortestPathResult = traversalResult as ShortestPathResponse;
     if (shortestPathResult && shortestPathResult.edges !== undefined) {
       return shortestPathResult.nodes.includes((d.source as any).id) && shortestPathResult.nodes.includes((d.target as any).id) && shortestPathResult.edges.includes(d.weight) ? 'red' : '#cbcbcb';
-    } 
+    }
     return '#cbcbcb';
   };
 

@@ -1,14 +1,15 @@
 import { InfoCircleOutlined, PlayCircleOutlined, SettingOutlined } from '@ant-design/icons';
 import type { MenuProps } from 'antd';
-import { Menu, notification } from 'antd';
+import { Menu, message, notification } from 'antd';
 import React, { useRef, useState } from 'react';
 import { receiveGraph, sendGraph } from '../../app/utils/shareGraphUtils';
-import { downloadTxtFile, generateAdjacencyMatrix, generateIncidenceMatrix, handleAdjacencyMatrixFromFile, handleIncidenceMatrixFromFile, openFileModal, openInputNodeModal } from '../../app/utils/utilFunctions';
-import { useData, useGraphOptions } from '../../contexts/GraphOptionsContext';
+import { downloadTxtFile, generateAdjacencyMatrix, generateIncidenceMatrix, handleAdjacencyMatrixFromFile, handleIncidenceMatrixFromFile, openFileModal, openInputNodeModal, openNotification } from '../../app/utils/utilFunctions';
+import { useData, useGraphOptions, useUser } from '../../contexts/GraphOptionsContext';
 import './GraphTools.css';
 import { BFS, DFS, Dijkstra } from '../../app/api/graphService';
-import AlgorithmResult from './AlgorithmResult';
-import { ShortestPathResponse, TraversalResponse } from '../../app/dto/TraversalDTO';
+import InputNodesDrawer from './InputNodesDrawer';
+import { ShortestPathResponse, TraversalResponse } from '../../app/dto/graphDTO';
+import SendGraphModal from '../Graph/sendGraphModal';
 
 type MenuItem = Required<MenuProps>['items'][number];
 
@@ -54,15 +55,16 @@ const items: MenuProps['items'] = [
 ];
 
 const GraphTools = (_props: { setTraversalResult: React.Dispatch<React.SetStateAction<TraversalResponse | ShortestPathResponse | undefined>> }) => {
-    console.log("rendered menu")
-    const [connectionEstablished, setConnectionEstablished] = useState<boolean>(false);
-    const { setCanAddNode, setCanAddEdge, setCanRemoveEdge, setCanRemoveNode } = useGraphOptions();
     const { nodes, links, setNodes, setLinks } = useData();
+    const { setCanAddNode, setCanAddEdge, setCanRemoveEdge, setCanRemoveNode } = useGraphOptions();
+    const { user } = useUser();
     const startNode = useRef<string>("0");
-    const endNode = useRef<string>(nodes[nodes.length - 1].id);
+    const endNode = useRef<string>(nodes.length === 0 ? "0" : nodes[nodes.length - 1].id);
+    const [connectionEstablished, setConnectionEstablished] = useState<boolean>(false);
+    const [open, setOpen] = useState(false);
+    const [modalVisible, setModalVisible] = useState(false);
     const [api, contextHolder] = notification.useNotification();
 
-    const [open, setOpen] = useState(false);
     const showDrawer = () => {
         setOpen(true);
     };
@@ -71,9 +73,10 @@ const GraphTools = (_props: { setTraversalResult: React.Dispatch<React.SetStateA
     };
 
     const fetchData = async () => {
-        receiveGraph("oksana@gmail.com", setConnectionEstablished)
+        if (user === null) { message.info("Увійдіть для того, щоб мати доступ до цієї опції") }
+        else {
+        receiveGraph(user.email, setConnectionEstablished)
             .then(data => {
-                console.log(data)
                 if (data !== null) {
                     setNodes(data.nodes);
                     setLinks(data.edges);
@@ -82,7 +85,12 @@ const GraphTools = (_props: { setTraversalResult: React.Dispatch<React.SetStateA
             .catch(error => {
                 console.error('Error receiving graph:', error);
             });
+        }
     };
+
+    const handleSendGraph = (username: string) => {
+        sendGraph(username, user!.email, { nodes, edges: links })
+      };
 
     const fetchBFSData = async (startNode: string) => {
         BFS({ nodes, edges: links }, startNode)
@@ -108,21 +116,25 @@ const GraphTools = (_props: { setTraversalResult: React.Dispatch<React.SetStateA
             });
     };
 
-    const openNotification = (content: number) => {
-        api.open({
-            type: 'success',
-            message: 'Path cost',
-            description: content,
-            duration: 0,
-        });
-    };
-
     const fetchDijkstraData = async (startNode: string, endNode: string) => {
         Dijkstra({ nodes, edges: links }, startNode, endNode)
             .then(data => {
                 if (data !== null) {
                     _props.setTraversalResult(data);
-                    openNotification(data.cost)
+                    openNotification(api, data.cost)
+                }
+            })
+            .catch(error => {
+                console.error('Error receiving graph:', error);
+            });
+    };
+
+    const fetchFloydData = async (startNode: string, endNode: string) => {
+        Dijkstra({ nodes, edges: links }, startNode, endNode)
+            .then(data => {
+                if (data !== null) {
+                    _props.setTraversalResult(data);
+                    openNotification(api, data.cost)
                 }
             })
             .catch(error => {
@@ -164,7 +176,10 @@ const GraphTools = (_props: { setTraversalResult: React.Dispatch<React.SetStateA
         } else if (key === '12') {
             showDrawer();
         } else if (key === '16') {
-            sendGraph("oksana@gmail.com", "nadia6@gmail.com", { nodes, edges: links });
+            if (user === null) { message.info("Увійдіть для того, щоб мати доступ до цієї опції") }
+            else {
+                setModalVisible(true);
+            }
         } else if (key === '17') {
             if (!connectionEstablished) {
                 fetchData();
@@ -175,7 +190,12 @@ const GraphTools = (_props: { setTraversalResult: React.Dispatch<React.SetStateA
     return (
         <div className='menu-container'>
             {contextHolder}
-            <AlgorithmResult onclose={onClose} open={open} fetchDFSData={fetchDijkstraData} startNode={startNode} endNode={endNode} />
+            <SendGraphModal
+                visible={modalVisible}
+                onClose={() => setModalVisible(false)}
+                onSend={handleSendGraph}
+            />
+            <InputNodesDrawer onclose={onClose} open={open} fetchAlgorithmData={fetchDijkstraData} startNode={startNode} endNode={endNode} />
             <Menu
                 onClick={onClick}
                 defaultSelectedKeys={['1']}

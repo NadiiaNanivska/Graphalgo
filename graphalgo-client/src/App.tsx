@@ -7,6 +7,7 @@ import GraphCalculatorPage from './pages/GraphCalculatorPage/GraphCalculatorPage
 import HomePage from './pages/HomePage/HomePage';
 import SignInPage from './pages/SignInPage/SignInPage';
 import SignUpPage from './pages/SignUpPage/SignUpPage';
+import { UserProvider } from './contexts/GraphOptionsContext';
 
 function App() {
   return (
@@ -21,6 +22,7 @@ function App() {
           }
         }}
       >
+        <UserProvider>
         <BrowserRouter>
           <Routes>
             <Route path='/' element={<PublicRoute />}>
@@ -31,6 +33,7 @@ function App() {
             <Route path={FRONTEND_ROUTES.SIGNUP} element={<SignUpPage />} />
           </Routes>
         </BrowserRouter>
+        </UserProvider>
       </ConfigProvider>
     </div>
   );

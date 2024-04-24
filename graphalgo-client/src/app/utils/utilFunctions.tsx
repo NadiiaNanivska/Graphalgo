@@ -1,5 +1,7 @@
 import { InputNumber, Modal } from "antd";
-import { Link, Node } from "./data";
+import { Link, Node, windowDimensions } from "./data";
+import { RADIUS } from "../../components/Graph/drawGraph";
+import { NotificationInstance } from "antd/es/notification/interface";
 
 export const handleAddEdge = (
     e: React.MouseEvent<SVGSVGElement, MouseEvent>,
@@ -172,3 +174,12 @@ export const openFileModal = (setNodes: React.Dispatch<React.SetStateAction<Node
         cancelButtonProps: { style: { backgroundColor: 'white', borderColor: '#fcbdac', color: 'black' } },
     });
 }
+
+export const openNotification = (api: NotificationInstance, content: number) => {
+    api.open({
+        type: 'success',
+        message: 'Path cost',
+        description: content,
+        duration: 0,
+    });
+};

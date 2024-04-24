@@ -7,9 +7,10 @@ import { User } from "./app/dto/authDTOs";
 import Footer from "./components/Footer/Footer";
 import FloatButtonUser from "./components/NavBar/FloatButton";
 import Navbar from "./components/NavBar/Navbar";
+import { useUser } from "./contexts/GraphOptionsContext";
 
 const PublicRoute = () => {
-    const [user, setUser] = useState<User | null>(null);
+    const { user, setUser } = useUser();
 
     useEffect(() => {
         (async () => {

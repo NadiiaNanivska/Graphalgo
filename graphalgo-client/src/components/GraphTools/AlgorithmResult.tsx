@@ -7,7 +7,7 @@ return (
     <>
       <Drawer
         title="Create a new account"
-        width={720}
+        width={400}
         onClose={_props.onclose}
         open={_props.open}
         styles={{
@@ -32,7 +32,9 @@ return (
                 label="Start Node"
                 rules={[{ required: true, message: 'Please enter the start node' }]}
               >
-                <InputNumber placeholder="Please enter the start node" onChange={(value) => {
+                <InputNumber placeholder="Please enter the start node"
+                style={{ width: '100%' }} 
+                 onChange={(value) => {
                     if (value !== null) {
                         _props.startNode.current = value!.toString();
                     }
@@ -45,7 +47,9 @@ return (
                 label="End Node"
                 rules={[{ required: true, message: 'Please enter the end node' }]}
               >
-                <InputNumber placeholder="Please enter the end node" onChange={(value) => {
+                <InputNumber placeholder="Please enter the end node" 
+                style={{ width: '100%' }}
+                onChange={(value) => {
                     if (value !== null) {
                         _props.endNode.current = value!.toString();
                     }

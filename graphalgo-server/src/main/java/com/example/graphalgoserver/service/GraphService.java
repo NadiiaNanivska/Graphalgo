@@ -11,25 +11,15 @@ import org.jgrapht.alg.shortestpath.FloydWarshallShortestPaths;
 import org.jgrapht.alg.spanning.KruskalMinimumSpanningTree;
 import org.jgrapht.alg.spanning.PrimMinimumSpanningTree;
 import org.jgrapht.graph.*;
-import org.jgrapht.nio.Attribute;
-import org.jgrapht.nio.DefaultAttribute;
-import org.jgrapht.nio.json.JSONExporter;
 import org.jgrapht.traverse.BreadthFirstIterator;
 import org.jgrapht.traverse.DepthFirstIterator;
-import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
-
-import java.io.StringWriter;
-import java.io.Writer;
 import java.util.*;
-import java.util.function.Function;
 import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
 public class GraphService {
-
-    private final ModelMapper modelMapper;
 
     public TraversalResponse BFS(GraphDTO input, String start) {
         Graph<String, DefaultWeightedEdge> directedGraph = buildGraph(input);
@@ -110,25 +100,4 @@ public class GraphService {
         edgeDTO.setWeight(graph.getEdgeWeight(edge));
         return edgeDTO;
     }
-
-    private JSONExporter<String, DefaultWeightedEdge> serializeGraph(Graph<String, DefaultWeightedEdge> graph) {
-        JSONExporter<String, DefaultWeightedEdge> exporter = new JSONExporter<>();
-        Function<DefaultWeightedEdge, Map<String, Attribute>> edgeAttributeProvider = e -> {
-            Map<String, Attribute> map = new LinkedHashMap<>();
-            map.put("weight", DefaultAttribute.createAttribute(graph.getEdgeWeight(e)));
-            return map;
-        };
-        exporter.setEdgeAttributeProvider(edgeAttributeProvider);
-
-        try (Writer writer = new StringWriter()) {
-            exporter.exportGraph(graph, writer);
-//            return writer.toString();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-//        return String.valueOf(1);
-
-        return exporter;
-    }
 }
-

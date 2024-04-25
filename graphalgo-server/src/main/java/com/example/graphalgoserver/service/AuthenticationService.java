@@ -20,7 +20,6 @@ public class AuthenticationService {
 
     private final UserRepository repository;
     private final JwtService jwtService;
-    private final PasswordEncoder passwordEncoder;
     private final AuthenticationManager authenticationManager;
     private final ModelMapper modelMapper;
 
@@ -72,8 +71,7 @@ public class AuthenticationService {
     }
 
     public User getUser(String email) {
-        User user = repository.findByEmail(email)
+        return repository.findByEmail(email)
                 .orElseThrow(() -> new AuthenticationException(UserValidationConstants.INVALID_CREDENTIALS));
-        return User.builder().id(user.getId()).email(user.getEmail()).build();
     }
 }

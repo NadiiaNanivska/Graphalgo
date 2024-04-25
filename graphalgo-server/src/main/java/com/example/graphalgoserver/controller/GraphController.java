@@ -1,11 +1,14 @@
 package com.example.graphalgoserver.controller;
 
-import com.example.graphalgoserver.dto.graph.ShortestPathResponse;
-import com.example.graphalgoserver.dto.graph.GraphDTO;
+import com.example.graphalgoserver.dto.graph.*;
 import com.example.graphalgoserver.service.GraphService;
+import com.example.graphalgoserver.service.HistoryService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.security.Principal;
+import java.util.List;
 
 @RestController
 @RequestMapping("/graph")
@@ -13,36 +16,51 @@ import org.springframework.web.bind.annotation.*;
 @CrossOrigin(origins = {"http://localhost:3000", "http://localhost:3001"}, allowCredentials = "true")
 public class GraphController {
     private final GraphService graphService;
+    private final HistoryService historyService;
 
     @PostMapping("/bfs/{start}")
-    public ResponseEntity<?> GraphBFS(@RequestBody GraphDTO input, @PathVariable String start) {
-        return ResponseEntity.ok(graphService.BFS(input, start));
+    public ResponseEntity<?> GraphBFS(Principal user, @RequestBody GraphDTO input, @PathVariable String start) {
+        TraversalResponse bfs = graphService.BFS(input, start);
+        saveUserHistory(user, start, bfs);
+        return ResponseEntity.ok(bfs);
     }
 
     @PostMapping("/dfs/{start}")
-    public ResponseEntity<?> GraphDFS(@RequestBody GraphDTO input, @PathVariable String start) {
-        return ResponseEntity.ok(graphService.DFS(input, start));
+    public ResponseEntity<?> GraphDFS(Principal user, @RequestBody GraphDTO input, @PathVariable String start) {
+        TraversalResponse dfs = graphService.DFS(input, start);
+        saveUserHistory(user, start, dfs);
+        return ResponseEntity.ok(dfs);
     }
 
     @PostMapping("/dijkstra/{start}/{end}")
-    public ResponseEntity<?> GraphDijkstra(@RequestBody GraphDTO input, @PathVariable String start, @PathVariable String end) {
+    public ResponseEntity<?> GraphDijkstra(Principal user, @RequestBody GraphDTO input, @PathVariable String start, @PathVariable String end) {
         ShortestPathResponse res = graphService.Dijkstra(input, start, end);
-        System.out.println(res.toString());
+        saveUserHistory(user, List.of(start, end).toString(), res);
         return ResponseEntity.ok(res);
     }
 
     @PostMapping("/floyd/{start}/{end}")
-    public ResponseEntity<?> GraphFloyd(@RequestBody GraphDTO input, @PathVariable String start, @PathVariable String end) {
-        return ResponseEntity.ok(graphService.Floyd(input, start, end));
+    public ResponseEntity<?> GraphFloyd(Principal user, @RequestBody GraphDTO input, @PathVariable String start, @PathVariable String end) {
+        ShortestPathResponse floyd = graphService.Floyd(input, start, end);
+        saveUserHistory(user, List.of(start, end).toString(), floyd);
+        return ResponseEntity.ok(floyd);
     }
 
     @PostMapping("/prim")
-    public ResponseEntity<?> GraphPrim(@RequestBody GraphDTO input) {
-        return ResponseEntity.ok(graphService.Prim(input));
+    public ResponseEntity<?> GraphPrim(Principal user, @RequestBody GraphDTO input) {
+        MSTResponse prim = graphService.Prim(input);
+        return ResponseEntity.ok(prim);
     }
 
     @PostMapping("/kruskal")
-    public ResponseEntity<?> GraphKruskal(@RequestBody GraphDTO input) {
-        return ResponseEntity.ok(graphService.Kruskal(input));
+    public ResponseEntity<?> GraphKruskal(Principal user, @RequestBody GraphDTO input) {
+        MSTResponse kruskal = graphService.Kruskal(input);
+        return ResponseEntity.ok(kruskal);
+    }
+
+    private void saveUserHistory(Principal user, String startVertices, VerticesResponse response) {
+        if (user != null) {
+            historyService.saveUserHistory(user.getName(), startVertices.toString(), response);
+        }
     }
 }

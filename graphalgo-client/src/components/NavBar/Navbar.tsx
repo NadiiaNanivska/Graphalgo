@@ -25,7 +25,7 @@ const Navbar = (_props: { user: string | null }) => {
         <Header className="header white-background">
             <Row justify="space-between" align="middle">
                 <Col>
-                    <Title className="margin-top-15" level={2}>GRAPHALGO</Title>
+                <a href={"/"}><Title className="margin-top-15" level={2}>GRAPHALGO</Title></a>
                 </Col>
                 <Col>
                     {

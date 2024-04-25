@@ -7,6 +7,7 @@ import { handleAddEdge, handleRemoveEdge, handleRemoveNode } from "../../app/uti
 import { useData, useGraphOptions } from "../../contexts/GraphOptionsContext";
 import { RADIUS, drawGraph } from "./drawGraph";
 import { ShortestPathResponse, TraversalResponse } from "../../app/dto/graphDTO";
+import { INVALID_INPUT_MESSAGE } from "../../app/constants/Constants";
 
 
 const Graph = (_props: { traversalResult: TraversalResponse | ShortestPathResponse | undefined }) => {
@@ -50,17 +51,23 @@ const Graph = (_props: { traversalResult: TraversalResponse | ShortestPathRespon
     useEffect(() => {
         const distance = Math.min(Math.min(svgSize.width, svgSize.height) / nodes.length, 100);
 
-        simulation
-            .force('link', d3.forceLink<Node, Link>(links).id((d) => d.id).distance(distance).strength(1))
-            .force('collide', d3.forceCollide(distance))
-            .force('charge', d3.forceManyBody())
-            .force('center', d3.forceCenter(svgSize.width / 2, svgSize.height / 2))
-            .force("bounds", keepInBounds)
-            .on("tick", ticked);
+        try {
+            simulation
+                .force('link', d3.forceLink<Node, Link>(links).id((d) => d.id).distance(distance).strength(1))
+                .force('collide', d3.forceCollide(distance))
+                .force('charge', d3.forceManyBody())
+                .force('center', d3.forceCenter(svgSize.width / 2, svgSize.height / 2))
+                .force("bounds", keepInBounds)
+                .on("tick", ticked);
 
-        return () => {
-            simulation.stop();
-        };
+            return () => {
+                simulation.stop();
+            };
+        } catch {
+            setNodes([]);
+            setLinks([]);
+            message.error(INVALID_INPUT_MESSAGE)
+        }
     }, [svgSize.width, svgSize.height, nodes, links]);
 
     const openModal = (link: Link) => {

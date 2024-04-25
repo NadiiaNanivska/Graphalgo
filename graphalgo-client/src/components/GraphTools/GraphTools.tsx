@@ -63,6 +63,7 @@ const GraphTools = (_props: { setTraversalResult: React.Dispatch<React.SetStateA
     const [connectionEstablished, setConnectionEstablished] = useState<boolean>(false);
     const [open, setOpen] = useState(false);
     const [modalVisible, setModalVisible] = useState(false);
+    const [algorithm, setAlgorithm] = useState('Dijkstra');
     const [api, contextHolder] = notification.useNotification();
 
     const showDrawer = () => {
@@ -174,6 +175,10 @@ const GraphTools = (_props: { setTraversalResult: React.Dispatch<React.SetStateA
         } else if (key === '11') {
             openInputNodeModal(startNode, fetchDFSData, nodes[nodes.length - 1].id)
         } else if (key === '12') {
+            setAlgorithm('Dijkstra');
+            showDrawer();
+        } else if (key === '13') {
+            setAlgorithm('Floyd');
             showDrawer();
         } else if (key === '16') {
             if (user === null) { message.info("Увійдіть для того, щоб мати доступ до цієї опції") }
@@ -195,7 +200,7 @@ const GraphTools = (_props: { setTraversalResult: React.Dispatch<React.SetStateA
                 onClose={() => setModalVisible(false)}
                 onSend={handleSendGraph}
             />
-            <InputNodesDrawer onclose={onClose} open={open} fetchAlgorithmData={fetchDijkstraData} startNode={startNode} endNode={endNode} />
+            <InputNodesDrawer onclose={onClose} open={open} fetchAlgorithmData={algorithm === 'Dijkstra' ? fetchDijkstraData : fetchFloydData} startNode={startNode} endNode={endNode} />
             <Menu
                 onClick={onClick}
                 defaultSelectedKeys={['1']}

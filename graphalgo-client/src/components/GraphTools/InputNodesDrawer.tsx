@@ -1,11 +1,18 @@
-import { Button, Col, Drawer, Form, InputNumber, Row, Space, Typography } from "antd";
+import { Button, Col, Drawer, Form, InputNumber, Row, Space } from "antd";
 
 const InputNodesDrawer = (_props: { startNode: React.MutableRefObject<string>, endNode: React.MutableRefObject<string>, fetchAlgorithmData: (startNode: string, endNode: string) => void, open: boolean, onclose: () => void }) => {
+  const [form] = Form.useForm();
+  
+  const handleDrawerClose = () => {
+    _props.onclose();
+    form.resetFields();
+  };
+
   return (
     <>
       <Drawer
         title="Знайти найкоротший шлях між вершинами"
-        width={400}
+        width={500}
         onClose={_props.onclose}
         open={_props.open}
         styles={{
@@ -15,14 +22,14 @@ const InputNodesDrawer = (_props: { startNode: React.MutableRefObject<string>, e
         }}
         extra={
           <Space>
-            <Button onClick={_props.onclose}>Скасувати</Button>
-            <Button onClick={() => { _props.fetchAlgorithmData(_props.startNode.current, _props.endNode.current); _props.onclose() }} type="primary">
+            <Button onClick={handleDrawerClose}>Скасувати</Button>
+            <Button onClick={() => {_props.fetchAlgorithmData(_props.startNode.current, _props.endNode.current); handleDrawerClose(); }} type="primary">
               Зберегти
             </Button>
           </Space>
         }
       >
-        <Form layout="vertical" hideRequiredMark>
+        <Form form={form} layout="vertical" hideRequiredMark>
           <Row gutter={16}>
             <Col span={24}>
               <Form.Item

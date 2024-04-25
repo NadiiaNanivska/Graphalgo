@@ -1,4 +1,4 @@
-import { InputNumber, Modal } from "antd";
+import { InputNumber, Modal, Tooltip } from "antd";
 import { Link, Node, windowDimensions } from "./data";
 import { RADIUS } from "../../components/Graph/drawGraph";
 import { NotificationInstance } from "antd/es/notification/interface";
@@ -139,9 +139,11 @@ export const downloadTxtFile = (fileName: string, content: string) => {
 }
 
 export const openInputNodeModal = (startNode: React.MutableRefObject<string>, fetchDFSData: (startNode: string) => Promise<void>, maxValue: string) => {
+    startNode.current = '0';
     Modal.confirm({
         title: 'Початкова вершина',
         content: (
+            <Tooltip title="Якщо введена вершина відсутня у графі, вона буде замінена останньою вершиною">
             <InputNumber
                 style={{ borderColor: '#fcbdac' }}
                 defaultValue={0}
@@ -151,12 +153,14 @@ export const openInputNodeModal = (startNode: React.MutableRefObject<string>, fe
                     }
                 }}
             />
+            </Tooltip>
         ),
         okButtonProps: { style: { backgroundColor: '#FD744F', borderColor: '#fcbdac' } },
         cancelButtonProps: { style: { backgroundColor: 'white', borderColor: '#fcbdac', color: 'black' } },
         okText: 'Зберегти',
         cancelText: 'Скасувати',
         onOk: () => {
+            console.log(startNode.current)
             fetchDFSData(startNode.current!);
         }
     });

@@ -59,7 +59,7 @@ const GraphTools = (_props: { setTraversalResult: React.Dispatch<React.SetStateA
     const { setCanAddNode, setCanAddEdge, setCanRemoveEdge, setCanRemoveNode } = useGraphOptions();
     const { user } = useUser();
     const startNode = useRef<string>("0");
-    const endNode = useRef<string>(nodes.length === 0 ? "0" : nodes[nodes.length - 1].id);
+    const endNode = useRef<string>("0");
     const [connectionEstablished, setConnectionEstablished] = useState<boolean>(false);
     const [open, setOpen] = useState(false);
     const [modalVisible, setModalVisible] = useState(false);

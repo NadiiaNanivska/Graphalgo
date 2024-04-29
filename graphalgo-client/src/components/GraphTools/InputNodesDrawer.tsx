@@ -5,6 +5,8 @@ const InputNodesDrawer = (_props: { startNode: React.MutableRefObject<string>, e
   
   const handleDrawerClose = () => {
     _props.onclose();
+    _props.startNode.current = "0";
+    _props.endNode.current = "0";
     form.resetFields();
   };
 
@@ -39,6 +41,7 @@ const InputNodesDrawer = (_props: { startNode: React.MutableRefObject<string>, e
               >
                 <InputNumber placeholder="Початкова вершина"
                   style={{ width: '100%' }}
+                  defaultValue={0}
                   onChange={(value) => {
                     if (value !== null) {
                       _props.startNode.current = value!.toString();
@@ -54,6 +57,7 @@ const InputNodesDrawer = (_props: { startNode: React.MutableRefObject<string>, e
               >
                 <InputNumber placeholder="Кінцева вершина"
                   style={{ width: '100%' }}
+                  defaultValue={0}
                   onChange={(value) => {
                     if (value !== null) {
                       _props.endNode.current = value!.toString();

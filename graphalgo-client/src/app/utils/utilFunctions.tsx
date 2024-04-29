@@ -168,8 +168,11 @@ export const openInputNodeModal = (startNode: React.MutableRefObject<string>, fe
         okText: 'Зберегти',
         cancelText: 'Скасувати',
         onOk: () => {
-            console.log(startNode.current)
             fetchDFSData(startNode.current!);
+            startNode.current = "0";
+        },
+        onCancel: () => {
+            startNode.current = "0";
         }
     });
 }

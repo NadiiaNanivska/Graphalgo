@@ -21,6 +21,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Configuration
@@ -70,8 +71,8 @@ public class ApplicationConfig {
                 return source == null ? null : new HistoryResponse(source.getStartVertices(), source.getResultVertices(), source.getAlgorithm().name());
             }
         };
-        Converter<List<String>, TraversalResponse> toTraversalResponse = new AbstractConverter<>() {
-            protected TraversalResponse convert(List<String> source) {
+        Converter<ArrayList<String>, TraversalResponse> toTraversalResponse = new AbstractConverter<>() {
+            protected TraversalResponse convert(ArrayList<String> source) {
                 return source == null ? null : new TraversalResponse(source);
             }
         };

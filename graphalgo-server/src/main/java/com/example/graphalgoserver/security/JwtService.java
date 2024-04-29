@@ -17,8 +17,8 @@ import org.springframework.stereotype.Service;
 public class JwtService {
 
     private static final String SECRET_KEY = "404E635266556A586E3272357538782F413F4428472B4B6250645367566B5970";
-    public static final long ACCESS_TOKEN_VALIDITY_SECONDS = 1000 * 60 * 30;
-    public static final long REFRESH_TOKEN_VALIDITY_SECONDS = 1000 * 60 * 60 * 24 * 7;
+    public static final long ACCESS_TOKEN_VALIDITY_SECONDS = 1000 * 60 * 60 * 24 * 7;
+    public static final long REFRESH_TOKEN_VALIDITY_SECONDS = 1000 * 60 * 60 * 24 * 21;
 
     public String extractUsername(String token) {
         return extractClaim(token, Claims::getSubject);

@@ -4,6 +4,7 @@ import com.example.graphalgoserver.dto.authentication.AuthenticationResponse;
 import com.example.graphalgoserver.dto.authentication.RefreshRequest;
 import com.example.graphalgoserver.dto.authentication.RegisterRequest;
 import com.example.graphalgoserver.dto.authentication.AuthenticationRequest;
+import com.example.graphalgoserver.security.JwtService;
 import com.example.graphalgoserver.service.AuthenticationService;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -27,7 +28,7 @@ public class AuthenticationController {
             @Valid @RequestBody RegisterRequest request
     ) {
         AuthenticationResponse res = service.register(request);
-        ResponseCookie cookie = ResponseCookie.from("accessToken", res.getAccessToken()).httpOnly(true).path("/").build();
+        ResponseCookie cookie = ResponseCookie.from("accessToken", res.getAccessToken()).httpOnly(true).maxAge(JwtService.ACCESS_TOKEN_VALIDITY_SECONDS).path("/").build();
         return ResponseEntity.ok().header(HttpHeaders.SET_COOKIE, cookie.toString()).body(res);
     }
 
@@ -36,7 +37,7 @@ public class AuthenticationController {
             @Valid @RequestBody AuthenticationRequest request
     ) {
         AuthenticationResponse res = service.authenticate(request);
-        ResponseCookie cookie = ResponseCookie.from("accessToken", res.getAccessToken()).httpOnly(true).path("/").build();
+        ResponseCookie cookie = ResponseCookie.from("accessToken", res.getAccessToken()).httpOnly(true).maxAge(JwtService.ACCESS_TOKEN_VALIDITY_SECONDS).path("/").build();
         return ResponseEntity.ok().header(HttpHeaders.SET_COOKIE, cookie.toString()).body(res);
     }
 

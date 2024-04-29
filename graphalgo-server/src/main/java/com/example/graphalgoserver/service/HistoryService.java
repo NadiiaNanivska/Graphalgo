@@ -3,6 +3,7 @@ package com.example.graphalgoserver.service;
 import com.example.graphalgoserver.dto.graph.VerticesResponse;
 import com.example.graphalgoserver.dto.history.HistoryResponse;
 import com.example.graphalgoserver.exceptions.AuthenticationException;
+import com.example.graphalgoserver.model.AlgorithmType;
 import com.example.graphalgoserver.model.History;
 import com.example.graphalgoserver.model.User;
 import com.example.graphalgoserver.repository.HistoryRepository;
@@ -24,13 +25,13 @@ public class HistoryService {
     private final ModelMapper mapper;
 
     @Transactional
-    public void saveUserHistory(String email, String startVertices, VerticesResponse response) {
+    public void saveUserHistory(String email, String startVertices, VerticesResponse response, AlgorithmType type) {
         History userHistory = new History();
         User user = getUser(email);
         userHistory.setUser(user);
-        System.out.println(response.nodes);
         userHistory.setStartVertices(startVertices);
         userHistory.setResultVertices(response.nodes.toString());
+        userHistory.setAlgorithm(type);
         historyRepository.save(userHistory);
     }
 

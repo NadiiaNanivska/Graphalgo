@@ -24,6 +24,9 @@ public class History {
 //    @Column(name = "action_time")
 //    private LocalDateTime actionTime;
 
+    @Enumerated(EnumType.STRING)
+    private AlgorithmType algorithm;
+
     @Column(name = "start_vertices")
     private String startVertices;
 

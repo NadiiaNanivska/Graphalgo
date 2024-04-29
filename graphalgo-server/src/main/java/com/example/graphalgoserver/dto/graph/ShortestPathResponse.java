@@ -1,13 +1,15 @@
 package com.example.graphalgoserver.dto.graph;
 
+import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
 
 import java.util.List;
 
-@EqualsAndHashCode(callSuper = true)
+@NoArgsConstructor
 public class ShortestPathResponse extends VerticesResponse {
-    List<Double> edges;
-    Double cost;
+    public List<Double> edges;
+    public Double cost;
 
     public ShortestPathResponse(List<String> vertexList, List<Double> list, double weight) {
         super(vertexList);

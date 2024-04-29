@@ -13,6 +13,7 @@ import org.jgrapht.alg.spanning.PrimMinimumSpanningTree;
 import org.jgrapht.graph.*;
 import org.jgrapht.traverse.BreadthFirstIterator;
 import org.jgrapht.traverse.DepthFirstIterator;
+import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -20,6 +21,7 @@ import java.util.stream.Collectors;
 @Service
 @RequiredArgsConstructor
 public class GraphService {
+    private final ModelMapper modelMapper;
 
     public TraversalResponse BFS(GraphDTO input, String start) {
         Graph<String, DefaultWeightedEdge> directedGraph = buildGraph(input);
@@ -28,7 +30,7 @@ public class GraphService {
         while (iterator.hasNext()) {
             bfsResult.add(iterator.next());
         }
-        return new TraversalResponse(bfsResult);
+        return modelMapper.map(bfsResult, TraversalResponse.class);
     }
 
     public TraversalResponse DFS(GraphDTO input, String start) {
@@ -38,7 +40,7 @@ public class GraphService {
         while (iterator.hasNext()) {
             dfsResult.add(iterator.next());
         }
-        return new TraversalResponse(dfsResult);
+        return modelMapper.map(dfsResult, TraversalResponse.class);
     }
 
     public ShortestPathResponse Dijkstra(GraphDTO input, String start, String end) {

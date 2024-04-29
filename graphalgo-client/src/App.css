@@ -4,6 +4,10 @@
   --footer-height: 200px;
 }
 
+body {
+  min-height: 100vh; 
+}
+
 .white-background {
   background: #fff;
 }

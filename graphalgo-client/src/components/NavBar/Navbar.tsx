@@ -24,17 +24,20 @@ const Navbar = (_props: { user: string | null }) => {
     return (
         <Header className="header white-background">
             <Row justify="space-between" align="middle">
-                <Col>
-                <a href={"/"}><Title className="margin-top-15" level={2}>GRAPHALGO</Title></a>
+                <Col span={6}>
+                    <a href={"/"}><Title className="margin-top-15" level={2}>GRAPHALGO</Title></a>
                 </Col>
-                <Col>
+                <Col span={4}>
                     {
                         _props.user ?
-                            <><a>{_props.user}</a>
-                                <Popover content={content}>
-                                    <Button type="text" shape="circle" icon={<UserOutlined />} size={'large'} />
-                                </Popover>
-                            </>
+                            <Row justify="end" align="middle">
+                                <a href={FRONTEND_ROUTES.HISTORY} className="margin-right-15">History</a>
+                                <div><a>{_props.user}</a>
+                                    <Popover content={content}>
+                                        <Button type="text" shape="circle" icon={<UserOutlined />} size={'large'} />
+                                    </Popover>
+                                </div>
+                            </Row>
                             : <>
                                 <a href={FRONTEND_ROUTES.SIGNIN}><Button className="hide-on-mobile margin-right-16">Sign in</Button></a>
                                 <a href={FRONTEND_ROUTES.SIGNUP}><Button type="primary" className="hide-on-mobile">Sign up</Button></a>

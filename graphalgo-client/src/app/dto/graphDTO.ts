@@ -7,3 +7,11 @@ export interface ShortestPathResponse {
     edges: number[],
     cost: number
 }
+
+export interface HistoryDTO {
+    id: number;
+    startVertices: string;
+    resultVertices: string;
+    date: string;
+    algorithm: string;
+}

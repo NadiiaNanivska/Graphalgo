@@ -122,6 +122,7 @@ const GraphTools = (_props: { setTraversalResult: React.Dispatch<React.SetStateA
             .then(data => {
                 if (data !== null) {
                     _props.setTraversalResult(data);
+                    console.log(data)
                     openNotification(api, data.cost)
                 }
             })

@@ -1,5 +1,5 @@
 import { GRAPH_ENDPOINTS, INVALID_INPUT_MESSAGE } from "../constants/Constants";
-import { ShortestPathResponse, TraversalResponse } from "../dto/graphDTO";
+import { HistoryDTO, ShortestPathResponse, TraversalResponse } from "../dto/graphDTO";
 import { Data } from "../utils/data";
 import axiosModule from "./baseService";
 
@@ -48,6 +48,15 @@ export const Dijkstra = async (graphDto: Data, startNode: string, endNode: strin
     };
   try {
       const response = await axiosModule.post(GRAPH_ENDPOINTS.DIJKSTRA + startNode + '/' + endNode, simplifiedGraphData);
+      return response.data;
+  } catch (error) {
+      throw new Error(INVALID_INPUT_MESSAGE);
+  }
+};
+
+export const History = async (): Promise<HistoryDTO[]> => {
+  try {
+      const response = await axiosModule.get(GRAPH_ENDPOINTS.HISTORY);
       return response.data;
   } catch (error) {
       throw new Error(INVALID_INPUT_MESSAGE);

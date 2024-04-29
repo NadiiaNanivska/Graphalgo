@@ -49,7 +49,7 @@ public class AuthenticationController {
     @PostMapping("/logout")
     public ResponseEntity<?> logout(HttpServletRequest request) throws ServletException {
         request.logout();
-        ResponseCookie cookie = ResponseCookie.from("accessToken", null).maxAge(0).httpOnly(true).path("/").build();
+        ResponseCookie cookie = ResponseCookie.from("accessToken", null).httpOnly(true).maxAge(0).path("/").build();
         return ResponseEntity.ok().header(HttpHeaders.SET_COOKIE, cookie.toString()).body("");
     }
 

@@ -1,9 +1,8 @@
 import { Layout } from "antd";
 import { Content } from "antd/es/layout/layout";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { Outlet } from "react-router-dom";
 import { getUser } from "./app/api/userService";
-import { User } from "./app/dto/authDTOs";
 import Footer from "./components/Footer/Footer";
 import FloatButtonUser from "./components/NavBar/FloatButton";
 import Navbar from "./components/NavBar/Navbar";
@@ -27,7 +26,7 @@ const PublicRoute = () => {
         <Layout>
             <Navbar user={user?.email!} />
             <Content>
-                <FloatButtonUser />
+                {!user && <FloatButtonUser />}
                 <Outlet />
             </Content>
             <Footer />

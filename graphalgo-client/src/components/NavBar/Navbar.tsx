@@ -38,10 +38,10 @@ const Navbar = (_props: { user: string | null }) => {
                                     </Popover>
                                 </div>
                             </Row>
-                            : <>
+                            : <Row justify="end" align="middle">
                                 <a href={FRONTEND_ROUTES.SIGNIN}><Button className="hide-on-mobile margin-right-16">Sign in</Button></a>
                                 <a href={FRONTEND_ROUTES.SIGNUP}><Button type="primary" className="hide-on-mobile">Sign up</Button></a>
-                            </>
+                            </Row>
                     }
                 </Col>
             </Row>

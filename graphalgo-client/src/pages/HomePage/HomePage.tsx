@@ -17,7 +17,7 @@ const HomePage = () => {
                 <Text>Solving complex problems with graphs</Text>
                 <Row justify="center" gutter={16} className='margin-top-15'>
                     <Col>
-                        <Link to={FRONTEND_ROUTES.CALCULATOR}><Button type="primary">Get started without registration</Button></Link>
+                        <Link to={FRONTEND_ROUTES.CALCULATOR}><Button type="primary">Get started</Button></Link>
                     </Col>
                     <Col>
                         <Button icon={<ArrowDownOutlined />}>Learn more</Button>

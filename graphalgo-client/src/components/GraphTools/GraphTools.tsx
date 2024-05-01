@@ -6,7 +6,7 @@ import { receiveGraph, sendGraph } from '../../app/utils/shareGraphUtils';
 import { downloadTxtFile, generateAdjacencyMatrix, generateIncidenceMatrix, handleAdjacencyMatrixFromFile, handleIncidenceMatrixFromFile, openFileModal, openInputNodeModal, openNotification } from '../../app/utils/utilFunctions';
 import { useData, useGraphOptions, useUser } from '../../contexts/GraphOptionsContext';
 import './GraphTools.css';
-import { BFS, DFS, Dijkstra } from '../../app/api/graphService';
+import { BFS, DFS, Dijkstra, Kruskal, Prim } from '../../app/api/graphService';
 import InputNodesDrawer from './InputNodesDrawer';
 import { ShortestPathResponse, TraversalResponse } from '../../app/dto/graphDTO';
 import SendGraphModal from '../Graph/sendGraphModal';
@@ -74,24 +74,24 @@ const GraphTools = (_props: { setTraversalResult: React.Dispatch<React.SetStateA
     };
 
     const fetchData = async () => {
-        if (user === null) { message.info("Увійдіть для того, щоб мати доступ до цієї опції") }
+        if (user === null) { message.info("Sign in to access this option") }
         else {
-        receiveGraph(user.email, setConnectionEstablished)
-            .then(data => {
-                if (data !== null) {
-                    setNodes(data.nodes);
-                    setLinks(data.edges);
-                }
-            })
-            .catch(error => {
-                console.error('Error receiving graph:', error);
-            });
+            receiveGraph(user.email, setConnectionEstablished)
+                .then(data => {
+                    if (data !== null) {
+                        setNodes(data.nodes);
+                        setLinks(data.edges);
+                    }
+                })
+                .catch(error => {
+                    console.error('Error receiving graph:', error);
+                });
         }
     };
 
     const handleSendGraph = (username: string) => {
         sendGraph(username, user!.email, { nodes, edges: links })
-      };
+    };
 
     const fetchBFSData = async (startNode: string) => {
         BFS({ nodes, edges: links }, startNode)
@@ -123,7 +123,7 @@ const GraphTools = (_props: { setTraversalResult: React.Dispatch<React.SetStateA
                 if (data !== null) {
                     _props.setTraversalResult(data);
                     console.log(data)
-                    openNotification(api, data.cost)
+                    openNotification(api, data.cost, 'shortest path between vertices')
                 }
             })
             .catch(error => {
@@ -136,7 +136,33 @@ const GraphTools = (_props: { setTraversalResult: React.Dispatch<React.SetStateA
             .then(data => {
                 if (data !== null) {
                     _props.setTraversalResult(data);
-                    openNotification(api, data.cost)
+                    openNotification(api, data.cost, 'shortest path between vertices')
+                }
+            })
+            .catch(error => {
+                message.error((error as Error).message);
+            });
+    };
+
+    const fetchPrimData = async () => {
+        Prim({ nodes, edges: links })
+            .then(data => {
+                if (data !== null) {
+                    _props.setTraversalResult(data);
+                    openNotification(api, data.cost, 'Weight of minimum spanning tree')
+                }
+            })
+            .catch(error => {
+                message.error((error as Error).message);
+            });
+    };
+
+    const fetchKruskalData = async () => {
+        Kruskal({ nodes, edges: links })
+            .then(data => {
+                if (data !== null) {
+                    _props.setTraversalResult(data);
+                    openNotification(api, data.cost, 'Weight of minimum spanning tree')
                 }
             })
             .catch(error => {
@@ -181,8 +207,12 @@ const GraphTools = (_props: { setTraversalResult: React.Dispatch<React.SetStateA
         } else if (key === '13') {
             setAlgorithm('Floyd');
             showDrawer();
+        } else if (key === '14') {
+            fetchPrimData();
+        } else if (key === '15') {
+            fetchKruskalData();
         } else if (key === '16') {
-            if (user === null) { message.info("Увійдіть для того, щоб мати доступ до цієї опції") }
+            if (user === null) { message.info("Sign in to access this option") }
             else {
                 setModalVisible(true);
             }

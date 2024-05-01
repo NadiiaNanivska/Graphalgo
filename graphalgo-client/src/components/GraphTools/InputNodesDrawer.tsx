@@ -13,7 +13,7 @@ const InputNodesDrawer = (_props: { startNode: React.MutableRefObject<string>, e
   return (
     <>
       <Drawer
-        title="Знайти найкоротший шлях між вершинами"
+        title="Find the shortest path between vertices"
         width={500}
         onClose={_props.onclose}
         open={_props.open}
@@ -26,7 +26,7 @@ const InputNodesDrawer = (_props: { startNode: React.MutableRefObject<string>, e
           <Space>
             <Button onClick={handleDrawerClose}>Скасувати</Button>
             <Button onClick={() => {_props.fetchAlgorithmData(_props.startNode.current, _props.endNode.current); handleDrawerClose(); }} type="primary">
-              Зберегти
+              Save
             </Button>
           </Space>
         }
@@ -36,10 +36,10 @@ const InputNodesDrawer = (_props: { startNode: React.MutableRefObject<string>, e
             <Col span={24}>
               <Form.Item
                 name="startNode"
-                label="Початкова вершина"
-                rules={[{ required: true, message: 'Введіть початкову вершину' }]}
+                label="Start vertex"
+                rules={[{ required: true, message: 'Enter start vertex' }]}
               >
-                <InputNumber placeholder="Початкова вершина"
+                <InputNumber placeholder="Start vertex"
                   style={{ width: '100%' }}
                   defaultValue={0}
                   onChange={(value) => {
@@ -52,10 +52,10 @@ const InputNodesDrawer = (_props: { startNode: React.MutableRefObject<string>, e
             <Col span={24}>
               <Form.Item
                 name="endNode"
-                label="Кінцева вершина"
-                rules={[{ required: true, message: 'Введіть кінцеву вершину' }]}
+                label="End vertex"
+                rules={[{ required: true, message: 'Enter end vertex' }]}
               >
-                <InputNumber placeholder="Кінцева вершина"
+                <InputNumber placeholder="End vertex"
                   style={{ width: '100%' }}
                   defaultValue={0}
                   onChange={(value) => {

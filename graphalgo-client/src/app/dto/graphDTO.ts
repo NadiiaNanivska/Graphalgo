@@ -1,10 +1,12 @@
+import { Link } from "../utils/data";
+
 export interface TraversalResponse {
     nodes: string[]
 }
 
 export interface ShortestPathResponse {
     nodes: string[],
-    edges: number[],
+    edgesCost: number[],
     cost: number
 }
 
@@ -15,3 +17,8 @@ export interface HistoryDTO {
     date: string;
     algorithm: string;
 }
+
+export interface MSTResponseDTO {
+    edges: Link[];
+  }
+  

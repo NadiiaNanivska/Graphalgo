@@ -73,12 +73,12 @@ const Graph = (_props: { traversalResult: TraversalResponse | ShortestPathRespon
     const openModal = (link: Link) => {
         newWeight.current = link.weight;
         Modal.confirm({
-            title: 'Змінити вагу ребра',
+            title: 'Change weight of edge',
             content: (
                 <Input
                     style={{ borderColor: '#fcbdac' }}
                     type="number"
-                    placeholder="Нова вага"
+                    placeholder="New weight"
                     defaultValue={link.weight.toString()}
                     onChange={(e) => {
                         let value = parseFloat(e.target.value);
@@ -92,8 +92,8 @@ const Graph = (_props: { traversalResult: TraversalResponse | ShortestPathRespon
             ),
             okButtonProps: { style: { backgroundColor: '#FD744F', borderColor: '#fcbdac' } },
             cancelButtonProps: { style: { backgroundColor: 'white', borderColor: '#fcbdac', color: 'black' } },
-            okText: 'Зберегти',
-            cancelText: 'Скасувати',
+            okText: 'Save',
+            cancelText: 'Cancel',
             onOk: () => {
                 const updatedLinks = links.map(l => l === link ? { ...l, weight: newWeight.current! } : l);
                 setLinks(updatedLinks);

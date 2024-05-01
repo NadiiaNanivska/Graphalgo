@@ -66,7 +66,7 @@ public class GraphService {
         PrimMinimumSpanningTree<String, DefaultWeightedEdge> primAlg =
                 new PrimMinimumSpanningTree<>(directedGraph);
         SpanningTreeAlgorithm.SpanningTree<DefaultWeightedEdge> spanningTree = primAlg.getSpanningTree();
-        return new MSTResponse(spanningTree.getEdges().stream().map(src-> mapEdge(src, directedGraph)).collect(Collectors.toSet()));
+        return new MSTResponse(spanningTree.getEdges().stream().map(src-> mapEdge(src, directedGraph)).collect(Collectors.toSet()), spanningTree.getWeight());
     }
 
     public MSTResponse Kruskal(GraphDTO input) {
@@ -74,7 +74,7 @@ public class GraphService {
         KruskalMinimumSpanningTree<String, DefaultWeightedEdge> kruskalAlg =
                 new KruskalMinimumSpanningTree<>(directedGraph);
         SpanningTreeAlgorithm.SpanningTree<DefaultWeightedEdge> spanningTree = kruskalAlg.getSpanningTree();
-        return new MSTResponse(spanningTree.getEdges().stream().map(src-> mapEdge(src, directedGraph)).collect(Collectors.toSet()));
+        return new MSTResponse(spanningTree.getEdges().stream().map(src-> mapEdge(src, directedGraph)).collect(Collectors.toSet()), spanningTree.getWeight());
     }
 
     private Graph<String, DefaultWeightedEdge> buildGraph(GraphDTO dto) {

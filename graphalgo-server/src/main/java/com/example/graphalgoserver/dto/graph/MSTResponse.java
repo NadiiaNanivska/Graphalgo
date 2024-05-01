@@ -10,5 +10,6 @@ import java.util.Set;
 @NoArgsConstructor
 @AllArgsConstructor
 public class MSTResponse {
-    private Set<EdgeDTO> edges;
+    public Set<EdgeDTO> edges;
+    public Double cost;
 }

@@ -190,10 +190,10 @@ export const openFileModal = (setNodes: React.Dispatch<React.SetStateAction<Node
     });
 }
 
-export const openNotification = (api: NotificationInstance, content: number) => {
+export const openNotification = (api: NotificationInstance, content: number, message: string) => {
     api.open({
         type: 'success',
-        message: 'Path cost',
+        message: message,
         description: content,
         duration: 0,
     });

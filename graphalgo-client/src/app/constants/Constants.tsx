@@ -19,6 +19,8 @@ export const GRAPH_ENDPOINTS = {
     BFS: 'graph/bfs/',
     DFS: 'graph/dfs/',
     DIJKSTRA: 'graph/dijkstra/',
+    PRIM: 'graph/prim',
+    KRUSKAL: 'graph/kruskal',
     HISTORY: '/history'
 }
 

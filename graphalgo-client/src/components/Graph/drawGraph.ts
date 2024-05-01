@@ -1,6 +1,6 @@
 import { BaseType, Selection, drag, select } from 'd3';
 import { Link, Node } from '../../app/utils/data';
-import { ShortestPathResponse, TraversalResponse } from '../../app/dto/graphDTO';
+import { MSTResponseDTO, ShortestPathResponse, TraversalResponse } from '../../app/dto/graphDTO';
 
 export const RADIUS = 20;
 
@@ -8,7 +8,7 @@ export const drawGraph = (
   context: Selection<SVGSVGElement | null, unknown, null, undefined>,
   nodes: Node[],
   links: Link[],
-  traversalResult: TraversalResponse | ShortestPathResponse | undefined
+  traversalResult: TraversalResponse | ShortestPathResponse | MSTResponseDTO | undefined
 ) => {
   let lines: Selection<SVGLineElement, Link, SVGSVGElement | null, unknown>;
   let edgeLabels: Selection<SVGTextElement, Link, SVGSVGElement | null, unknown>;
@@ -30,7 +30,19 @@ export const drawGraph = (
 
   const getColorNode = (d: Node): string => {
     if (traversalResult === undefined) return '#FD744F';
-    return traversalResult!.nodes.includes(d.id) ? 'red' : '#FD744F';
+    const traversal = traversalResult as TraversalResponse;
+    if (traversal.nodes !== undefined) {
+      return traversal.nodes.includes(d.id) ? 'red' : '#FD744F';
+    }
+    const MSTResult = traversalResult as MSTResponseDTO;
+    if (MSTResult && MSTResult.edges !== undefined) {
+      const isEdgeConnectedToNode = MSTResult.edges.some(
+        edge =>
+          edge.source === d.id || edge.target === d.id
+      );
+      return isEdgeConnectedToNode ? 'red' : '#FD744F';
+    }
+    return '#FD744F';
   }
 
   const drawNodes = (simulation: d3.Simulation<Node, undefined>) => {
@@ -85,8 +97,17 @@ export const drawGraph = (
 
   const getColorEdge = (d: Link): string => {
     const shortestPathResult = traversalResult as ShortestPathResponse;
-    if (shortestPathResult && shortestPathResult.edges !== undefined) {
-      return shortestPathResult.nodes.includes((d.source as any).id) && shortestPathResult.nodes.includes((d.target as any).id) && shortestPathResult.edges.includes(d.weight) ? 'red' : '#cbcbcb';
+    if (shortestPathResult && shortestPathResult.edgesCost !== undefined) {
+      return shortestPathResult.nodes.includes((d.source as any).id) && shortestPathResult.nodes.includes((d.target as any).id) && shortestPathResult.edgesCost.includes(d.weight) ? 'red' : '#cbcbcb';
+    }
+    const MSTResult = traversalResult as MSTResponseDTO;
+    if (MSTResult && MSTResult.edges !== undefined) {
+      const edgeExists = MSTResult.edges.some(
+        edge =>
+          (edge.source === (d.source as any).id && edge.target === (d.target as any).id) ||
+          (edge.source === (d.target as any).id && edge.target === (d.source as any).id)
+      );
+      return edgeExists ? 'red' : '#cbcbcb';
     }
     return '#cbcbcb';
   };

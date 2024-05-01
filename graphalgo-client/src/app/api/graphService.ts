@@ -54,6 +54,40 @@ export const Dijkstra = async (graphDto: Data, startNode: string, endNode: strin
   }
 };
 
+export const Prim = async (graphDto: Data): Promise<ShortestPathResponse> => {
+  const simplifiedGraphData = {
+      nodes: graphDto.nodes.map(node => ({ id: node.id })),
+      edges: graphDto.edges.map(edge => ({
+        source: (edge.source as any).id,
+        target: (edge.target as any).id,
+        weight: edge.weight
+      }))
+    };
+  try {
+      const response = await axiosModule.post(GRAPH_ENDPOINTS.PRIM, simplifiedGraphData);
+      return response.data;
+  } catch (error) {
+      throw new Error(INVALID_INPUT_MESSAGE);
+  }
+};
+
+export const Kruskal = async (graphDto: Data): Promise<ShortestPathResponse> => {
+  const simplifiedGraphData = {
+      nodes: graphDto.nodes.map(node => ({ id: node.id })),
+      edges: graphDto.edges.map(edge => ({
+        source: (edge.source as any).id,
+        target: (edge.target as any).id,
+        weight: edge.weight
+      }))
+    };
+  try {
+      const response = await axiosModule.post(GRAPH_ENDPOINTS.KRUSKAL, simplifiedGraphData);
+      return response.data;
+  } catch (error) {
+      throw new Error(INVALID_INPUT_MESSAGE);
+  }
+};
+
 export const History = async (): Promise<HistoryDTO[]> => {
   try {
       const response = await axiosModule.get(GRAPH_ENDPOINTS.HISTORY);

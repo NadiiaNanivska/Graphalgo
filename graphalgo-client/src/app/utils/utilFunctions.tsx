@@ -1,4 +1,4 @@
-import { InputNumber, Modal, Tooltip, message } from "antd";
+import { Input, InputNumber, Modal, Tooltip, message } from "antd";
 import { Link, Node, windowDimensions } from "./data";
 import { RADIUS } from "../../components/Graph/drawGraph";
 import { NotificationInstance } from "antd/es/notification/interface";
@@ -196,5 +196,40 @@ export const openNotification = (api: NotificationInstance, content: number, mes
         message: message,
         description: content,
         duration: 0,
+    });
+};
+
+const createModalContent = (link: Link, newWeight: React.MutableRefObject<number | null>) => (
+    <Input
+        style={{ borderColor: '#fcbdac' }}
+        type="number"
+        placeholder="New weight"
+        defaultValue={link.weight.toString()}
+        onChange={(e) => {
+            let value = parseFloat(e.target.value);
+            if (!Number.isNaN(value) && value > 0) {
+                newWeight.current = parseFloat(e.target.value);
+            } else {
+                message.error("Invalid edge weight, try again!");
+            }
+        }}
+    />
+);
+
+const handleModalOk = (link: Link, newWeight: React.MutableRefObject<number | null>, links: Link[], setLinks: (links: Link[]) => void) => {
+    const updatedLinks = links.map(l => l === link ? { ...l, weight: newWeight.current! } : l);
+    setLinks(updatedLinks);
+};
+
+export const openModal = (link: Link, newWeight: React.MutableRefObject<number | null>, links: Link[], setLinks: (links: Link[]) => void) => {
+    newWeight.current = link.weight;
+    Modal.confirm({
+        title: 'Change weight of edge',
+        content: createModalContent(link, newWeight),
+        okButtonProps: { style: { backgroundColor: '#FD744F', borderColor: '#fcbdac' } },
+        cancelButtonProps: { style: { backgroundColor: 'white', borderColor: '#fcbdac', color: 'black' } },
+        okText: 'Save',
+        cancelText: 'Cancel',
+        onOk: () => handleModalOk(link, newWeight, links, setLinks),
     });
 };

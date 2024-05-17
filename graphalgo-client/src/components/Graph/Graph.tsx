@@ -3,7 +3,7 @@ import * as d3 from "d3";
 import { useEffect, useRef, useState } from "react";
 import useHandleChangeGraph from "../../app/utils/GraphControl";
 import { Link, Node, windowDimensions } from "../../app/utils/data";
-import { handleAddEdge, handleRemoveEdge, handleRemoveNode } from "../../app/utils/utilFunctions";
+import { handleAddEdge, handleRemoveEdge, handleRemoveNode, openModal } from "../../app/utils/utilFunctions";
 import { useData, useGraphOptions } from "../../contexts/GraphOptionsContext";
 import { RADIUS, drawGraph } from "./drawGraph";
 import { ShortestPathResponse, TraversalResponse } from "../../app/dto/graphDTO";
@@ -70,39 +70,12 @@ const Graph = (_props: { traversalResult: TraversalResponse | ShortestPathRespon
         }
     }, [svgSize.width, svgSize.height, nodes, links]);
 
-    const openModal = (link: Link) => {
-        newWeight.current = link.weight;
-        Modal.confirm({
-            title: 'Change weight of edge',
-            content: (
-                <Input
-                    style={{ borderColor: '#fcbdac' }}
-                    type="number"
-                    placeholder="New weight"
-                    defaultValue={link.weight.toString()}
-                    onChange={(e) => {
-                        let value = parseFloat(e.target.value);
-                        if (!Number.isNaN(value) && value > 0) {
-                            newWeight.current = parseFloat(e.target.value);
-                        } else {
-                            message.error("Invalid edge weight, try again!");
-                        }
-                    }}
-                />
-            ),
-            okButtonProps: { style: { backgroundColor: '#FD744F', borderColor: '#fcbdac' } },
-            cancelButtonProps: { style: { backgroundColor: 'white', borderColor: '#fcbdac', color: 'black' } },
-            okText: 'Save',
-            cancelText: 'Cancel',
-            onOk: () => {
-                const updatedLinks = links.map(l => l === link ? { ...l, weight: newWeight.current! } : l);
-                setLinks(updatedLinks);
-            }
-        });
+    const handleOpenModal = (link: Link) => {
+        openModal(link, newWeight, links, setLinks);
     };
 
     drawNodes(simulation);
-    drawEdges(openModal);
+    drawEdges(handleOpenModal);
 
     const handleSvgClick = (e: React.MouseEvent<SVGSVGElement, MouseEvent>) => {
         if (canAddNode) {

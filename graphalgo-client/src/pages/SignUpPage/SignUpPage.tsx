@@ -24,21 +24,21 @@ const SignInPage = () => {
             <Form
                 className="signup-form"
                 name="registration"
-                labelCol={{ span: 6 }}
+                labelCol={{ span: 8 }}
                 onFinish={onFinish}
             >
-                <Title className="signup-title">Sign up</Title>
+                <Title className="signup-title">Зареєструватись</Title>
                 <Form.Item
                     name="email"
                     rules={[
                         {
                             required: true,
-                            message: 'Please input your email!',
+                            message: 'Введіть електронну пошту!',
                         },
-                        { type: 'email', message: 'Please enter a valid email address' }
+                        { type: 'email', message: 'Введіть валідну електронну пошту' }
                     ]}
                 >
-                    <Input type="email" placeholder="Email" />
+                    <Input type="email" placeholder="Електронна пошта" />
                 </Form.Item>
                 <Form.Item
                     name="password"
@@ -47,12 +47,12 @@ const SignInPage = () => {
                     rules={[
                         {
                             required: true,
-                            message: 'Please input your password!',
+                            message: 'Введіть пароль!',
                         },
                         {validator: validatePassword}
                     ]}
                 >
-                    <Input.Password placeholder="Password" />
+                    <Input.Password placeholder="Пароль" />
                 </Form.Item>
                 <Form.Item
                     name="confirmPassword"
@@ -61,28 +61,28 @@ const SignInPage = () => {
                     rules={[
                         {
                             required: true,
-                            message: 'Please input confirm password!',
+                            message: 'Введіть пароль для підтвердження!',
                         },
                         ({ getFieldValue }) => ({
                             validator(_, value) {
                               if (!value || getFieldValue('password') === value) {
                                 return Promise.resolve();
                               }
-                              return Promise.reject(new Error('The new password that you entered do not match!'));
+                              return Promise.reject(new Error('Паролі не збігаються!'));
                             },
                           }),
                     ]}
                 >
-                    <Input.Password placeholder="Confirm password" />
+                    <Input.Password placeholder="Повторний пароль" />
                 </Form.Item>
                 <Form.Item className="signup-center">
                     <Button type="primary" htmlType="submit">
-                        Sign up
+                        Зареєструватись
                     </Button>
                 </Form.Item>
                 <p className="signup-center">
-                    Already have an account?{' '}
-                    <Link to={FRONTEND_ROUTES.SIGNIN}>Sign in</Link>
+                    Вже маєте акаунт?{' '}
+                    <Link to={FRONTEND_ROUTES.SIGNIN}>Увійдіть</Link>
                 </p>
             </Form>
         </div>

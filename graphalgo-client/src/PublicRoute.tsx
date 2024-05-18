@@ -17,7 +17,7 @@ const PublicRoute = () => {
                 const response = await getUser();
                 setUser(response);
             } catch (error) {
-                console.error('Error fetching user data:', error);
+                console.error('Користувач не увійшов в систему');
             }
         })();
     }, []);

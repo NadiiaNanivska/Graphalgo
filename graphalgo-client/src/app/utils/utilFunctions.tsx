@@ -203,14 +203,14 @@ const createModalContent = (link: Link, newWeight: React.MutableRefObject<number
     <Input
         style={{ borderColor: '#fcbdac' }}
         type="number"
-        placeholder="New weight"
+        placeholder="Нова вага ребра"
         defaultValue={link.weight.toString()}
         onChange={(e) => {
             let value = parseFloat(e.target.value);
-            if (!Number.isNaN(value) && value > 0) {
+            if (!Number.isNaN(value)) {
                 newWeight.current = parseFloat(e.target.value);
             } else {
-                message.error("Invalid edge weight, try again!");
+                message.error("Неправильна вага ребра, спробуйте ще раз!");
             }
         }}
     />
@@ -224,12 +224,12 @@ const handleModalOk = (link: Link, newWeight: React.MutableRefObject<number | nu
 export const openModal = (link: Link, newWeight: React.MutableRefObject<number | null>, links: Link[], setLinks: (links: Link[]) => void) => {
     newWeight.current = link.weight;
     Modal.confirm({
-        title: 'Change weight of edge',
+        title: 'Змінити вагу ребра',
         content: createModalContent(link, newWeight),
         okButtonProps: { style: { backgroundColor: '#FD744F', borderColor: '#fcbdac' } },
         cancelButtonProps: { style: { backgroundColor: 'white', borderColor: '#fcbdac', color: 'black' } },
-        okText: 'Save',
-        cancelText: 'Cancel',
+        okText: 'Зберегти',
+        cancelText: 'Скасувати',
         onOk: () => handleModalOk(link, newWeight, links, setLinks),
     });
 };

@@ -23,14 +23,14 @@ const Navbar = (_props: { user: string | null }) => {
     const hamburgerContent = (
         <Menu>
             <Menu.Item key="history">
-                <a href={FRONTEND_ROUTES.HISTORY}>History</a>
+                <a href={FRONTEND_ROUTES.HISTORY}>Історія</a>
             </Menu.Item>
         </Menu>
     );
 
     const content = (
         <div>
-            <Text type="danger" onClick={onLogout}><LogoutOutlined />  Log out</Text>
+            <Text type="danger" onClick={onLogout}><LogoutOutlined />  Вийти</Text>
         </div>
     );
 
@@ -52,7 +52,7 @@ const Navbar = (_props: { user: string | null }) => {
                         </Row>
                         : _props.user ?
                             <Row justify="end" align="middle">
-                                <a href={FRONTEND_ROUTES.HISTORY} className="margin-right-15">History</a>
+                                <a href={FRONTEND_ROUTES.HISTORY} className="margin-right-15">Історія</a>
                                 <div><a>{_props.user}</a>
                                     <Popover content={content}>
                                         <Button type="text" shape="circle" icon={<UserOutlined />} size={'large'} />
@@ -61,8 +61,8 @@ const Navbar = (_props: { user: string | null }) => {
                             </Row>
                             :
                             <Row justify="end" align="middle">
-                                <a href={FRONTEND_ROUTES.SIGNIN}><Button className="hide-on-mobile margin-right-16">Sign in</Button></a>
-                                <a href={FRONTEND_ROUTES.SIGNUP}><Button type="primary" className="hide-on-mobile">Sign up</Button></a>
+                                <a href={FRONTEND_ROUTES.SIGNIN}><Button className="hide-on-mobile margin-right-16">Увійти</Button></a>
+                                <a href={FRONTEND_ROUTES.SIGNUP}><Button type="primary" className="hide-on-mobile">Зареєструватись</Button></a>
                             </Row>
                     }
                 </Col>

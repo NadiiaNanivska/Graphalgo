@@ -30,27 +30,27 @@ function getItem(
 }
 
 const items: MenuProps['items'] = [
-    getItem('Graph control', 'sub1', <SettingOutlined />, [
-        getItem('Add elements', 'g1', null, [getItem('Add vertex', '1'), getItem('Add edge', '2')], 'group'),
-        getItem('Remove elements', 'g2', null, [getItem('Remove vertex', '3'), getItem('Remove edge', '4')], 'group'),
-        getItem('Clear graph', 'g3', null, [getItem('Remove all elements', '5')], 'group'),
-        getItem('Download graph', 'g4', null, [getItem('From adjacency matrix', '6'), getItem('From incidence matrix', '7')], 'group'),
+    getItem('Керування графом', 'sub1', <SettingOutlined />, [
+        getItem('Додати елементи', 'g1', null, [getItem('Додати вершину', '1'), getItem('Додати ребро', '2')], 'group'),
+        getItem('Видалити елементи', 'g2', null, [getItem('Видалити вершину', '3'), getItem('Видалити ребро', '4')], 'group'),
+        getItem('Очистити', 'g3', null, [getItem('Видалити всі елементи', '5')], 'group'),
+        getItem('Завантажити граф', 'g4', null, [getItem('З матриці суміжності', '6'), getItem('З матриці інцидентності', '7')], 'group'),
     ]),
 
     getItem('Graph info', 'sub2', <InfoCircleOutlined />, [
-        getItem('Adjacency matrix', '8'),
-        getItem('Incidence matrix', '9')
+        getItem('Матриця суміжності', '8'),
+        getItem('матриця інцидентності', '9')
     ]),
 
-    getItem('Graph algorithms', 'sub3', <PlayCircleOutlined />, [
-        getItem('Traversal algorithms', 'g1', null, [getItem('BFS', '10'), getItem('DFS', '11')], 'group'),
-        getItem('Shortest path algorithms', 'g2', null, [getItem('Dijkstra\'s algorithm', '12'), getItem('Floyd\'s algorithm', '13')], 'group'),
-        getItem('Minimum spanning tree algorithms', 'g3', null, [getItem('Prim\'s algorithm', '14'), getItem('Kruskal\'s algorithm', '15')], 'group')
+    getItem('Алгоритми', 'sub3', <PlayCircleOutlined />, [
+        getItem('Алгоритми обходу', 'g1', null, [getItem('BFS', '10'), getItem('DFS', '11')], 'group'),
+        getItem('Алгоритми пошуку найкоротшого шляху', 'g2', null, [getItem('Алгоритм Дейкстри', '12'), getItem('Алгоритм Флойда-Воршелла', '13')], 'group'),
+        getItem('Алгоритм побудови мінімального кістякового дерева', 'g3', null, [getItem('Алгоритм Прима', '14'), getItem('Алгоритм Крускала', '15')], 'group')
     ]),
 
-    getItem('Share graph', 'sub4', <InfoCircleOutlined />, [
-        getItem('Send', '16'),
-        getItem('Receive', '17')
+    getItem('Поділитись графом', 'sub4', <InfoCircleOutlined />, [
+        getItem('Надіслати', '16'),
+        getItem('Отримати', '17')
     ]),
 ];
 
@@ -74,7 +74,7 @@ const GraphTools = (_props: { setTraversalResult: React.Dispatch<React.SetStateA
     };
 
     const fetchData = async () => {
-        if (user === null) { message.info("Sign in to access this option") }
+        if (user === null) { message.info("Увійдіть для доступу до цієї опції") }
         else {
             receiveGraph(user.email, setConnectionEstablished)
                 .then(data => {
@@ -84,7 +84,7 @@ const GraphTools = (_props: { setTraversalResult: React.Dispatch<React.SetStateA
                     }
                 })
                 .catch(error => {
-                    console.error('Error receiving graph:', error);
+                    console.error('Помилка під час отримання:', error);
                 });
         }
     };
@@ -123,7 +123,7 @@ const GraphTools = (_props: { setTraversalResult: React.Dispatch<React.SetStateA
                 if (data !== null) {
                     _props.setTraversalResult(data);
                     console.log(data)
-                    openNotification(api, data.cost, 'shortest path between vertices')
+                    openNotification(api, data.cost, 'Вартість найкоротшого шляху між вершинами')
                 }
             })
             .catch(error => {
@@ -136,7 +136,7 @@ const GraphTools = (_props: { setTraversalResult: React.Dispatch<React.SetStateA
             .then(data => {
                 if (data !== null) {
                     _props.setTraversalResult(data);
-                    openNotification(api, data.cost, 'shortest path between vertices')
+                    openNotification(api, data.cost, 'Вартість найкоротшого шляху між вершинами')
                 }
             })
             .catch(error => {
@@ -149,7 +149,7 @@ const GraphTools = (_props: { setTraversalResult: React.Dispatch<React.SetStateA
             .then(data => {
                 if (data !== null) {
                     _props.setTraversalResult(data);
-                    openNotification(api, data.cost, 'Weight of minimum spanning tree')
+                    openNotification(api, data.cost, 'Вага мінімального кістякового дерева')
                 }
             })
             .catch(error => {
@@ -162,7 +162,7 @@ const GraphTools = (_props: { setTraversalResult: React.Dispatch<React.SetStateA
             .then(data => {
                 if (data !== null) {
                     _props.setTraversalResult(data);
-                    openNotification(api, data.cost, 'Weight of minimum spanning tree')
+                    openNotification(api, data.cost, 'Вага мінімального кістякового дерева')
                 }
             })
             .catch(error => {
@@ -212,7 +212,7 @@ const GraphTools = (_props: { setTraversalResult: React.Dispatch<React.SetStateA
         } else if (key === '15') {
             fetchKruskalData();
         } else if (key === '16') {
-            if (user === null) { message.info("Sign in to access this option") }
+            if (user === null) { message.info("Увійдіть для доступу до цієї опції") }
             else {
                 setModalVisible(true);
             }

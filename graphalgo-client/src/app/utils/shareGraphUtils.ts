@@ -15,7 +15,7 @@ export const sendGraph = (user: string, currentUser: string, data: Data) => {
     }
     );
     setTimeout(() => {
-        stompClient.disconnect(() => { message.warning("Connection closed") });
+        stompClient.disconnect(() => { message.warning("З'єднання закрите") });
     }, 30000);
 }
 
@@ -48,7 +48,7 @@ export const receiveGraph = async (currentUser: string, setConnectionEstablished
             resolve(sanitizedData);
         });
         setTimeout(() => {
-            stompClient.disconnect(() => { setConnectionEstablished(false); message.warning("Waiting time is over. Click on receive button again!") });
+            stompClient.disconnect(() => { setConnectionEstablished(false); message.warning("Час очікування вийшов. Натисніть на кнопку \"Отримати\" ще раз!") });
         }, 30000);
     });
 }

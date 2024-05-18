@@ -13,55 +13,55 @@ const HomePage = () => {
     return (
         <>
             <Row className="content white-background">
-                <Title level={2}>Graph Algorithms</Title>
-                <Text>Solving complex problems with graphs</Text>
+                <Title level={2}>Алгоритми на графах</Title>
+                <Text>Розв'язання складних задач за допомогою графів</Text>
                 <Row justify="center" gutter={16} className='margin-top-15'>
                     <Col>
-                        <Link to={FRONTEND_ROUTES.CALCULATOR}><Button type="primary">Get started</Button></Link>
+                        <Link to={FRONTEND_ROUTES.CALCULATOR}><Button type="primary">Почати</Button></Link>
                     </Col>
                     <Col>
-                        <Button icon={<ArrowDownOutlined />}>Learn more</Button>
+                        <Button icon={<ArrowDownOutlined />}>Дізнатися більше</Button>
                     </Col>
                 </Row>
             </Row>
             <Row className='faq' gutter={16}>
                 <Col span={24} md={6}>
                     <Title level={3}>FAQ</Title>
-                    <Title level={2}>Common questions</Title>
+                    <Title level={2}>Поширені запитання</Title>
                     <Paragraph>
-                        Here are some of the most common questions that we get.
+                        Ось деякі з найбільш поширених запитань, які ми отримуємо.
                     </Paragraph>
                 </Col>
                 <Col span={24} md={17}>
                     <Row gutter={16}>
                         <Col>
                             <FAQQuestion
-                                answer="Graph algorithms are a set of techniques used to solve problems on graphs, which are mathematical structures consisting of nodes and edges."
-                                question="What are graph algorithms?"
+                                answer="Алгоритми графів - це набір технік, які використовуються для розв'язання задач на графах, що є математичними структурами, що складаються з вузлів і ребер."
+                                question="Що таке алгоритми графів?"
                             />
                         </Col>
                         <Col>
                             <FAQQuestion
-                                answer="Some common graph algorithms include breadth-first search (BFS), depth-first search (DFS), Dijkstra's algorithm, and the minimum spanning tree (MST) algorithms."
-                                question="What are some common graph algorithms?"
+                                answer="Деякі поширені алгоритми графів включають пошук у ширину (BFS), пошук у глибину (DFS), алгоритм Дейкстри та алгоритми мінімального кістякового дерева (MST)."
+                                question="Які є поширені алгоритми графів?"
                             />
                         </Col>
                         <Col>
                             <FAQQuestion
-                                answer="Graph algorithms have various applications in real-world scenarios such as social network analysis, route planning, recommendation systems, and network optimization."
-                                question="How are graph algorithms used in real-world applications?"
+                                answer="Алгоритми графів мають різні застосування у реальному світі, такі як аналіз соціальних мереж, планування маршрутів, рекомендаційні системи та оптимізація мереж."
+                                question="Як використовуються алгоритми графів у реальних застосуваннях?"
                             />
                         </Col>
                         <Col>
                             <FAQQuestion
-                                answer="The time complexity of graph algorithms can vary depending on the specific algorithm and problem being solved. Some algorithms have a time complexity of O(V + E), where V is the number of vertices and E is the number of edges in the graph."
-                                question="What is the time complexity of graph algorithms?"
+                                answer="Часова складність алгоритмів графів може змінюватися залежно від конкретного алгоритму та задачі, яку необхідно розв'язати. Деякі алгоритми мають часову складність O(V + E), де V - кількість вершин, а E - кількість ребер у графі."
+                                question="Яка часова складність алгоритмів графів?"
                             />
                         </Col>
                         <Col>
                             <FAQQuestion
-                                answer="Yes, there are several libraries and frameworks available for implementing graph algorithms, such as NetworkX in Python, JGraphT in Java, and igraph in R."
-                                question="Are there any libraries or frameworks available for implementing graph algorithms?"
+                                answer="Так, є кілька бібліотек та фреймворків для реалізації алгоритмів графів, такі як NetworkX на Python, JGraphT на Java та igraph на R."
+                                question="Чи є бібліотеки або фреймворки для реалізації алгоритмів графів?"
                             />
                         </Col>
                     </Row>

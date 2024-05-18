@@ -24,4 +24,4 @@ export const GRAPH_ENDPOINTS = {
     HISTORY: '/history'
 }
 
-export const INVALID_INPUT_MESSAGE = "Invalid input";
+export const INVALID_INPUT_MESSAGE = "Невалідні дані";

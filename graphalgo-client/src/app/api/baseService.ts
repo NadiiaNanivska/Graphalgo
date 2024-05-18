@@ -13,7 +13,7 @@ axiosModule.interceptors.response.use(
     ({ response, message: msg }: AxiosError) => {
         let errorMessage = '';
         if (msg === 'Network Error') {
-            errorMessage = msg;
+            errorMessage = "Помилка з'єднання з сервером";
         }
         switch (response?.status) {
             case StatusCodes.INTERNAL_SERVER_ERROR:

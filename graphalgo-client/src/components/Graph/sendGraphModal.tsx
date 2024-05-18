@@ -11,15 +11,15 @@ const SendGraphModal = (_props: { visible: boolean, onClose: any, onSend: any })
 
     return (
         <Modal
-            title="Enter Username"
+            title="Введіть ім'я користувача"
             visible={_props.visible}
             onCancel={_props.onClose}
             footer={[
                 <Button key="cancel" onClick={_props.onClose}>
-                    Cancel
+                    Скасувати
                 </Button>,
                 <Button key="send" type="primary" onClick={handleSend}>
-                    Send
+                    Надіслати
                 </Button>,
             ]}
         >
@@ -29,14 +29,14 @@ const SendGraphModal = (_props: { visible: boolean, onClose: any, onSend: any })
                     rules={[
                         {
                             required: true,
-                            message: 'Please input username!',
+                            message: 'Введіть ім\'я користувача!',
                         },
-                        { type: 'email', message: 'Please enter a valid email address' }
+                        { type: 'email', message: 'Введіть валідну електронну пошту' }
                     ]}
                 >
                     <Input
                         type="email"
-                        placeholder="Enter username"
+                        placeholder="Ім'я користувача"
                         value={username}
                         onChange={(e) => setUsername(e.target.value)}
                     />

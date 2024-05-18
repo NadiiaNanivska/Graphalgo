@@ -19,18 +19,18 @@ const HistoryPage = () => {
     }, []);
     const columns = [
         {
-            title: 'Start Vertices',
+            title: 'Вхідні дані',
             dataIndex: 'startVertices',
             key: 'startVertices',
         },
         {
-            title: 'Result Vertices',
+            title: 'Результат',
             dataIndex: 'resultVertices',
             key: 'resultVertices',
         },
         {
 
-            title: 'Algorithm',
+            title: 'Алгоритм',
             dataIndex: 'algorithm',
             key: 'algorithm',
             render: (_: any, { algorithm }: any) => (
@@ -43,7 +43,7 @@ const HistoryPage = () => {
 
     return (
         <div className='history-container'>
-            <h1>History Page</h1>
+            <h1>Історія обчислень</h1>
             <Table columns={columns} dataSource={historyData} />
         </div>
     );

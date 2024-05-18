@@ -32,7 +32,7 @@ const Footer = (_props: { Logo: string, Nav1: string, text: string }) => {
 
 Footer.defaultProps = {
     Logo: 'GRAPHALGO',
-    text: '© 2023 myCompany, All Rights Reserved.',
+    text: '© 2024 Nanivska, All Rights Reserved.',
     Nav1: 'Graph Algorithms',
 };
 

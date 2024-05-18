@@ -27,39 +27,39 @@ const SignInPage = () => {
                 className="signin-form"
                 onFinish={onFinish}
             >
-                <Title className="signin-title">Sign in</Title>
+                <Title className="signin-title">Увійти</Title>
                 <Form.Item
                     name="email"
                     rules={[
                         {
                             required: true,
-                            message: 'Please input your email!',
+                            message: 'Введіть електронну пошту!',
                         },
                         { type: 'email', message: 'Please enter a valid email address' }
                     ]}
                 >
-                    <Input type="email" placeholder="Email" />
+                    <Input type="email" placeholder="Електронна пошта" />
                 </Form.Item>
                 <Form.Item
                     name="password"
                     rules={[
                         {
                             required: true,
-                            message: 'Please input your password!',
+                            message: 'Введіть пароль!',
                         },
                         {validator: validatePassword}
                     ]}
                 >
-                    <Input.Password placeholder="Password" />
+                    <Input.Password placeholder="Пароль" />
                 </Form.Item>
                 <Form.Item className="signin-center">
                     <Button type="primary" className="signin-button" htmlType="submit">
-                        Sign in
+                        Увійти
                     </Button>
                 </Form.Item>
                 <p className="signin-center">
-                    Don't have an account?{' '}
-                    <Link to={FRONTEND_ROUTES.SIGNUP}>Sign up</Link>
+                    Не маєте акаунту?{' '}
+                    <Link to={FRONTEND_ROUTES.SIGNUP}>Зареєструйтесь</Link>
                 </p>
             </Form>
         </div>

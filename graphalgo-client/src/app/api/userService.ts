@@ -10,6 +10,22 @@ export const register = async (registerDto: RegisterRequest): Promise<void> => {
     }
 };
 
+export const sendEmail = async (username:string) : Promise<void> => {
+    try {
+        await axiosModule.post(AUTH_ENDPOINTS.SEND_EMAIL + '?email=' + username);
+    } catch (error) {
+
+    }
+}
+
+export const resetPassword = async (token:string, pasword:string, confirmPassword:string) : Promise<void> => {
+    try {
+        await axiosModule.post(AUTH_ENDPOINTS.RESET_PASSWORD, {token, newPassword:pasword, oldPassword:confirmPassword});
+    } catch (error) {
+
+    }
+}
+
 export const login = async (loginDto: LoginRequest): Promise<User> => {
     try {
         const response = await axiosModule.post(AUTH_ENDPOINTS.SIGNIN, loginDto);

@@ -47,7 +47,7 @@ const SignInPage = () => {
                             required: true,
                             message: 'Введіть пароль!',
                         },
-                        {validator: validatePassword}
+                        { validator: validatePassword }
                     ]}
                 >
                     <Input.Password placeholder="Пароль" />
@@ -60,6 +60,9 @@ const SignInPage = () => {
                 <p className="signin-center">
                     Не маєте акаунту?{' '}
                     <Link to={FRONTEND_ROUTES.SIGNUP}>Зареєструйтесь</Link>
+                </p>
+                <p className="signin-center">
+                    <Link to={FRONTEND_ROUTES.SEND_EMAIL}>Забули пароль?</Link>
                 </p>
             </Form>
         </div>

@@ -2,7 +2,9 @@ export const FRONTEND_ROUTES = {
     CALCULATOR: '/calculator',
     SIGNUP: '/signup',
     SIGNIN: '/signin',
-    HISTORY: '/history'
+    HISTORY: '/history',
+    RESET_PASSWORD: '/reset-password',
+    SEND_EMAIL: "/send-reset-password"
 };
 
 export const BASE_URL = "http://localhost:8080/";
@@ -13,6 +15,8 @@ export const AUTH_ENDPOINTS = {
     SIGNIN: 'auth/signin',
     REFRESH_TOKEN: 'auth/refresh',
     LOGOUT: 'auth/logout',
+    RESET_PASSWORD: 'auth/reset-password',
+    SEND_EMAIL: "email/send"
 };
 
 export const GRAPH_ENDPOINTS = {

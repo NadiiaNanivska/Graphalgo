@@ -22,7 +22,7 @@ public class AuthenticationService {
     private final JwtService jwtService;
     private final AuthenticationManager authenticationManager;
     private final ModelMapper modelMapper;
-
+    private final PasswordEncoder passwordEncoder;
 
     public AuthenticationResponse register(RegisterRequest request) throws AuthenticationException {
         if (!request.getPassword().equals(request.getConfirmPassword())) {
@@ -39,6 +39,17 @@ public class AuthenticationService {
                 .accessToken(jwtToken)
                 .refreshToken(jwtRefreshToken)
                 .build();
+    }
+
+    public void resetPassword(ResetPasswordRequest request) {
+        if (!request.getNewPassword().equals(request.getOldPassword())) {
+            throw new AuthenticationException(UserValidationConstants.DIFFERENT_PASSWORDS);
+        }
+        User user = repository.findByPasswordResetToken(request.getToken())
+                .orElseThrow(() -> new AuthenticationException(UserValidationConstants.INVALID_CREDENTIALS));
+        user.setPassword(passwordEncoder.encode(request.getNewPassword()));
+        user.setPasswordResetToken(null);
+        repository.save(user);
     }
 
     public AuthenticationResponse authenticate(AuthenticationRequest request) throws AuthenticationException {

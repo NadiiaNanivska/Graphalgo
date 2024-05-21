@@ -9,6 +9,8 @@ import SignInPage from './pages/SignInPage/SignInPage';
 import SignUpPage from './pages/SignUpPage/SignUpPage';
 import { UserProvider } from './contexts/GraphOptionsContext';
 import HistoryPage from './pages/HistoryPage/HistoryPage';
+import ChangePasswordForm from './pages/ChangePasswordPage/ChangePasswordForm';
+import RequestPasswordReset from './pages/ChangePasswordPage/RequestPasswordReset';
 
 function App() {
   return (
@@ -32,6 +34,8 @@ function App() {
               <Route index path={FRONTEND_ROUTES.HISTORY} element={<HistoryPage />} />
             </Route>
             <Route path={FRONTEND_ROUTES.SIGNIN} element={<SignInPage />} />
+            <Route path={FRONTEND_ROUTES.RESET_PASSWORD} element={<ChangePasswordForm />} />
+            <Route path={FRONTEND_ROUTES.SEND_EMAIL} element={<RequestPasswordReset />} />
             <Route path={FRONTEND_ROUTES.SIGNUP} element={<SignUpPage />} />
           </Routes>
         </BrowserRouter>

@@ -2,7 +2,7 @@ POST http://localhost:8080/auth/signup
 Content-Type: application/json
 
 {
-  "email": "nadia8@gmail.com",
+  "email": "nanivskan14@gmail.com",
   "password": "Nadia123",
   "confirmPassword": "Nadia123"
 }
@@ -172,3 +172,6 @@ Content-Type: application/json
 
 ###
 GET http://localhost:8080/history
+
+###
+POST http://localhost:8080/email/send?email=nanivskan14@gmail.com

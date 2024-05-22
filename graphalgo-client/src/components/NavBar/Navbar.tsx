@@ -37,10 +37,12 @@ const Navbar = (_props: { user: string | null }) => {
     return (
         <Header className="header white-background">
             <Row justify="space-between" align="middle">
-                <Col xs={14} sm={8} md={6} lg={6} xl={6}>
-                    <a href={"/"}><Title className="margin-top-15" level={2}>GRAPHALGO</Title></a>
+                <Col xs={24} sm={24} md={24} lg={8} xl={8}>
+                    <a className="flex" href={"/"}>
+                    <img src="https://encrypted-tbn1.gstatic.com/images?q=tbn:ANd9GcQVYfyfHEfh-0xWNv6hMTb6zGk4ZZneAdgi3kfMJDliJGU1BQ7C" alt="logo" width="48" height="48"/>
+            <Title className="margin-top-15" level={2}>GRAPHALGO</Title></a>
                 </Col>
-                <Col xs={10} sm={16} md={18} lg={18} xl={18}>
+                <Col xs={0} sm={0} md={0} lg={16} xl={16}>
                     {screens.xs ? _props.user &&
                         <Row justify="end" align="middle">
                             <Popover content={content}>

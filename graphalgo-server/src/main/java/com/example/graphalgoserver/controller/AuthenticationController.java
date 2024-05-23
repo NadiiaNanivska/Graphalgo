@@ -46,7 +46,11 @@ public class AuthenticationController {
 
     @GetMapping("/user")
     public ResponseEntity<?> getUser(HttpServletRequest request) {
-        return ResponseEntity.ok(service.getUser(request.getUserPrincipal().getName()));
+        try {
+            return ResponseEntity.ok(service.getUser(request.getUserPrincipal().getName()));
+        } catch (NullPointerException e) {
+            throw new IllegalArgumentException("Користувач не увійшов в систему");
+        }
     }
 
     @PostMapping("/logout")

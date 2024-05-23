@@ -27,9 +27,15 @@ public class GlobalExceptionHandler {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errors);
     }
 
-    @ExceptionHandler({HttpMessageNotReadableException.class, NullPointerException.class})
+    @ExceptionHandler(HttpMessageNotReadableException.class)
     public ResponseEntity<InformationResponse> handleHttpMessageNotReadable() {
-        InformationResponse errorObject = new InformationResponse("Invalid data");
+        InformationResponse errorObject = new InformationResponse("Невалідні дані");
+        return new ResponseEntity<>(errorObject, HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(NullPointerException.class)
+    public ResponseEntity<InformationResponse> handleNullPointer() {
+        InformationResponse errorObject = new InformationResponse("Не існує розв'язку");
         return new ResponseEntity<>(errorObject, HttpStatus.BAD_REQUEST);
     }
 

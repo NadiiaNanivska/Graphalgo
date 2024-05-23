@@ -35,7 +35,7 @@ const SignInPage = () => {
                             required: true,
                             message: 'Введіть електронну пошту!',
                         },
-                        { type: 'email', message: 'Please enter a valid email address' }
+                        { type: 'email', message: 'Введіть валідну електронну пошту' }
                     ]}
                 >
                     <Input type="email" placeholder="Електронна пошта" />

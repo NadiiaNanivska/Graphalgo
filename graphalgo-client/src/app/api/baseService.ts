@@ -23,6 +23,9 @@ axiosModule.interceptors.response.use(
                 errorMessage = ReasonPhrases.UNAUTHORIZED;
                 window.location.href = FRONTEND_ROUTES.SIGNIN;
                 break;
+            case StatusCodes.BAD_REQUEST:
+                errorMessage = (response.data as any).message;
+                break;
             default:
                 break;
         }

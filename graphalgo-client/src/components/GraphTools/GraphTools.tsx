@@ -39,7 +39,7 @@ const items: MenuProps['items'] = [
 
     getItem('Graph info', 'sub2', <InfoCircleOutlined />, [
         getItem('Матриця суміжності', '8'),
-        getItem('матриця інцидентності', '9')
+        getItem('Матриця інцидентності', '9')
     ]),
 
     getItem('Алгоритми', 'sub3', <PlayCircleOutlined />, [
@@ -101,7 +101,7 @@ const GraphTools = (_props: { setTraversalResult: React.Dispatch<React.SetStateA
                 }
             })
             .catch(error => {
-                message.error((error as Error).message);
+                console.error((error as Error).message);
             });
     };
 
@@ -113,7 +113,7 @@ const GraphTools = (_props: { setTraversalResult: React.Dispatch<React.SetStateA
                 }
             })
             .catch(error => {
-                message.error((error as Error).message);
+                console.error((error as Error).message);
             });
     };
 
@@ -127,7 +127,7 @@ const GraphTools = (_props: { setTraversalResult: React.Dispatch<React.SetStateA
                 }
             })
             .catch(error => {
-                message.error((error as Error).message);
+                console.error((error as Error).message);
             });
     };
 
@@ -140,7 +140,7 @@ const GraphTools = (_props: { setTraversalResult: React.Dispatch<React.SetStateA
                 }
             })
             .catch(error => {
-                message.error((error as Error).message);
+                console.error((error as Error).message);
             });
     };
 
@@ -153,7 +153,7 @@ const GraphTools = (_props: { setTraversalResult: React.Dispatch<React.SetStateA
                 }
             })
             .catch(error => {
-                message.error((error as Error).message);
+                console.error((error as Error).message);
             });
     };
 
@@ -166,7 +166,7 @@ const GraphTools = (_props: { setTraversalResult: React.Dispatch<React.SetStateA
                 }
             })
             .catch(error => {
-                message.error((error as Error).message);
+                console.error((error as Error).message);
             });
     };
 

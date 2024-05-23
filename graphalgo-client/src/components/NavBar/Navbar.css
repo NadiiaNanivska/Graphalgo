@@ -11,7 +11,7 @@
     margin-right: 15px;
   }
 
-@media only screen and (max-width: 768px) {
+@media only screen and (max-width: 900px) {
     .hide-on-mobile {
         display: none;
     }
@@ -24,4 +24,9 @@
 .flex {
     display: flex;
     align-items: center;
+}
+
+.vertical {
+    display: flex;
+    flex-direction: column;
 }

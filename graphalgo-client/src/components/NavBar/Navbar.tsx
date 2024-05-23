@@ -5,6 +5,7 @@ import { UserOutlined, MenuOutlined, LogoutOutlined } from '@ant-design/icons';
 import { FRONTEND_ROUTES } from '../../app/constants/Constants';
 import './Navbar.css';
 import { logout } from "../../app/api/userService";
+import { linkVertical } from "d3";
 
 const { Text } = Typography;
 const { useBreakpoint } = Grid;
@@ -24,6 +25,7 @@ const Navbar = (_props: { user: string | null }) => {
         <Menu>
             <Menu.Item key="history">
                 <a href={FRONTEND_ROUTES.HISTORY}>Історія</a>
+                <Text type="danger" onClick={onLogout}><LogoutOutlined />  Вийти</Text>
             </Menu.Item>
         </Menu>
     );
@@ -37,17 +39,14 @@ const Navbar = (_props: { user: string | null }) => {
     return (
         <Header className="header white-background">
             <Row justify="space-between" align="middle">
-                <Col xs={24} sm={24} md={24} lg={8} xl={8}>
+                <Col className="vertical" xs={16} sm={16} md={12} lg={8} xl={8}>
                     <a className="flex" href={"/"}>
                     <img src="https://encrypted-tbn1.gstatic.com/images?q=tbn:ANd9GcQVYfyfHEfh-0xWNv6hMTb6zGk4ZZneAdgi3kfMJDliJGU1BQ7C" alt="logo" width="48" height="48"/>
             <Title className="margin-top-15" level={2}>GRAPHALGO</Title></a>
                 </Col>
-                <Col xs={0} sm={0} md={0} lg={16} xl={16}>
+                <Col xs={8} sm={8} md={10} lg={16} xl={16}>
                     {screens.xs ? _props.user &&
                         <Row justify="end" align="middle">
-                            <Popover content={content}>
-                                <Button type="text" shape="circle" icon={<UserOutlined />} size={'large'} />
-                            </Popover>
                             <Dropdown overlay={hamburgerContent} trigger={['click']}>
                                 <Button type="text" icon={<MenuOutlined />} size={'large'} />
                             </Dropdown>

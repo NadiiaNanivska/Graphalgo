@@ -11,12 +11,13 @@ export const sendGraph = (user: string, currentUser: string, data: Data) => {
     stompClient.connect({}, function (frame) {
         if (user !== currentUser) {
             stompClient.send('/chat.invite', {}, JSON.stringify({ senderId: currentUser, recipientId: user, data: res }));
+            message.success("Граф надіслано")
         }
     }
     );
     setTimeout(() => {
         stompClient.disconnect(() => { message.warning("З'єднання закрите") });
-    }, 30000);
+    }, 60000);
 }
 
 export const receiveGraph = async (currentUser: string, setConnectionEstablished: React.Dispatch<React.SetStateAction<boolean>>): Promise<Data | null> => {
@@ -49,6 +50,6 @@ export const receiveGraph = async (currentUser: string, setConnectionEstablished
         });
         setTimeout(() => {
             stompClient.disconnect(() => { setConnectionEstablished(false); message.warning("Час очікування вийшов. Натисніть на кнопку \"Отримати\" ще раз!") });
-        }, 30000);
+        }, 60000);
     });
 }
